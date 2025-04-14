@@ -1,0 +1,31 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-4">
+        <div class="card shadow">
+          <div class="card-body p-4">
+            <h2 class="text-center mb-4">Iniciar Sesión</h2>
+            
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+              <div class="mb-3">
+                <label for="email" class="form-label">Correo electrónico</label>
+                <input id="email" type="email" class="form-control" formControlName="email" placeholder="Ingresa tu correo">
+              </div>
+              
+              <div class="mb-4">
+                <label for="password" class="form-label">Contraseña</label>
+                <input id="password" type="password" class="form-control" formControlName="password" placeholder="Ingresa tu contraseña">
+              </div>
+              
+              <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold">INICIAR SESIÓN</button>
+              
+              <div class="text-center mt-3">
+                <a class="text-decoration-none d-block mb-2" routerLink="/auth/forgot-password">¿Olvidaste tu contraseña?</a>
+                <span>¿No tienes cuenta? </span>
+                <a class="text-decoration-none" [routerLink]="['/auth', 'register']" routerLinkActive="router-link-active" >Registrate</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

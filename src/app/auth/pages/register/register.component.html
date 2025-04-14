@@ -1,0 +1,169 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Crear Cuenta</h2>
+
+                    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="name" class="form-label visually-hidden">Nombre</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                <input id="name" type="text" class="form-control" formControlName="firstName"
+                                       [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                                       placeholder="Ingresa tu nombre" />
+                            </div>
+                            <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="invalid-feedback">
+                                Por favor ingresa tu nombre
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label visually-hidden">Apellido</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                                <input id="lastName" type="text" class="form-control" formControlName="lastName"
+                                       [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                                       placeholder="Ingresa tu apellido" />
+                            </div>
+                            <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="invalid-feedback">
+                                Por favor ingresa tu apellido
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label visually-hidden">Correo electrónico</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                <input id="email" type="email" class="form-control" formControlName="email"
+                                       [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                                       placeholder="Ingresa tu correo" />
+                            </div>
+                            <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
+                                Por favor ingresa un correo válido
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label visually-hidden">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password"
+                                       [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                                       placeholder="Ingresa tu contraseña" />
+                                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility('password')">
+                                    <i id="password-toggle-icon" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i>
+                                </button>
+                            </div>
+                            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
+                                La contraseña debe tener al menos 8 caracteres
+                            </div>
+                            <div class="form-text">Tu contraseña debe tener al menos 8 caracteres.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="confirmPassword" class="form-label visually-hidden">Confirmar Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
+                                       formControlName="confirmPassword" [class.is-invalid]="registerForm.hasError('mismatch')"
+                                       placeholder="Confirma tu contraseña" />
+                                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility('confirmPassword')">
+                                    <i id="confirmPassword-toggle-icon" [ngClass]="{'bi-eye-fill': showConfirmPassword, 'bi-eye-slash-fill': !showConfirmPassword}"></i>
+                                </button>
+                            </div>
+                            <div *ngIf="registerForm.hasError('mismatch')" class="invalid-feedback">
+                                Las contraseñas no coinciden
+                            </div>
+                        </div>
+
+                        <div class="mb-4 form-check">
+                            <input id="terms" type="checkbox" class="form-check-input" formControlName="terms"
+                                   [class.is-invalid]="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched" />
+                            <label for="terms" class="form-check-label">Acepto los
+                                <a href="#" (click)="$event.preventDefault()" data-bs-toggle="modal"
+                                   data-bs-target="#termsModal">
+                                    Términos y Condiciones
+                                </a>
+                            </label>
+                            <div *ngIf="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched" class="invalid-feedback">
+                                Debes aceptar los términos y condiciones
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold"
+                                [disabled]="registerForm.invalid">
+                            REGISTRARSE
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <span>¿Ya tienes cuenta? </span>
+                            <a class="text-decoration-none" routerLink="/auth/login">Iniciar Sesión</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="termsModalLabel">Términos y Condiciones</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>Aquí van los términos y condiciones de tu aplicación...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Registro Exitoso</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"
+                        (click)="navigateToLogin()"></button>
+            </div>
+            <div class="modal-body">
+                <p>¡Registro completado! Ahora puedes iniciar sesión.</p>
+                <p>Serás redirigido a la página de inicio de sesión.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        (click)="navigateToLogin()">
+                    Aceptar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error en el Registro</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
