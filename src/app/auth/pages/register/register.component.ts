@@ -4,6 +4,7 @@ import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validatio
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
+import { TERMS_AND_CONDITIONS } from '../../models/terms.const';
 
 declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
 
@@ -15,6 +16,9 @@ declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
     styleUrl: './register.component.css'
 })
 export class RegisterComponent implements OnInit, OnDestroy {
+
+
+    termsContent = TERMS_AND_CONDITIONS.content; // Contenido de los términos y condiciones
 
     subscriptions: Subscription[] = [];
 
@@ -39,27 +43,24 @@ export class RegisterComponent implements OnInit, OnDestroy {
             };
             console.log(userRegisterRequest);
 
-            const susbcription = this.authService.registerStudent(userRegisterRequest).subscribe({
+            const susbcription = this.authService.registerUser(userRegisterRequest).subscribe({
                 next: (response) => {
                     this.success = response.success;
                     this.message = response.message;
-                    console.log('Registro exitoso', response.message);
-                    this.successModal.show();
-                    // Aquí ya no necesitamos redirigir inmediatamente, el modal lo hará al cerrarse
+                    console.log(response.message);
+                    if (response.success) {
+                        this.successModal.show(); // Mostrar modal de éxito
+                    } else {
+                        this.errorModal.show(); // Mostrar modal de error
+                    }
                 },
                 error: (error) => {
-                    // El error.error contiene la respuesta real de tu API cuando hay un error HTTP
-                    if (error.error) {
-                        this.success = error.error.success;
-                        this.message = error.error.message;
-                        console.error('Error en el registro:', error.error.message);
-                    } else {
-                        this.success = false;
-                        this.message = 'Error en la conexión con el servidor';
-                        console.error('Error de conexión:', error);
-                    }
-                    this.errorModal.show();
+                    this.success = false;
+                    this.message = error.error.message || 'Error con el servidor. Inténtelo más tarde.';
+                    console.error('Error en el registro:', error);
+                    this.errorModal.show(); // Mostrar modal de error
                 }
+
             });
             this.subscriptions.push(susbcription); // Guardamos la suscripción para poder cancelarla si es necesario
         } else {

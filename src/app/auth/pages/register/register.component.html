@@ -11,11 +11,12 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
                                 <input id="name" type="text" class="form-control" formControlName="firstName"
-                                       [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
-                                       placeholder="Ingresa tu nombre" />
-                            </div>
-                            <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched" class="invalid-feedback">
-                                Por favor ingresa tu nombre
+                                    [class.is-invalid]="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                                    placeholder="Ingresa tu nombre" />
+                                <div *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+                                    class="invalid-feedback">
+                                    Por favor ingresa tu nombre
+                                </div>
                             </div>
                         </div>
 
@@ -24,11 +25,12 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
                                 <input id="lastName" type="text" class="form-control" formControlName="lastName"
-                                       [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
-                                       placeholder="Ingresa tu apellido" />
-                            </div>
-                            <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched" class="invalid-feedback">
-                                Por favor ingresa tu apellido
+                                    [class.is-invalid]="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                                    placeholder="Ingresa tu apellido" />
+                                <div *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+                                    class="invalid-feedback">
+                                    Por favor ingresa tu apellido
+                                </div>
                             </div>
                         </div>
 
@@ -37,11 +39,12 @@
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
                                 <input id="email" type="email" class="form-control" formControlName="email"
-                                       [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
-                                       placeholder="Ingresa tu correo" />
-                            </div>
-                            <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched" class="invalid-feedback">
-                                Por favor ingresa un correo válido
+                                    [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                                    placeholder="Ingresa tu correo" />
+                                <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+                                    class="invalid-feedback">
+                                    Por favor ingresa un correo válido
+                                </div>
                             </div>
                         </div>
 
@@ -49,51 +52,61 @@
                             <label for="password" class="form-label visually-hidden">Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                                <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control" formControlName="password"
-                                       [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-                                       placeholder="Ingresa tu contraseña" />
-                                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility('password')">
-                                    <i id="password-toggle-icon" [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i>
+                                <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+                                    formControlName="password"
+                                    [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                                    placeholder="Ingresa tu contraseña" />
+                                <button class="btn btn-outline-secondary" type="button"
+                                    (click)="togglePasswordVisibility('password')">
+                                    <i id="password-toggle-icon"
+                                        [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i>
                                 </button>
+                                <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                                    class="invalid-feedback">
+                                    La contraseña debe tener al menos 8 caracteres
+                                </div>
+                                <div *ngIf="!(registerForm.get('password')?.invalid && registerForm.get('password')?.touched)" class="form-text">
+                                    La contraseña debe tener al menos 8 caracteres.
+                                </div>
                             </div>
-                            <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched" class="invalid-feedback">
-                                La contraseña debe tener al menos 8 caracteres
-                            </div>
-                            <div class="form-text">Tu contraseña debe tener al menos 8 caracteres.</div>
                         </div>
 
                         <div class="mb-4">
                             <label for="confirmPassword" class="form-label visually-hidden">Confirmar Contraseña</label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                                <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" class="form-control"
-                                       formControlName="confirmPassword" [class.is-invalid]="registerForm.hasError('mismatch')"
-                                       placeholder="Confirma tu contraseña" />
-                                <button class="btn btn-outline-secondary" type="button" (click)="togglePasswordVisibility('confirmPassword')">
-                                    <i id="confirmPassword-toggle-icon" [ngClass]="{'bi-eye-fill': showConfirmPassword, 'bi-eye-slash-fill': !showConfirmPassword}"></i>
+                                <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'"
+                                    class="form-control" formControlName="confirmPassword"
+                                    [class.is-invalid]="registerForm.hasError('mismatch')"
+                                    placeholder="Confirma tu contraseña" />
+                                <button class="btn btn-outline-secondary" type="button"
+                                    (click)="togglePasswordVisibility('confirmPassword')">
+                                    <i id="confirmPassword-toggle-icon"
+                                        [ngClass]="{'bi-eye-fill': showConfirmPassword, 'bi-eye-slash-fill': !showConfirmPassword}"></i>
                                 </button>
-                            </div>
-                            <div *ngIf="registerForm.hasError('mismatch')" class="invalid-feedback">
-                                Las contraseñas no coinciden
+                                <div *ngIf="registerForm.hasError('mismatch')" class="invalid-feedback">
+                                    Las contraseñas no coinciden
+                                </div>
                             </div>
                         </div>
 
                         <div class="mb-4 form-check">
                             <input id="terms" type="checkbox" class="form-check-input" formControlName="terms"
-                                   [class.is-invalid]="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched" />
+                                [class.is-invalid]="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched" />
                             <label for="terms" class="form-check-label">Acepto los
                                 <a href="#" (click)="$event.preventDefault()" data-bs-toggle="modal"
-                                   data-bs-target="#termsModal">
+                                    data-bs-target="#termsModal">
                                     Términos y Condiciones
                                 </a>
                             </label>
-                            <div *ngIf="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched" class="invalid-feedback">
+                            <div *ngIf="registerForm.get('terms')?.invalid && registerForm.get('terms')?.touched"
+                                class="invalid-feedback">
                                 Debes aceptar los términos y condiciones
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold"
-                                [disabled]="registerForm.invalid">
+                            [disabled]="registerForm.invalid">
                             REGISTRARSE
                         </button>
 
@@ -109,17 +122,22 @@
 </div>
 
 <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <!-- 
+          modal-lg: Hace el modal más ancho (large)
+          modal-dialog-centered: Centra verticalmente
+          modal-dialog-scrollable: Añade scroll si el contenido es muy largo
+        -->
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="termsModalLabel">Términos y Condiciones</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
-            <div class="modal-body">
-                <p>Aquí van los términos y condiciones de tu aplicación...</p>
+            <div class="modal-body p-4" [innerHTML]="termsContent">
+                <!-- p-4: Añade padding interno para mejor espaciado -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
                     Entendido
                 </button>
             </div>
@@ -133,15 +151,14 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="successModalLabel">Registro Exitoso</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"
-                        (click)="navigateToLogin()"></button>
+                    (click)="navigateToLogin()"></button>
             </div>
             <div class="modal-body">
                 <p>¡Registro completado! Ahora puedes iniciar sesión.</p>
                 <p>Serás redirigido a la página de inicio de sesión.</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
-                        (click)="navigateToLogin()">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="navigateToLogin()">
                     Aceptar
                 </button>
             </div>

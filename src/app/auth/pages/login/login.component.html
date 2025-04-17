@@ -1,31 +1,83 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
-      <div class="col-md-6 col-lg-4">
-        <div class="card shadow">
-          <div class="card-body p-4">
-            <h2 class="text-center mb-4">Iniciar Sesión</h2>
-            
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-              <div class="mb-3">
-                <label for="email" class="form-label">Correo electrónico</label>
-                <input id="email" type="email" class="form-control" formControlName="email" placeholder="Ingresa tu correo">
-              </div>
-              
-              <div class="mb-4">
-                <label for="password" class="form-label">Contraseña</label>
-                <input id="password" type="password" class="form-control" formControlName="password" placeholder="Ingresa tu contraseña">
-              </div>
-              
-              <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold">INICIAR SESIÓN</button>
-              
-              <div class="text-center mt-3">
-                <a class="text-decoration-none d-block mb-2" routerLink="/auth/forgot-password">¿Olvidaste tu contraseña?</a>
-                <span>¿No tienes cuenta? </span>
-                <a class="text-decoration-none" [routerLink]="['/auth', 'register']" routerLinkActive="router-link-active" >Registrate</a>
-              </div>
-            </form>
-          </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow">
+                <div class="card-body p-4">
+                    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
+                    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                        <div class="mb-3">
+                            <label for="email" class="form-label visually-hidden">Correo electrónico</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope-fill"></i></span>
+                                <input id="email" type="email" class="form-control" formControlName="email"
+                                    [class.is-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+                                    placeholder="Ingresa tu correo" />
+                                <div *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched"
+                                    class="invalid-feedback">
+                                    Por favor ingresa un correo electrónico.
+                                </div>
+                                <div *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched"
+                                    class="invalid-feedback">
+                                    Por favor ingresa un correo electrónico válido.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label visually-hidden">Contraseña</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+                                    formControlName="password"
+                                    [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                                    placeholder="Ingresa tu contraseña" />
+                                <button class="btn btn-outline-secondary" type="button"
+                                    (click)="togglePasswordVisibility()">
+                                    <i id="password-toggle-icon"
+                                        [ngClass]="{'bi-eye-fill': showPassword, 'bi-eye-slash-fill': !showPassword}"></i>
+                                </button>
+                                <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+                                    class="invalid-feedback">
+                                    Por favor ingresa tu contraseña
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold"
+                            [disabled]="loginForm.invalid">
+                            INICIAR SESIÓN
+                        </button>
+
+                        <div class="text-center mt-3">
+                            <a class="text-decoration-none d-block mb-2" routerLink="/auth/forgot-password">¿Olvidaste
+                                tu contraseña?</a>
+                            <span>¿No tienes cuenta? </span>
+                            <a class="text-decoration-none" routerLink="/auth/register">Registrate</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
+
+<!-- Modal para errores de inicio de sesión -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="errorModalLabel">Error de Inicio de Sesión</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <p>{{ message }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
