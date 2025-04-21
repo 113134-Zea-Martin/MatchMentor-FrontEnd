@@ -12,6 +12,12 @@ Mentor Match is a platform that connects students with tutors to facilitate acad
   - Password recovery functionality
   - Form validation with real-time feedback
 
+- **Profile Management**
+  - Tutor profile display with detailed information
+  - Professional background visualization
+  - Interests and expertise areas
+  - Rate and availability information
+
 - **Responsive Design**
   - Bootstrap implementation for responsive layouts
   - Mobile-friendly interface
@@ -65,6 +71,10 @@ Navigate to `http://localhost:4200/` in your browser.
   - Registration
   - Password recovery
   - Password reset
+- **profile module**: Contains components and services for user profiles
+  - Tutor profile display
+  - User information management
+  - Profile data models
 
 ## Development
 
