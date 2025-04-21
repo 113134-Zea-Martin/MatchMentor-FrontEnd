@@ -25,7 +25,18 @@ declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
 })
 export class ResetPasswordComponent implements OnInit, OnDestroy {
 
+  isLoading: boolean = false;
+
   onSubmit() {
+
+    this.errorMessage = null; // Limpiar el mensaje de error al enviar el formulario
+
+
+    if(this.isLoading) {
+      return; // Evitar múltiples envíos si ya está cargando
+    }
+    this.isLoading = true; // Establecer isLoading a true al enviar el formulario
+
     if (this.resetPasswordForm.valid) {
       const newPassword = this.resetPasswordForm.value.newPassword!;
       const confirmPassword = this.resetPasswordForm.value.confirmPassword!;
@@ -42,15 +53,22 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
           next: (response) => {
             if (response.success) {
               // Manejar el éxito del restablecimiento de contraseña
+              this.successMessage = response.message || 'Contraseña restablecida con éxito';
+              this.resetPasswordForm.reset(); // Limpiar el formulario después de un restablecimiento exitoso
               console.log('Contraseña restablecida con éxito');
             } else {
               this.errorMessage = response.message || 'Error al restablecer la contraseña';
+              this.isLoading = false; // Restablecer isLoading a false en caso de error
             }
           },
           error: (error) => {
             this.errorMessage = error.error.message || 'Error con el servidor. Inténtelo más tarde.';
             console.error('Error en el restablecimiento de contraseña:', error);
+            this.isLoading = false; // Restablecer isLoading a false en caso de error
           },
+          complete: () => {
+            this.isLoading = false;
+          }
         });
 
       this.subscriptions.push(subscription);
@@ -71,6 +89,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
 
   token: string | null = null;
   errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   ngOnInit(): void {
     // Obtener el token de la URL

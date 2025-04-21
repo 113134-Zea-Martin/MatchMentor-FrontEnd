@@ -1,0 +1,121 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card border-0 shadow-lg overflow-hidden">
+          <div class="card-body p-4 p-md-5">
+            <!-- Encabezado con nombre y datos clave -->
+            <div class="text-center mb-4">
+              <h2 class="fw-bold">{{ studentProfileData?.firstName }} {{ studentProfileData?.lastName }}</h2>
+              <p class="text-muted mb-1">
+                <i class="bi bi-mortarboard-fill me-1"></i> {{ studentProfileData?.educationLevel }} 
+                &nbsp;|&nbsp; 
+                <i class="bi bi-building me-1"></i> {{ studentProfileData?.institution }}
+              </p>
+              <div class="mt-2">
+                <a *ngIf="studentProfileData?.linkedinUrl" href="{{ studentProfileData?.linkedinUrl }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                  <i class="bi bi-linkedin me-1"></i> LinkedIn
+                </a>
+              </div>
+            </div>
+  
+            <!-- Información Personal -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-info-circle-fill me-2"></i>Información Personal
+              </h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-envelope-fill me-2"></i>Email:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.email }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-calendar-event-fill me-2"></i>Fecha de Nacimiento:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.birthDate | date:'dd/MM/yyyy' }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-geo-alt-fill me-2"></i>Ubicación:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.location }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-calendar-check-fill me-2"></i>Miembro desde:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.createdAt | date:'dd/MM/yyyy' }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-award-fill me-2"></i>Año de graduación:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.graduationYear }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Información Académica -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-book-fill me-2"></i>Información Académica
+              </h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-mortarboard-fill me-2"></i>Nivel educativo:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.educationLevel }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-journal-bookmark-fill me-2"></i>Área de estudio:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.studyArea }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-building-fill me-2"></i>Institución:</span>
+                      <span class="d-block fw-bold">{{ studentProfileData?.institution }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Intereses y Objetivos -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-stars me-2"></i>Intereses y Objetivos
+              </h5>
+              <div class="mb-3">
+                <span class="text-muted d-block mb-1">Intereses:</span>
+                <div>
+                  <span *ngFor="let interest of studentProfileData?.interests" class="badge bg-primary me-1 mb-1">
+                    {{ interest }}
+                  </span>
+                </div>
+              </div>
+              <div>
+                <span class="text-muted d-block mb-1">Objetivos de mentoría:</span>
+                <p class="fw-bold">{{ studentProfileData?.mentoringGoals }}</p>
+              </div>
+            </div>
+  
+            <!-- Biografía -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-person-lines-fill me-2"></i>Biografía
+              </h5>
+              <div class="p-3 bg-light rounded">
+                <p class="mb-0">{{ studentProfileData?.bio }}</p>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

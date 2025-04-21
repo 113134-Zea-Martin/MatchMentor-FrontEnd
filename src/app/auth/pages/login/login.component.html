@@ -45,8 +45,10 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold"
-                            [disabled]="loginForm.invalid">
-                            INICIAR SESIÓN
+                            [disabled]="loginForm.invalid || isLoading">
+                            <!-- INICIAR SESIÓN -->
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            {{ isLoading ? 'Iniciando sesión...' : 'Iniciar sesión' }}
                         </button>
 
                         <div class="text-center mt-3">

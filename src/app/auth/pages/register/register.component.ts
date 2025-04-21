@@ -31,8 +31,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
     showPassword = false;
     showConfirmPassword = false;
 
+    isLoading: boolean = false; // Variable para controlar el estado de carga
+
     // Creamos el estudiante
     onSubmit() {
+
+        //Evita multiples envios y muestra el indicador de carga
+        if (this.isLoading) return;
+
+        this.isLoading = true; // Activar el indicador de carga
+
         if (this.registerForm.valid) {
             const userRegisterRequest = {
                 firstName: this.registerForm.value.firstName!,
@@ -59,8 +67,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
                     this.message = error.error.message || 'Error con el servidor. Inténtelo más tarde.';
                     console.error('Error en el registro:', error);
                     this.errorModal.show(); // Mostrar modal de error
+                    this.isLoading = false; // Desactivar el indicador de carga
+                },
+                complete: () => {
+                    this.isLoading = false; // Desactivar el indicador de carga al completar la solicitud
                 }
-
             });
             this.subscriptions.push(susbcription); // Guardamos la suscripción para poder cancelarla si es necesario
         } else {

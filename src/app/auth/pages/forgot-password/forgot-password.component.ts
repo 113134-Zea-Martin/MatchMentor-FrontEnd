@@ -35,7 +35,13 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   successModal: any;
   errorModal: any;
 
+  isLoading: boolean = false; // Variable para controlar el estado de carga
+
   onSubmit() {
+
+    if (this.isLoading) return; // Evitar múltiples envíos si ya está en proceso
+    this.isLoading = true; // Cambiar el estado a cargando
+
     if (this.forgotPasswordForm.valid) {
       const email = this.forgotPasswordForm.value.email!;
       const subs = this.authService.requestPasswordReset(email).subscribe({
@@ -46,6 +52,10 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
         error: (error) => {
           this.message = 'Error al enviar el correo de restablecimiento.';
           this.errorModal.show(); // Mostrar el modal de error
+          this.isLoading = false; // Cambiar el estado a no cargando
+        },
+        complete: () => {
+          this.isLoading = false; // Cambiar el estado a no cargando al completar la solicitud
         }
       });
 

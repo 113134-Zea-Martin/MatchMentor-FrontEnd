@@ -1,0 +1,108 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <div class="card border-0 shadow-lg overflow-hidden">
+        <div class="card-body p-4 p-md-5">
+          <div *ngIf="tutorProfileData; else noData">
+            <!-- Encabezado con nombre y datos clave -->
+            <div class="text-center mb-4">
+              <h2 class="fw-bold">{{ tutorProfileData.firstName }} {{ tutorProfileData.lastName }}</h2>
+              <p class="text-muted mb-1">
+                <i class="bi bi-briefcase-fill me-1"></i> {{ tutorProfileData.currentProfession }} 
+                &nbsp;|&nbsp; 
+                <i class="bi bi-building me-1"></i> {{ tutorProfileData.company }}
+              </p>
+              <div class="mt-2">
+                <a *ngIf="tutorProfileData.linkedinUrl" href="{{ tutorProfileData.linkedinUrl }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                  <i class="bi bi-linkedin me-1"></i> LinkedIn
+                </a>
+              </div>
+            </div>
+
+            <!-- Información Personal -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-info-circle-fill me-2"></i>Información Personal
+              </h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-envelope-fill me-2"></i>Email:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.email }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-calendar-event-fill me-2"></i>Fecha de Nacimiento:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.birthDate | date:'dd/MM/yyyy' }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-geo-alt-fill me-2"></i>Ubicación:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.location }}</span>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-unstyled">
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-calendar-check-fill me-2"></i>Miembro desde:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.createdAt | date:'dd/MM/yyyy' }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-clock-fill me-2"></i>Años de experiencia:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.yearsOfExperience }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-cash-coin me-2"></i>Tarifa por hora:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.hourlyRate }} USD</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Áreas de especialización -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-layers me-2"></i>Áreas de Especialización
+              </h5>
+              <div>
+                <span *ngFor="let interest of tutorProfileData?.interests" class="badge bg-primary me-1 mb-1">
+                  {{ interest }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Trayectoria profesional -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-file-earmark-person-fill me-2"></i>Trayectoria Profesional
+              </h5>
+              <div class="p-3 bg-light rounded">
+                <p class="mb-0">{{ tutorProfileData.professionalBio }}</p>
+              </div>
+            </div>
+
+            <!-- Biografía -->
+            <div class="mb-4">
+              <h5 class="text-primary border-bottom pb-2">
+                <i class="bi bi-person-lines-fill me-2"></i>Sobre mí
+              </h5>
+              <div class="p-3 bg-light rounded">
+                <p class="mb-0">{{ tutorProfileData.bio }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sin datos -->
+          <ng-template #noData>
+            <div class="text-center py-5">
+              <i class="bi bi-exclamation-circle text-muted" style="font-size: 3rem;"></i>
+              <h4 class="mt-3 text-muted">No hay datos del perfil disponibles</h4>
+              <p class="text-muted">Por favor, inténtalo más tarde</p>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
