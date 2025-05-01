@@ -1,13 +1,4 @@
-export interface UserResponseDTO {
-    success:    boolean;
-    statusCode: number;
-    data:       UserResponseDTOData;
-    message:    string;
-    timestamp:  Date;
-}
-
-export interface UserResponseDTOData {
-    id:                number;
+export interface EditProfileRequest {
     firstName:         string;
     lastName:          string;
     email:             string;
@@ -18,16 +9,15 @@ export interface UserResponseDTOData {
     institution:       string;
     graduationYear:    string;
     mentoringGoals:    string;
-    currentProfession: null;
-    company:           null;
+    currentProfession: string;
+    company:           string;
     yearsOfExperience: number;
-    professionalBio:   null;
+    professionalBio:   string;
     hourlyRate:        number;
+    isVisible:         boolean;
     interests:         string[];
     role:              string;
     linkedinUrl:       string;
     bio:               string;
-    createdAt:         Date;
     isActive:          boolean;
-    isVisible:         boolean;
 }

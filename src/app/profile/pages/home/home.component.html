@@ -1,16 +1,16 @@
-{{ userLoged?.email }}
+<!-- {{ userLoged?.email }}
 {{ userLoged?.id }}
-{{ userLoged?.role }}
+{{ userLoged?.role }} -->
 <!-- <div *ngIf="userLoged?.role === 'student'">
     <h1>Student Profile</h1>
     <app-student-profile></app-student-profile>
 </div> -->
 <div *ngIf="userLoged?.role === 'TUTOR'">
-    <h1>Bienvenido {{userLoged?.firstName}}</h1>
+    <!-- <h1>Bienvenido {{userLoged?.firstName}}</h1> -->
     <app-tutor-profile [idTutor]="userLoged?.id ?? 0"></app-tutor-profile>
 </div>
 <div *ngIf="userLoged?.role === 'STUDENT'">
-    <h1>Bienvenido {{userLoged?.firstName}}</h1>
+    <!-- <h1>Bienvenido {{userLoged?.firstName}}</h1> -->
     <app-student-profile [idStudent]="userLoged?.id ?? 0"></app-student-profile>
 </div>
 

@@ -2,8 +2,9 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ProfileResponse, TutorProfile } from '../../models/profile-response';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../services/user.service';
-import { Data, UserResponseDTO } from '../../models/user-response-dto';
+import { UserResponseDTOData, UserResponseDTO } from '../../models/user-response-dto';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tutor-profile',
@@ -14,16 +15,27 @@ import { Subscription } from 'rxjs';
 })
 export class TutorProfileComponent implements OnInit,OnDestroy {
 
+  onEditProfile(idTutor: number): void {
+    // Guardamos el ID del tutor en el almacenamiento local o en un servicio
+    // localStorage.setItem('idProfile', idTutor.toString());
+    // Por ejemplo, utilizando el router de Angular
+    this.router.navigate(['/edit-profile']);
+  }
   @Input() idTutor: number = 0; // Input property to receive the tutor ID from the parent component
 
-  constructor(private userService: UserService) { }
+  token: string = ''; // Property to store the token
+
+  constructor(private userService: UserService, private router: Router) {
+  }
 
   tutorProfile?: UserResponseDTO
-  tutorProfileData?: Data
+  tutorProfileData?: UserResponseDTOData
 
   subscriptions: Subscription[] = []; // Array to hold subscriptions for cleanup
 
   ngOnInit(): void {
+    this.token = localStorage.getItem('token') || ''; // Initialize the token from local storage
+    console.log('Token:', this.token); // Log the token for debugging
     // Load the tutor profile when the component initializes
     this.loadTutorProfile();
   }
@@ -35,7 +47,7 @@ export class TutorProfileComponent implements OnInit,OnDestroy {
 
   loadTutorProfile(): void {
     const token = localStorage.getItem('token') || ''; // Get the token from local storage or set it to an empty string if not found
-    const sub = this.userService.getUserById(this.idTutor).subscribe({
+    const sub = this.userService.getUserById(this.idTutor, this.token).subscribe({
       next: (response: UserResponseDTO) => {
         if (response.success) {
           this.tutorProfile = response; // Assign the tutor profile data to the component property

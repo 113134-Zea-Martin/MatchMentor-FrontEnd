@@ -23,6 +23,7 @@ export interface TutorProfile {
     bio: string;
     createdAt: string;
     isActive: boolean;
+    isVisible: boolean;
   }
   
   // interfaces/student-profile.interface.ts

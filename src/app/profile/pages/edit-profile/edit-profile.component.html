@@ -1,0 +1,257 @@
+<form [formGroup]="editProfileForm" (ngSubmit)="onSubmit()" class="container py-4">
+  <h3 class="mb-4">Editar Perfil</h3>
+
+  <!-- Datos personales -->
+  <div class="row mb-3">
+    <!-- Nombre -->
+    <div class="col-md-6">
+      <label for="firstName" class="form-label">Nombre:</label>
+      <input id="firstName" formControlName="firstName" type="text" class="form-control" />
+      <div *ngIf="editProfileForm.get('firstName')?.touched && editProfileForm.get('firstName')?.invalid"
+        class="text-danger mt-1">
+        <div *ngIf="editProfileForm.get('firstName')?.errors?.['required']">El nombre es obligatorio.</div>
+        <div *ngIf="editProfileForm.get('firstName')?.errors?.['minlength']">Debe tener al menos 3 caracteres.</div>
+        <div *ngIf="editProfileForm.get('firstName')?.errors?.['maxlength']">Máximo 50 caracteres.</div>
+      </div>
+    </div>
+
+    <!-- Apellido -->
+    <div class="col-md-6">
+      <label for="lastName" class="form-label">Apellido:</label>
+      <input id="lastName" formControlName="lastName" type="text" class="form-control" />
+      <div *ngIf="editProfileForm.get('lastName')?.touched && editProfileForm.get('lastName')?.invalid"
+        class="text-danger mt-1">
+        <div *ngIf="editProfileForm.get('lastName')?.errors?.['required']">El apellido es obligatorio.</div>
+        <div *ngIf="editProfileForm.get('lastName')?.errors?.['minlength']">Debe tener al menos 3 caracteres.</div>
+        <div *ngIf="editProfileForm.get('lastName')?.errors?.['maxlength']">Máximo 50 caracteres.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <!-- Correo -->
+    <div class="col-md-6">
+      <label for="email" class="form-label">Correo:</label>
+      <input id="email" formControlName="email" type="email" class="form-control" [readOnly]="true" />
+      <div *ngIf="editProfileForm.get('email')?.touched && editProfileForm.get('email')?.invalid"
+        class="text-danger mt-1">
+        <div *ngIf="editProfileForm.get('email')?.errors?.['required']">El correo es obligatorio.</div>
+        <div *ngIf="editProfileForm.get('email')?.errors?.['email']">Formato de correo inválido.</div>
+      </div>
+    </div>
+
+    <!-- Fecha de nacimiento -->
+    <div class="col-md-6">
+      <label for="birthDate" class="form-label">Fecha de Nacimiento:</label>
+      <input id="birthDate" formControlName="birthDate" type="date" class="form-control" max="{{ today }}" />
+      <div *ngIf="editProfileForm.get('birthDate')?.touched && editProfileForm.get('birthDate')?.invalid"
+        class="text-danger mt-1">
+        <div *ngIf="editProfileForm.get('birthDate')?.errors?.['required']">La fecha de nacimiento es obligatoria.</div>
+        <div *ngIf="editProfileForm.get('birthDate')?.errors?.['invalidDate']">La fecha debe ser anterior a hoy.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="location" class="form-label">Ubicación:</label>
+    <input id="location" formControlName="location" type="text" class="form-control" />
+  </div>
+
+
+  <!-- Intereses -->
+  <!-- <div *ngIf="(userProfileData?.interests ?? []).length > 0" class="mb-3">
+      <label for="interests" class="form-label">Intereses:</label>
+      <select id="interests" formControlName="interests" multiple class="form-select">
+        <option *ngFor="let interest of userProfileData?.interests" [value]="interest">{{ interest }}</option>
+      </select>
+    </div> -->
+
+  <div class="mb-3">
+    <label class="form-label">Intereses:</label>
+
+    <!-- Intereses seleccionados (badges) -->
+    <div class="mb-2">
+      <span *ngFor="let interest of editProfileForm.get('interests')?.value" class="badge bg-primary me-1 mb-1">
+        {{ interest }}
+        <button type="button" class="btn-close btn-close-white btn-sm ms-1" aria-label="Close"
+          (click)="removeInterest(interest)"></button>
+      </span>
+    </div>
+
+    <!-- Campo de búsqueda para filtrar intereses -->
+    <input type="text" class="form-control mb-2" placeholder="Buscar intereses..." [(ngModel)]="interestSearchQuery"
+      [ngModelOptions]="{standalone: true}" (input)="filterInterests()">
+
+    <!-- Contenedor con scroll para intereses -->
+    <div class="border rounded p-2" style="max-height: 200px; overflow-y: auto;">
+      <div *ngIf="filteredInterests.length === 0" class="text-muted text-center py-2">
+        No se encontraron intereses que coincidan con la búsqueda.
+      </div>
+
+      <div class="form-check" *ngFor="let interest of filteredInterests">
+        <input class="form-check-input" type="checkbox" [id]="'interest-' + interest.name"
+          [checked]="editProfileForm.get('interests')?.value.includes(interest.name)"
+          (change)="toggleInterest(interest, $event)">
+        <label class="form-check-label" [for]="'interest-' + interest.name">{{ interest.name }}</label>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="mb-3">
+    <label for="linkedinUrl" class="form-label">LinkedIn:</label>
+    <input id="linkedinUrl" formControlName="linkedinUrl" type="text" class="form-control" />
+  </div>
+
+  <div class="mb-3">
+    <label for="bio" class="form-label">Biografía:</label>
+    <textarea id="bio" formControlName="bio" rows="3" class="form-control"></textarea>
+  </div>
+
+  <!-- Rol -->
+  <div class="mb-3">
+    <label for="role" class="form-label">Rol:</label>
+    <select id="role" formControlName="role" class="form-select" (change)="onRoleChange($event)">
+      <option value="STUDENT">Estudiante</option>
+      <option value="TUTOR">Tutor</option>
+    </select>
+  </div>
+
+  <!-- Campos para estudiantes -->
+  <div *ngIf="isStudentRole">
+    <h5 class="mt-4 mb-3">Información Académica</h5>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="educationLevel" class="form-label">Nivel de Educación:</label>
+        <input id="educationLevel" formControlName="educationLevel" type="text" class="form-control" />
+      </div>
+      <div class="col-md-6">
+        <label for="studyArea" class="form-label">Área de Estudio:</label>
+        <input id="studyArea" formControlName="studyArea" type="text" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="institution" class="form-label">Institución:</label>
+        <input id="institution" formControlName="institution" type="text" class="form-control" />
+      </div>
+      <div class="col-md-6">
+        <label for="graduationYear" class="form-label">Año de Graduación:</label>
+        <input id="graduationYear" formControlName="graduationYear" type="number" class="form-control text-end" />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="mentoringGoals" class="form-label">Objetivos de Mentoría:</label>
+      <input id="mentoringGoals" formControlName="mentoringGoals" type="text" class="form-control" />
+    </div>
+  </div>
+
+  <!-- Campos para tutores -->
+  <div *ngIf="isTutorRole">
+    <h5 class="mt-4 mb-3">Información Profesional</h5>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="currentProfession" class="form-label">Profesión Actual:</label>
+        <input id="currentProfession" formControlName="currentProfession" type="text" class="form-control" />
+      </div>
+      <div class="col-md-6">
+        <label for="company" class="form-label">Compañía:</label>
+        <input id="company" formControlName="company" type="text" class="form-control" />
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <!-- Años de experiencia -->
+      <div class="col-md-6">
+        <label for="yearsOfExperience" class="form-label">Años de Experiencia:</label>
+        <input id="yearsOfExperience" formControlName="yearsOfExperience" type="number" class="form-control text-end" />
+        <div
+          *ngIf="editProfileForm.get('yearsOfExperience')?.touched && editProfileForm.get('yearsOfExperience')?.invalid"
+          class="text-danger mt-1">
+          <div *ngIf="editProfileForm.get('yearsOfExperience')?.errors?.['min']">No puede ser negativo.</div>
+          <div *ngIf="editProfileForm.get('yearsOfExperience')?.errors?.['max']">Máximo 30 años.</div>
+        </div>
+      </div>
+      <!-- Tarifa por hora -->
+      <div class="col-md-6">
+        <label for="hourlyRate" class="form-label">Tarifa por Hora:</label>
+        <input id="hourlyRate" formControlName="hourlyRate" type="number" class="form-control text-end" />
+        <div *ngIf="editProfileForm.get('hourlyRate')?.touched && editProfileForm.get('hourlyRate')?.invalid"
+          class="text-danger mt-1">
+          <div *ngIf="editProfileForm.get('hourlyRate')?.errors?.['required']">La tarifa es obligatoria.</div>
+          <div *ngIf="editProfileForm.get('hourlyRate')?.errors?.['min']">Debe ser un valor positivo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="professionalBio" class="form-label">Biografía Profesional:</label>
+      <textarea id="professionalBio" formControlName="professionalBio" rows="3" class="form-control"></textarea>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+      <input id="isVisible" formControlName="isVisible" type="checkbox" class="form-check-input" />
+      <label for="isVisible" class="form-check-label">Perfil Visible para Estudiantes</label>
+    </div>
+  </div>
+
+  <!-- Activo -->
+  <div class="form-check form-switch mb-4">
+    <input id="isActive" formControlName="isActive" type="checkbox" class="form-check-input" />
+    <label for="isActive" class="form-check-label">Cuenta Activa</label>
+  </div>
+
+  <!-- Botón Guardar -->
+  <button type="submit" [disabled]="editProfileForm.invalid || isLoading" class="btn btn-primary w-100">
+    <!-- Guardar Cambios -->
+    <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+    {{ isLoading ? 'Guardando...' : 'Guardar Cambios' }}
+  </button>
+</form>
+
+
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="successModalLabel">Cambio Exitoso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"
+          (click)="navigateToHome()"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ message}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="navigateToHome()">
+          Aceptar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorModalLabel">Error</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ message }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

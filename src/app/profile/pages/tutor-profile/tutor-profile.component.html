@@ -1,9 +1,23 @@
 <div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-lg-10">
-      <div class="card border-0 shadow-lg overflow-hidden">
+      <div class="card border-0 shadow-lg overflow-hidden position-relative">
+
+        <!-- Botón de edición arriba a la derecha -->
+        <div class="position-absolute top-0 end-0 m-3">
+          <button class="btn btn-sm btn-outline-secondary" (click)="onEditProfile(idTutor)">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+        </div>
+
         <div class="card-body p-4 p-md-5">
           <div *ngIf="tutorProfileData; else noData">
+
+            <!-- Mensaje si el perfil no está visible -->
+            <div *ngIf="!tutorProfileData.isVisible" class="alert alert-warning text-center">
+              Este perfil no está visible para estudiantes actualmente.
+            </div>
+
             <!-- Encabezado con nombre y datos clave -->
             <div class="text-center mb-4">
               <h2 class="fw-bold">{{ tutorProfileData.firstName }} {{ tutorProfileData.lastName }}</h2>
@@ -53,7 +67,11 @@
                     </li>
                     <li class="mb-2">
                       <span class="text-muted"><i class="bi bi-cash-coin me-2"></i>Tarifa por hora:</span>
-                      <span class="d-block fw-bold">{{ tutorProfileData.hourlyRate }} USD</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.hourlyRate }}</span>
+                    </li>
+                    <li class="mb-2">
+                      <span class="text-muted"><i class="bi bi-eye-fill me-2"></i>Perfil visible para estudiantes:</span>
+                      <span class="d-block fw-bold">{{ tutorProfileData.isVisible ? 'Sí' : 'No' }}</span>
                     </li>
                   </ul>
                 </div>

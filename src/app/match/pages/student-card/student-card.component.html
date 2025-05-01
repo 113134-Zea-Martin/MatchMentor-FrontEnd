@@ -1,0 +1,157 @@
+<!-- 🌟 PERFIL DEL ESTUDIANTE CON COLORES Y ESTILO UNIFICADO -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card border-0 shadow-lg overflow-hidden position-relative">
+  
+          <div class="card-body p-4 p-md-5">
+            <div *ngIf="studentProfileData; else noData">
+  
+              <!-- 👤 ENCABEZADO -->
+              <div class="text-center mb-4">
+                <h2 class="fw-bold">{{ studentProfileData.firstName }} {{ studentProfileData.lastName }}</h2>
+                
+                <!-- Educación mejorada -->
+                <p class="text-muted mb-1">
+                  <i class="bi bi-mortarboard-fill me-1"></i> 
+                  <span *ngIf="studentProfileData.educationLevel">{{ studentProfileData.educationLevel }}</span>
+                  <span *ngIf="studentProfileData.studyArea"> en {{ studentProfileData.studyArea }}</span>
+                  <span *ngIf="!studentProfileData.educationLevel && !studentProfileData.studyArea">Sin información educativa</span>
+                </p>
+                
+                <p class="text-muted mb-2" *ngIf="studentProfileData.institution || studentProfileData.graduationYear">
+                  <i class="bi bi-building me-1"></i> 
+                  {{ studentProfileData.institution }} 
+                  <span *ngIf="studentProfileData.institution && studentProfileData.graduationYear"> - </span>
+                  <span *ngIf="studentProfileData.graduationYear && studentProfileData.graduationYear.toString().length === 4">
+                    {{ studentProfileData.graduationYear }}
+                  </span>
+                </p>
+                
+                <p class="mt-2 text-secondary">
+                  {{ (studentProfileData.bio || '').slice(0, 100) }}<span *ngIf="(studentProfileData.bio || '').length > 100">...</span>
+                  <span *ngIf="!studentProfileData.bio" class="text-muted">Sin descripción personal</span>
+                </p>
+  
+                <div class="mt-2">
+                  <a *ngIf="studentProfileData.linkedinUrl" href="{{ studentProfileData.linkedinUrl }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-linkedin me-1"></i> LinkedIn
+                  </a>
+                  <span *ngIf="!studentProfileData.linkedinUrl" class="text-muted ms-2">Sin LinkedIn</span>
+                </div>
+              </div>
+  
+              <!-- 🔘 ACCIONES -->
+              <div class="d-flex justify-content-center mt-4">
+                <button class="btn btn-success me-3" (click)="onConnect(true)">
+                  <i class="bi bi-person-plus-fill me-1"></i> Aceptar
+                </button>
+                <button class="btn btn-danger" (click)="onConnect(false)">
+                  <i class="bi bi-person-dash-fill me-1"></i> Rechazar
+                </button>
+              </div>
+  
+              <!-- 🔲 CONTENIDO PRINCIPAL -->
+              <div class="mt-4 row">
+                <!-- 🧾 COLUMNA IZQUIERDA -->
+                <div class="col-md-8">
+                  <!-- ℹ️ INFORMACIÓN PERSONAL -->
+                  <div class="mb-3 border rounded p-3">
+                    <h5 class="text-primary border-bottom pb-2">
+                      <i class="bi bi-info-circle-fill me-2"></i> Información Personal
+                    </h5>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <ul class="list-unstyled">
+                          <li class="mb-2">
+                            <span class="text-muted"><i class="bi bi-person-fill me-2"></i>Edad:</span>
+                            <span class="d-block fw-bold" [class.text-muted]="!studentProfileData.birthDate">
+                              {{ calculateAge(studentProfileData.birthDate.toString()) || 'No especificada' }} <span *ngIf="studentProfileData.birthDate">años</span>
+                            </span>
+                          </li>
+                          <li class="mb-2">
+                            <span class="text-muted"><i class="bi bi-geo-alt-fill me-2"></i>Ubicación:</span>
+                            <span class="d-block fw-bold" [class.text-muted]="!studentProfileData.location">
+                              {{ studentProfileData.location || 'No especificada' }}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-md-6">
+                        <ul class="list-unstyled">
+                          <li class="mb-2">
+                            <span class="text-muted"><i class="bi bi-calendar-check-fill me-2"></i>Miembro desde:</span>
+                            <span class="d-block fw-bold" [class.text-muted]="!studentProfileData.createdAt">
+                              {{ (studentProfileData.createdAt | date:'dd/MM/yyyy') || 'No disponible' }}
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+  
+                  <!-- 🎯 OBJETIVOS -->
+                  <div class="mb-3 border rounded p-3">
+                    <h5 class="text-primary border-bottom pb-2">
+                      <i class="bi bi-bullseye me-2"></i> Objetivos de mentoría
+                    </h5>
+                    <div class="p-3 bg-light rounded">
+                      <p class="mb-0" [class.text-muted]="!studentProfileData.mentoringGoals">
+                        {{ studentProfileData.mentoringGoals || 'No se han especificado objetivos' }}
+                      </p>
+                    </div>
+                  </div>
+  
+                  <!-- 🧍 SOBRE MÍ -->
+                  <div class="mb-3 border rounded p-3">
+                    <h5 class="text-primary border-bottom pb-2">
+                      <i class="bi bi-person-lines-fill me-2"></i> Sobre mí
+                    </h5>
+                    <div class="p-3 bg-light rounded">
+                      <p class="mb-0" [class.text-muted]="!studentProfileData.bio">
+                        {{ studentProfileData.bio || 'No hay descripción personal disponible' }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+  
+                <!-- 🏷️ COLUMNA DERECHA - INTERESES -->
+                <div class="col-md-4">
+                  <div class="mb-3 border rounded p-3 h-100">
+                    <h5 class="text-primary border-bottom pb-2">
+                      <i class="bi bi-star-fill me-2"></i> Áreas de interés
+                    </h5>
+                    <div *ngIf="(studentProfileData?.interests?.length ?? 0) > 0; else noInterests">
+                      <span *ngFor="let interest of visibleInterests; let i = index"
+                            class="badge bg-primary me-1 mb-1">
+                        {{ interest }}
+                      </span>
+                      <span *ngIf="showAllInterests" class="badge bg-secondary me-1 mb-1" (click)="toggleInterests()" style="cursor:pointer;">
+                        Ver menos
+                      </span>
+                      <span *ngIf="!showAllInterests && (studentProfileData.interests?.length ?? 0) > 5"
+                            class="badge bg-secondary me-1 mb-1" (click)="toggleInterests()" style="cursor:pointer;">
+                        +{{ studentProfileData.interests.length - 5 }} más
+                      </span>
+                    </div>
+                    <ng-template #noInterests>
+                      <p class="text-muted mb-0">No se han especificado áreas de interés</p>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- ❌ NO DATA -->
+            <ng-template #noData>
+              <div class="text-center py-5">
+                <i class="bi bi-exclamation-circle text-muted" style="font-size: 3rem;"></i>
+                <h4 class="mt-3 text-muted">No hay datos del perfil disponibles</h4>
+                <p class="text-muted">Por favor, inténtalo más tarde</p>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
