@@ -1,10 +1,16 @@
 export interface CreateMatchResponseDTO {
     success:    boolean;
     statusCode: number;
-    data:       Data;
+    data:       MatchResponseData;
     message:    string;
     timestamp:  Date;
 }
 
-export interface Data {
+export interface MatchResponseData {
+    id:        number;
+    studentId: number;
+    tutorId:   number;
+    status:    string;
+    createdAt: Date;
+    updatedAt: null;
 }

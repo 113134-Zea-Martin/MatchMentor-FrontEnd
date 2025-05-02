@@ -18,6 +18,22 @@ Mentor Match is a platform that connects students with tutors to facilitate acad
   - Interests and expertise areas
   - Rate and availability information
 
+- **Search and Matching**
+  - Advanced search filters for tutors
+  - Skills and subject matching algorithm
+  - Availability calendar integration
+  - Rating and review system
+
+- **Messaging System**
+  - Real-time chat functionality
+  - Message history and notifications
+  - File sharing capabilities
+
+- **Appointment Management**
+  - Scheduling interface with calendar integration
+  - Appointment confirmation and reminders
+  - Session tracking and history
+
 - **Responsive Design**
   - Bootstrap implementation for responsive layouts
   - Mobile-friendly interface
@@ -31,6 +47,10 @@ Mentor Match is a platform that connects students with tutors to facilitate acad
 - **HTTP Communication**: Angular HttpClient
 - **Form Handling**: Angular Reactive Forms
 - **Routing**: Angular Router
+- **State Management**: NgRx
+- **Real-time Communication**: Socket.io
+- **Calendar Integration**: FullCalendar
+- **Testing**: Jasmine & Karma
 
 ## Getting Started
 
@@ -75,6 +95,28 @@ Navigate to `http://localhost:4200/` in your browser.
   - Tutor profile display
   - User information management
   - Profile data models
+- **search module**: Components for search functionality
+  - Search filters
+  - Results display
+  - Sort and filter options
+- **messaging module**: Real-time chat implementation
+  - Chat interface
+  - Message history
+  - Notifications service
+- **appointment module**: Scheduling components
+  - Calendar integration
+  - Booking interface
+  - Reminder service
+- **shared module**: Reusable components and services
+  - UI components
+  - Directives
+  - Pipes and utilities
+
+## Environment Configuration
+
+The application uses environment files for configuration:
+- `environment.ts` - Development configuration
+- `environment.prod.ts` - Production configuration
 
 ## Development
 
@@ -97,6 +139,35 @@ Build artifacts will be stored in the `dist/` directory.
 ng test
 ```
 
+### Running End-to-End Tests
+
+```bash
+ng e2e
+```
+
+### Code Linting
+
+```bash
+ng lint
+```
+
+## Deployment
+
+This application can be deployed to various hosting platforms:
+
+- Firebase Hosting
+- Netlify
+- Vercel
+- AWS S3 + CloudFront
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
 ## Project Status
 
 This project is currently in development as part of a supervised practice project for Universidad Tecnológica Nacional (UTN), Argentina.
@@ -104,3 +175,7 @@ This project is currently in development as part of a supervised practice projec
 ## Contact
 
 For questions about this project, please contact [mzeacardenas@gmail.com](mailto:mzeacardenas@gmail.com).
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

@@ -8,10 +8,12 @@ import { EditProfileComponent } from './profile/pages/edit-profile/edit-profile.
 import { TutorCardComponent } from './match/pages/tutor-card/tutor-card.component';
 import { PendingComponent } from './match/pages/pending/pending.component';
 import { StudentCardComponent } from './match/pages/student-card/student-card.component';
+import { AppRoutes } from './environment';
+import { ConfirmedMatchsComponent } from './match/pages/confirmed-matchs/confirmed-matchs.component';
 
 export const routes: Routes = [
   {
-    path: 'auth',
+    path: AppRoutes.AUTH.BASE,
     children: [
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
@@ -37,5 +39,9 @@ export const routes: Routes = [
   {
     path: 'explore/pendings', component: PendingComponent //El tutor puede ver los estudiantes que han solicitado una
     //  clase con él y decidir si acepta o no la solicitud. (Solo deberán acceder los tutores a esta ruta)
+  },
+  {
+    path: 'confirmed-matches', component: ConfirmedMatchsComponent //El tutor o estudiante puede ver los matches confirmados 
+    // para poder chatear con el otro usuario. (Ambos deberán acceder a esta ruta)
   }
 ];

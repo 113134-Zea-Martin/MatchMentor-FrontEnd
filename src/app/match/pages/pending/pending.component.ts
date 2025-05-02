@@ -22,11 +22,20 @@ export class PendingComponent implements OnInit, OnDestroy {
     console.log('ID del match:', matchId);
     this.router.navigate(['/explore/students']); // Navegar a la ruta del perfil del estudiante
   }
-  acceptRequest(arg0: number) {
-    throw new Error('Method not implemented.');
-  }
-  rejectRequest(arg0: number) {
-    throw new Error('Method not implemented.');
+
+  updateRequest(matchId: number, accepted: boolean) {
+    if (this.token && this.tutorId) {
+      const sub = this.matchService.updateMatch(this.token, matchId, accepted).subscribe({
+        next: (response) => {
+          console.log('Respuesta de la API:', response);
+          this.loadPendingMatches(); // Recargar las solicitudes pendientes después de aceptar o rechazar
+        },
+        error: (error) => {
+          console.error('Error al actualizar la solicitud:', error);
+        }
+      });
+      this.subscritions.push(sub);
+    }
   }
 
   token?: string;

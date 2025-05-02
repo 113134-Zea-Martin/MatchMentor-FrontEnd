@@ -1,0 +1,29 @@
+<div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow-lg border-0 rounded-lg">
+          <div class="card-body p-4">
+            <h2 class="card-title text-center mb-4">Mis Conexiones Confirmadas</h2>
+            <ul class="list-group list-group-flush">
+              <li *ngFor="let match of confirmedMatchs" class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1 fw-bold">{{ match.fullName }}</h6>
+                  <p class="mb-0 text-muted">{{ match.description }}</p>
+                  <small class="text-muted">
+                    <i class="bi bi-calendar-event me-1"></i> Match el {{ match.updatedAt | date: 'dd/MM/yyyy' }}
+                    <span *ngIf="match.role" class="ms-2 badge bg-info text-dark">{{ match.role === 'STUDENT' ? 'Estudiante' : 'Mentor' }}</span>
+                  </small>
+                </div>
+                <button class="btn btn-primary btn-sm" (click)="startChat(match.userId)">
+                  <i class="bi bi-chat-dots-fill me-1"></i> Chatear
+                </button>
+              </li>
+              <li *ngIf="!confirmedMatchs?.length" class="list-group-item text-center text-muted">
+                No tienes conexiones confirmadas aún.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
