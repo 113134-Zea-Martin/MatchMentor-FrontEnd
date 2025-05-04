@@ -6,4 +6,5 @@ export interface ConfirmedMatchResponseDto {
     description: string;
     updatedAt:   Date;
     isActive:    boolean;
+    hasUnreadMessages: boolean;
 }

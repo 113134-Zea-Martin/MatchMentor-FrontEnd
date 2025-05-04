@@ -10,6 +10,7 @@ import { PendingComponent } from './match/pages/pending/pending.component';
 import { StudentCardComponent } from './match/pages/student-card/student-card.component';
 import { AppRoutes } from './environment';
 import { ConfirmedMatchsComponent } from './match/pages/confirmed-matchs/confirmed-matchs.component';
+import { ChatComponent } from './match/pages/chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -43,5 +44,9 @@ export const routes: Routes = [
   {
     path: 'confirmed-matches', component: ConfirmedMatchsComponent //El tutor o estudiante puede ver los matches confirmados 
     // para poder chatear con el otro usuario. (Ambos deberán acceder a esta ruta)
+  },
+  {
+    // path: 'chat/:matchId', component: ChatComponent //El tutor o estudiante puede ver los matches confirmados
+    path: 'chat', component: ChatComponent //El tutor o estudiante puede ver los matches confirmados
   }
 ];
