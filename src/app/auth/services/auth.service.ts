@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserRegisterRequest, UserRegisterResponse } from '../models/user-register-request';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserLoginResponse } from '../models/user-login-request';
 import { ForgotPasswordResponse } from '../models/forgot-passowrd-response';
 import { environment } from '../../environment';
@@ -45,5 +45,17 @@ export class AuthService {
     });
   }
 
+  logout(): void {
+    // Eliminar el token del almacenamiento local o de la sesión
+    localStorage.removeItem('token');
+    // Remover todo el almacenamiento local o de la sesión
+    localStorage.clear(); // Descomentar si se desea limpiar todo el almacenamiento de sesión
+  }
+
+  isAuthenticated(): boolean {
+    // Verifica si el token de autenticación está presente en el almacenamiento local o de la sesión
+    const token = localStorage.getItem('token');
+    return !!token; // Devuelve true si el token existe, false en caso contrario
+  }
 
 }

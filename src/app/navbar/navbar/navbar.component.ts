@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserService } from '../../profile/services/user.service';
 import { CommonModule } from '@angular/common';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -12,30 +13,64 @@ import { CommonModule } from '@angular/common';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  isMentor: boolean = false; // Inicialmente falso
-  hasNewNotifications: boolean = true; // Ejemplo
-  hasUnreadMessages: boolean = true; // Ejemplo
+  showLogin() {
+    this.router.navigate(['/auth/login']);
+  }
+  showRegister() {
+    this.router.navigate(['/auth/register']);
+  }
+  showTutors() {
+    this.router.navigate(['/explore/tutors']);
+  }
+
+  editProfile() {
+    this.router.navigate(['/edit-profile']);
+  }
+  showPendingRequests() {
+    this.router.navigate(['/explore/pendings']);
+  }
+  showConfirmedMatches() {
+    this.router.navigate(['/confirmed-matches']);
+  }
+  showChat() {
+    this.router.navigate(['/chat']);
+  }
+  showProfile() {
+    this.router.navigate(['/home']);
+  }
+  isMentor: boolean = false;
+  hasNewNotifications: boolean = true;
+  hasUnreadMessages: boolean = true;
+  token: string | null = null;
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private userService: UserService // Inyecta el servicio de usuario
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
-    // Aquí puedes obtener el rol del usuario al iniciar el componente
+    this.token = localStorage.getItem('token');
+    this.role = localStorage.getItem('role')!;
+    if (!this.token) {
+      console.log('No hay token, redirigiendo al login');
+      setTimeout(() => this.router.navigate(['/auth/login']), 0);
+      return;
+    }
+    console.log('isMentor:1', this.isMentor);
     this.getUserRole();
+    console.log('isMentor:2', this.isMentor);
   }
 
+  role!: string;
+
   getUserRole(): void {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.userService.getUserLogedByToken(token).subscribe({
+    if (this.token) {
+      this.userService.getUserLogedByToken(this.token).subscribe({
         next: (response) => {
           if (response.success) {
-            this.isMentor = response.data.role === 'TUTOR'; // Cambia 'mentor' por el rol correspondiente
-          } else {
-            console.error('Error al obtener el rol del usuario:', response.message);
+            this.isMentor = response.data.role === 'TUTOR';
+            console.log('isMentor:2.5', this.isMentor);
           }
         },
         error: (error) => {
@@ -46,10 +81,16 @@ export class NavbarComponent {
       console.log('No hay token, redirigiendo al login');
       setTimeout(() => this.router.navigate(['/auth/login']), 0);
     }
+    console.log('isMentor:3', this.isMentor);
   }
 
   logout(): void {
-    // this.authService.logout(); // Llama a tu servicio de cierre de sesión
-    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
   }
+
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
 }

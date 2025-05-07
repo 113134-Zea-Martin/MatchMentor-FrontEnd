@@ -5,12 +5,14 @@ import { ChatMessage } from '../../models/chat-message';
 import { ChatService } from '../../services/chat.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MatchService } from '../../services/match.service';
+import { MeetingService } from '../../services/meeting.service';
+import { MeetingModalComponent } from '../meeting-modal/meeting-modal.component';
+import { CreateMeetingRequestDto } from '../../models/create-meeting-request-dto';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, MeetingModalComponent],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css'
 })
@@ -35,6 +37,20 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.warningMessageVisible = false;
   }
 
+  onScheduleMeeting(data: CreateMeetingRequestDto): void {
+    this.meetingService.createMeeting(this.token || '', data).subscribe({
+      next: (response) => {
+        if (response.success) {
+          alert('Reunión agendada con éxito');
+        } else {
+          alert('Error al agendar reunión: ' + response.message);
+        }
+      },
+      error: () => alert('Error al agendar reunión')
+    });
+  }
+  
+
   showingFullHistory = false;
   shouldScrollToBottom = true;
 
@@ -46,7 +62,8 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     private route: ActivatedRoute,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private meetingService: MeetingService,
   ) { }
 
   ngOnInit(): void {

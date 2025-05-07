@@ -16,6 +16,14 @@
                     leer</span>
                 </div>
                 <p class="mb-1 text-muted">{{ match.description }}</p>
+                <div *ngIf="match.commonInterests?.length">
+                  <!-- <small class="text-muted fw-semibold">Intereses en común:</small> -->
+                  <div class="mt-1">
+                    <span *ngFor="let interest of match.commonInterests" class="badge bg-secondary text-light me-1 mb-1">
+                      {{ interest }}
+                    </span>
+                  </div>
+                </div>
                 <small class="text-muted">
                   <i class="bi bi-calendar-event me-1"></i>
                   Match el {{ match.updatedAt | date: 'dd/MM/yyyy' }}
