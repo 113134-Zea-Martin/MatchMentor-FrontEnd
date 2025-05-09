@@ -22,6 +22,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   matchId!: number;
   senderId = 1;
   receiverId!: number;
+  matchRole!: string;
 
   messages: ChatMessage[] = [];
   allMessages: ChatMessage[] = [];
@@ -72,6 +73,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.receiverId = Number(localStorage.getItem('receiverId')) || 0;
     this.matchId = Number(localStorage.getItem('idMatch')) || 0;
     this.matchName = localStorage.getItem('matchName') || '';
+    this.matchRole = localStorage.getItem('matchRole') || '';
     this.chatService.connect(this.matchId);
 
     const sus = this.chatService.getHistory(this.matchId, this.token).subscribe(history => {

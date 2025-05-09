@@ -47,19 +47,39 @@ export class NavbarComponent {
     private router: Router,
     private authService: AuthService,
     private userService: UserService
-  ) { }
+  ) { 
+    const currentRoute = this.router.url;
+    console.log('Ruta actual:', currentRoute);}
 
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
-    this.role = localStorage.getItem('role')!;
-    if (!this.token) {
-      console.log('No hay token, redirigiendo al login');
+    this.role = localStorage.getItem('role') || '';
+    
+    // Obtener la ruta actual
+    const currentRoute = this.router.url;
+    console.log('Ruta actual:', currentRoute);
+    
+    // Lista de rutas públicas que no requieren redirección
+    const publicRoutes = [
+      '/auth/login', 
+      '/auth/register', 
+      '/auth/forgot-password',
+      '/auth/reset-password'
+    ];
+    
+    // Solo redirigir si no estamos en una ruta pública
+    const isPublicRoute = publicRoutes.some(route => currentRoute.includes(route));
+    console.log('isPublicRoute:', isPublicRoute);
+    
+    if (!this.token && isPublicRoute) {
+      console.log('No hay token y no estamos en una ruta pública, redirigiendo al login');
       setTimeout(() => this.router.navigate(['/auth/login']), 0);
       return;
     }
-    console.log('isMentor:1', this.isMentor);
-    this.getUserRole();
-    console.log('isMentor:2', this.isMentor);
+    
+    if (this.token) {
+      this.getUserRole();
+    }
   }
 
   role!: string;
@@ -77,11 +97,7 @@ export class NavbarComponent {
           console.error('Error al verificar el rol del usuario:', error);
         }
       });
-    } else {
-      console.log('No hay token, redirigiendo al login');
-      setTimeout(() => this.router.navigate(['/auth/login']), 0);
     }
-    console.log('isMentor:3', this.isMentor);
   }
 
   logout(): void {

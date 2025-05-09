@@ -14,11 +14,12 @@ import { Router } from '@angular/router';
 })
 export class ConfirmedMatchsComponent implements OnInit, OnDestroy {
 
-  startChat(arg0: number, matchName: string, receiverId: number) {
+  startChat(arg0: number, matchName: string, receiverId: number, matchRole: string) {
     // Store the selected match ID in local storage
     localStorage.setItem('idMatch', arg0.toString());
     localStorage.setItem('matchName', matchName);
     localStorage.setItem('receiverId', receiverId.toString());
+    localStorage.setItem('matchRole', matchRole);
     // Navigate to the chat page with the selected match ID
     this.router.navigate(['/chat']);
   }
