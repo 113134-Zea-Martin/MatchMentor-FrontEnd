@@ -13,6 +13,10 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+
+showMeetings() {
+  this.router.navigate(['/meet']);
+}
   showLogin() {
     this.router.navigate(['/auth/login']);
   }

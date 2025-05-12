@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environment';
 import { Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { Me } from '../models/me';
 import { ProfileResponse, StudentProfile, TutorProfile } from '../models/profile-response';
 import { InterestResponse } from '../models/interest-response';
 import { EditProfileRequest } from '../models/edit-profile-request';
+import { PostCreateMpDto, PostMercadoPagoAuth, PostMercadoPagoAuthResponse } from '../models/post-create-mp-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -42,5 +43,31 @@ export class UserService {
   updateProfile(token: string, userId: number, data: EditProfileRequest): Observable<UserResponseDTO> {
     return this.http.put<UserResponseDTO>(`${this.apiUrl}/${userId}`, data, { headers: { Authorization: `Bearer ${token}` } });
   }
-  
+
+  //   @PostMapping("/create")
+  // public String create(@RequestBody CreateMercadoPagoAuthDTO createMercadoPagoAuthDTO) {
+  //     return mercadoPagoAuthService.getURL(createMercadoPagoAuthDTO);
+  // }
+  postMercadoPagoLink(token: string, data: PostCreateMpDto): Observable<String> {
+    return this.http.post<String>(`${this.api2Url}/mercadoPagoAuth/create`, data, { headers: { Authorization: `Bearer ${token}` } });
+  }
+
+
+  // En user.service.ts
+  postMercadoPagoLink2(token: string, data: { userId: number }): Observable<string> {
+    return this.http.post('http://localhost:8080/api/mercadoPagoAuth/create',
+      data,
+      {
+        headers: new HttpHeaders({
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }),
+        responseType: 'text'  // Esta es la clave - especifica que la respuesta es texto
+      }
+    );
+  }
+
+  PostMercadoPagoAuth(token: string, data: { code: string, userId: number }): Observable<PostMercadoPagoAuthResponse> {
+    return this.http.post<PostMercadoPagoAuthResponse>(`${this.api2Url}/mercadoPagoAuth`, data, { headers: { Authorization: `Bearer ${token}` } });
+  }
 }

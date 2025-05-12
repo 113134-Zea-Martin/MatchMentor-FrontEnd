@@ -11,6 +11,7 @@ import { StudentCardComponent } from './match/pages/student-card/student-card.co
 import { AppRoutes } from './environment';
 import { ConfirmedMatchsComponent } from './match/pages/confirmed-matchs/confirmed-matchs.component';
 import { ChatComponent } from './match/pages/chat/chat.component';
+import { MeetingHistoryListComponent } from './meet/pages/meeting-history-list/meeting-history-list.component';
 
 export const routes: Routes = [
   {
@@ -48,5 +49,9 @@ export const routes: Routes = [
   {
     // path: 'chat/:matchId', component: ChatComponent //El tutor o estudiante puede ver los matches confirmados
     path: 'chat', component: ChatComponent //El tutor o estudiante puede ver los matches confirmados
+  },
+  {
+    path: 'meet', component: MeetingHistoryListComponent //El tutor o estudiante puede ver el historial de reuniones
+    // con otros usuarios. (Ambos deberán acceder a esta ruta)
   }
 ];
