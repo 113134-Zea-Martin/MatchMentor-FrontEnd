@@ -10,7 +10,7 @@
             <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
                 <label for="date" class="form-label">Fecha</label>
-                <input type="date" id="date" formControlName="date" class="form-control" required>
+                <input type="date" id="date" formControlName="date" [min]="minDate | date:'yyyy-MM-dd'" class="form-control" required>
                 </div>
                 <div class="mb-3">
                 <label for="time" class="form-label">Hora</label>
@@ -18,7 +18,7 @@
                 </div>
                 <div class="mb-3">
                 <label for="duration" class="form-label">Duración (horas)</label>
-                <input type="number" id="duration" formControlName="duration" class="form-control" required min="1">
+                <input type="number" id="duration" formControlName="duration" class="form-control text-end" required min="1">
                 </div>
                 <div class="mb-3">
                 <label for="reason" class="form-label">Motivo</label>

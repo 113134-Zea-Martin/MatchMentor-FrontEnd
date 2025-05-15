@@ -14,7 +14,7 @@ export class ChatService {
   private stompClient!: Client;
   private messageSubject = new BehaviorSubject<ChatMessage | null>(null);
   message$ = this.messageSubject.asObservable();
-  private readonly baseUrl = 'http://localhost:8080/ws'; // Cambia esto a la URL de tu servidor WebSocket
+  private readonly baseUrl = environment.originalUrl + '/ws'; // Cambia esto a la URL de tu servidor WebSocket
   private readonly apiUrl = environment.apiUrl + '/chat'; // Cambia esto a la URL de tu API REST
 
   constructor(private http: HttpClient) { }
@@ -67,7 +67,7 @@ export class ChatService {
   }
 
   getHistory(matchId: number, token: String): Observable<ChatMessage[]> {
-    return this.http.get<ChatMessage[]>(`http://localhost:8080/api/chat/${matchId}`, {
+    return this.http.get<ChatMessage[]>( this.apiUrl + `/${matchId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }

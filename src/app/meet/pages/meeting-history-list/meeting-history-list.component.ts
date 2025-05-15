@@ -13,6 +13,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './meeting-history-list.component.css'
 })
 export class MeetingHistoryListComponent implements OnInit, OnDestroy {
+updateMeeting(arg0: any,arg1: boolean) {
+throw new Error('Method not implemented.');
+}
 
   meetingHistory: MeetingHistoryResponseDtoData[] = [];
   token: string | null = null;

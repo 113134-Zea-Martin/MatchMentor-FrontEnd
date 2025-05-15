@@ -18,14 +18,14 @@
             <div class="row g-3">
               <div class="col-md-3">
                 <label class="form-label">Participante</label>
-                <input type="text" class="form-control" [(ngModel)]="filters.participant" name="participant" placeholder="Nombre o Apellido"
-                  (ngModelChange)="applyFilters()">
+                <input type="text" class="form-control" [(ngModel)]="filters.participant" name="participant"
+                  placeholder="Nombre o Apellido" (ngModelChange)="applyFilters()">
               </div>
 
               <div class="col-md-3">
                 <label class="form-label">Motivo</label>
-                <input type="text" class="form-control" [(ngModel)]="filters.reason" name="reason" placeholder="Tema o Motivo"
-                  (ngModelChange)="applyFilters()">
+                <input type="text" class="form-control" [(ngModel)]="filters.reason" name="reason"
+                  placeholder="Tema o Motivo" (ngModelChange)="applyFilters()">
               </div>
 
               <div class="col-md-3">
@@ -45,18 +45,18 @@
                   <div class="col-md-6">
                     <label class="form-label d-block mb-1">Estado</label>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.status.PROPOSED" id="statusProposed"
-                        name="statusProposed" (change)="applyFilters()">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.status.PROPOSED"
+                        id="statusProposed" name="statusProposed" (change)="applyFilters()">
                       <label class="form-check-label" for="statusProposed">Propuesta</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.status.ACCEPTED" id="statusAccepted"
-                        name="statusAccepted" (change)="applyFilters()">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.status.ACCEPTED"
+                        id="statusAccepted" name="statusAccepted" (change)="applyFilters()">
                       <label class="form-check-label" for="statusAccepted">Aceptada</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.status.REJECTED" id="statusRejected"
-                        name="statusRejected" (change)="applyFilters()">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.status.REJECTED"
+                        id="statusRejected" name="statusRejected" (change)="applyFilters()">
                       <label class="form-check-label" for="statusRejected">Rechazada</label>
                     </div>
                   </div>
@@ -64,8 +64,8 @@
                   <div class="col-md-6">
                     <label class="form-label d-block mb-1">Rol</label>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.role.Estudiante" id="roleEstudiante"
-                        name="roleEstudiante" (change)="applyFilters()">
+                      <input class="form-check-input" type="checkbox" [(ngModel)]="filters.role.Estudiante"
+                        id="roleEstudiante" name="roleEstudiante" (change)="applyFilters()">
                       <label class="form-check-label" for="roleEstudiante">Estudiante</label>
                     </div>
                     <div class="form-check form-check-inline">
@@ -110,7 +110,7 @@
                     <td class="text-truncate" style="max-width: 200px;" [attr.title]="meeting.reason">
                       {{ meeting.reason }}
                     </td>
-                    <td>
+                    <!-- <td>
                       <span class="badge" [ngClass]="{
                           'bg-secondary': meeting.status === 'PROPOSED',
                           'bg-success': meeting.status === 'ACCEPTED',
@@ -122,7 +122,56 @@
                         'Rechazada'
                         }}
                       </span>
+                    </td> 
+                    <td>
+                      <ng-container *ngIf="meeting.status === 'PROPOSED'; else statusBadge">
+                        <button class="btn btn-success btn-sm me-1" (click)="updateMeeting(meeting.id, true)">
+                          Aceptar
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="updateMeeting(meeting.id, false)">
+                          Rechazar
+                        </button>
+                      </ng-container>
+                      <ng-template #statusBadge>
+                        <span class="badge" [ngClass]="{
+                            'bg-success': meeting.status === 'ACCEPTED',
+                            'bg-danger': meeting.status === 'REJECTED'
+                          }">
+                          {{
+                          meeting.status === 'ACCEPTED' ? 'Aceptada' :
+                          meeting.status === 'REJECTED' ? 'Rechazada' :
+                          ''
+                          }}
+                        </span>
+                      </ng-template>
+                    </td> -->
+                    <td>
+                      <ng-container
+                        *ngIf="meeting.status === 'PROPOSED' && meeting.myRole === 'Estudiante'; else statusBadge">
+                        <button class="btn btn-success btn-sm me-1" (click)="updateMeeting(meeting.id, true)">
+                          Aceptar
+                        </button>
+                        <button class="btn btn-danger btn-sm" (click)="updateMeeting(meeting.id, false)">
+                          Rechazar
+                        </button>
+                      </ng-container>
+
+                      <ng-template #statusBadge>
+                        <span class="badge" [ngClass]="{
+                            'bg-secondary': meeting.status === 'PROPOSED',
+                            'bg-success': meeting.status === 'ACCEPTED',
+                            'bg-danger': meeting.status === 'REJECTED'
+                          }">
+                          {{
+                          meeting.status === 'PROPOSED' ? 'Propuesta' :
+                          meeting.status === 'ACCEPTED' ? 'Aceptada' :
+                          'Rechazada'
+                          }}
+                        </span>
+                      </ng-template>
                     </td>
+
+
                   </tr>
                 </tbody>
               </table>

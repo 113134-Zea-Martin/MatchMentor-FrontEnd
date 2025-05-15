@@ -55,7 +55,7 @@ export class UserService {
 
   // En user.service.ts
   postMercadoPagoLink2(token: string, data: { userId: number }): Observable<string> {
-    return this.http.post('http://localhost:8080/api/mercadoPagoAuth/create',
+    return this.http.post(this.api2Url + '/mercadoPagoAuth/create',
       data,
       {
         headers: new HttpHeaders({

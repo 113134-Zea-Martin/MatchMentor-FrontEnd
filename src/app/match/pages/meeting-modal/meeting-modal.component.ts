@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateMeetingRequestDto } from '../../models/create-meeting-request-dto';
-import { formatDate } from '@angular/common';
+import { CommonModule, formatDate } from '@angular/common';
 
 
 declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
@@ -9,7 +9,7 @@ declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
 @Component({
   selector: 'app-meeting-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './meeting-modal.component.html',
   styleUrl: './meeting-modal.component.css'
 })
@@ -29,6 +29,7 @@ export class MeetingModalComponent {
     duration: new FormControl(1, [Validators.required, Validators.min(1)]),
     reason: new FormControl("", [Validators.required, Validators.maxLength(200)]),
   });
+minDate: Date = new Date();
 
   constructor() { }
 
