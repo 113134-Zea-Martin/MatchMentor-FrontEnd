@@ -17,4 +17,9 @@ export class MeetingService {
     return this.http.get<MeetingHistoryResponseDto>(`${this.apiURL}/history/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
   }
 
+  // Rechazar una reunión
+  rejectMeeting(token: string, meetingId: string): Observable<MeetingHistoryResponseDto> {
+    return this.http.put<MeetingHistoryResponseDto>(`${this.apiURL}/reject/${meetingId}`, {}, { headers: { Authorization: `Bearer ${token}` } });
+  }
+
 }

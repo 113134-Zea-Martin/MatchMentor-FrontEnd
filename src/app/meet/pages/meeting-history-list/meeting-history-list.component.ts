@@ -1,25 +1,88 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MeetingService } from '../../services/meeting.service';
 import { MeetingHistoryResponseDtoData } from '../../models/meeting-history-response-dto';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { ConfirmRejectModalComponent } from '../confirm-reject-modal/confirm-reject-modal.component';
+import { ConfirmAcceptModalComponent } from '../confirm-accept-modal/confirm-accept-modal.component';
+import { PaymentService } from '../../services/payment.service';
 
 @Component({
   selector: 'app-meeting-history-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ConfirmRejectModalComponent, ConfirmAcceptModalComponent],
   templateUrl: './meeting-history-list.component.html',
   styleUrl: './meeting-history-list.component.css'
 })
 export class MeetingHistoryListComponent implements OnInit, OnDestroy {
-updateMeeting(arg0: any,arg1: boolean) {
-throw new Error('Method not implemented.');
-}
+
+  handleRejection(meetingId: number) {
+    this.updateMeeting(meetingId, false);
+  }
+
+  @ViewChild(ConfirmRejectModalComponent) rejectModal!: ConfirmRejectModalComponent;
+  @ViewChild(ConfirmAcceptModalComponent) acceptModal!: ConfirmAcceptModalComponent;
+
+  openModal(meetingId: number) {
+    this.rejectModal.open(meetingId);
+  }
+
+  openAcceptModal(meeting: any) {
+    this.acceptModal.open(meeting);
+  }
+
+  handleAccept(meetingId: number) {
+    this.updateMeeting(meetingId, true);
+  }
 
   meetingHistory: MeetingHistoryResponseDtoData[] = [];
   token: string | null = null;
   userId: string | null = null;
+
+  updateMeeting(meetingId: any, isAccepted: boolean) {
+    if (isAccepted) {
+      // Generar link de pago
+      if (this.token && this.userId) {
+        const sus = this.paymentService.getPaymentLink(this.token, meetingId).subscribe({
+          next: (response) => {
+            if (response) {
+              console.log('Link de pago:', response);
+              window.open(response, '_blank');
+            } else {
+              console.error('Error al obtener el link de pago:', response);
+            }
+          },
+          error: (error) => {
+            console.error('Error al obtener el link de pago:', error);
+          }
+        });
+        this.subscriptions.push(sus);
+      } else {
+        console.error('Token or User ID not found in local storage');
+      }
+    }
+    else {
+      console.log('token:', this.token);
+      console.log('userId:', this.userId);
+      const sus = this.meetingService.rejectMeeting(this.token!, meetingId).subscribe({
+        next: (response) => {
+          if (response.success) {
+            console.log('Reunión rechazada:', meetingId);
+            this.loadMeetingHistory(this.token!, this.userId!);
+          } else {
+            console.error('Error al rechazar la reunión:', response.message);
+          }
+        },
+        error: (error) => {
+          console.error('Error al rechazar la reunión:', error);
+        }
+      });
+      this.subscriptions.push(sus);
+      console.log('Reunión rechazada:', meetingId);
+    }
+  }
+
 
   ngOnInit(): void {
     this.token = localStorage.getItem('token');
@@ -40,16 +103,16 @@ throw new Error('Method not implemented.');
     this.meetingHistory = [];
   }
 
-  constructor(private meetingService: MeetingService) { }
+  constructor(private meetingService: MeetingService, private paymentService: PaymentService) { }
 
   loadMeetingHistory(token: string, userId: string): void {
     const sus = this.meetingService.getMeetingHistory(token, userId).subscribe({
       next: (response) => {
         if (response.success) {
-      this.meetingHistory = response.data;
-        this.originalMeetingHistory = [...response.data];
-        this.sortMeetingHistory();
-        this.filteredMeetings = [...this.meetingHistory];
+          this.meetingHistory = response.data;
+          this.originalMeetingHistory = [...response.data];
+          this.sortMeetingHistory();
+          this.filteredMeetings = [...this.meetingHistory];
         } else {
           console.error('Error fetching meeting history:', response.message);
         }
@@ -83,8 +146,8 @@ throw new Error('Method not implemented.');
       }
       return 0;
     });
-  // Actualizar filteredMeetings después de ordenar
-  this.filteredMeetings = [...this.meetingHistory];
+    // Actualizar filteredMeetings después de ordenar
+    this.filteredMeetings = [...this.meetingHistory];
   }
 
   sortField: string = '';
@@ -127,62 +190,38 @@ throw new Error('Method not implemented.');
     }
   };
 
-  // applyFilters(): void {
-  //   this.meetingHistory = this.originalMeetingHistory.filter(meeting => {
-  //     const matchParticipant = this.filters.participant === '' ||
-  //       meeting.otherParticipantName.toLowerCase().includes(this.filters.participant.toLowerCase());
-
-  //     const matchReason = this.filters.reason === '' ||
-  //       meeting.reason.toLowerCase().includes(this.filters.reason.toLowerCase());
-
-  //     const meetingDate = new Date(meeting.date);
-  //     const matchStartDate = !this.filters.startDate || new Date(this.filters.startDate) <= meetingDate;
-  //     const matchEndDate = !this.filters.endDate || new Date(this.filters.endDate) >= meetingDate;
-
-  //     const matchStatus = !Object.values(this.filters.status).includes(true) ||
-  //       this.filters.status[meeting.status as keyof typeof this.filters.status];
-
-  //     const matchRole = !Object.values(this.filters.role).includes(true) ||
-  //       this.filters.role[meeting.otherParticipantRole.toUpperCase() as keyof typeof this.filters.role];
-
-  //     return matchParticipant && matchReason && matchStartDate && matchEndDate && matchStatus && matchRole;
-  //   });
-
-  //   this.sortBy(this.sortField || 'date');
-  // }
-
   applyFilters() {
-  let result = [...this.meetingHistory]; // tu lista original de reuniones
+    let result = [...this.meetingHistory]; // tu lista original de reuniones
 
-  // Filtros de texto
-  if (this.filters.participant)
-    result = result.filter(m => m.otherParticipantName?.toLowerCase().includes(this.filters.participant.toLowerCase()));
-  if (this.filters.reason)
-    result = result.filter(m => m.reason?.toLowerCase().includes(this.filters.reason.toLowerCase()));
+    // Filtros de texto
+    if (this.filters.participant)
+      result = result.filter(m => m.otherParticipantName?.toLowerCase().includes(this.filters.participant.toLowerCase()));
+    if (this.filters.reason)
+      result = result.filter(m => m.reason?.toLowerCase().includes(this.filters.reason.toLowerCase()));
 
-  // Filtros de fecha
-  if (this.filters.startDate)
-    result = result.filter(m => new Date(m.date) >= new Date(this.filters.startDate));
-  if (this.filters.endDate)
-    result = result.filter(m => new Date(m.date) <= new Date(this.filters.endDate));
+    // Filtros de fecha
+    if (this.filters.startDate)
+      result = result.filter(m => new Date(m.date) >= new Date(this.filters.startDate));
+    if (this.filters.endDate)
+      result = result.filter(m => new Date(m.date) <= new Date(this.filters.endDate));
 
-  // Filtros de estado
-  const selectedStatuses = Object.entries(this.filters.status).filter(([_, v]) => v).map(([k]) => k);
-  if (selectedStatuses.length)
-    result = result.filter(m => selectedStatuses.includes(m.status));
+    // Filtros de estado
+    const selectedStatuses = Object.entries(this.filters.status).filter(([_, v]) => v).map(([k]) => k);
+    if (selectedStatuses.length)
+      result = result.filter(m => selectedStatuses.includes(m.status));
 
-  // Filtros de rol
-  const selectedRoles = Object.entries(this.filters.role).filter(([_, v]) => v).map(([k]) => k);
-  if (selectedRoles.length)
-    result = result.filter(m => selectedRoles.includes(m.myRole));
+    // Filtros de rol
+    const selectedRoles = Object.entries(this.filters.role).filter(([_, v]) => v).map(([k]) => k);
+    if (selectedRoles.length)
+      result = result.filter(m => selectedRoles.includes(m.myRole));
 
-  this.filteredMeetings = result;
-  this.page = 1; // reiniciar a la primera página
-}
+    this.filteredMeetings = result;
+    this.page = 1; // reiniciar a la primera página
+  }
 
-get totalPages() {
-  return Math.ceil(this.filteredMeetings.length / this.pageSize);
-}
+  get totalPages() {
+    return Math.ceil(this.filteredMeetings.length / this.pageSize);
+  }
 
   clearFilters(): void {
     this.filters = {
@@ -205,15 +244,15 @@ get totalPages() {
     this.sortMeetingHistory();
   }
 
-showFilters = false;
+  showFilters = false;
 
-page = 1;
-pageSize = 15; // Número de reuniones por página
-filteredMeetings: any[] = []; // Resultado de applyFilters()
+  page = 1;
+  pageSize = 15; // Número de reuniones por página
+  filteredMeetings: any[] = []; // Resultado de applyFilters()
 
-get paginatedMeetings() {
-  const start = (this.page - 1) * this.pageSize;
-  return this.filteredMeetings.slice(start, start + this.pageSize);
-}
+  get paginatedMeetings() {
+    const start = (this.page - 1) * this.pageSize;
+    return this.filteredMeetings.slice(start, start + this.pageSize);
+  }
 
 }

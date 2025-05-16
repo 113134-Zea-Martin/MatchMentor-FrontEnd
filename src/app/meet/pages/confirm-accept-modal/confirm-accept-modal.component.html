@@ -1,0 +1,28 @@
+<div class="modal fade" id="confirmAcceptModal" tabindex="-1" aria-labelledby="confirmAcceptModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar Aceptación de Reunión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" *ngIf="meeting">
+        <p>¿Estás seguro de que deseas <strong>aceptar</strong> la siguiente reunión?</p>
+
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Fecha:</strong> {{ meeting.date | date:'dd/MM/yyyy' }}</li>
+          <li class="list-group-item"><strong>Hora:</strong> {{ meeting.time }}</li>
+          <li class="list-group-item"><strong>Duración:</strong> {{ meeting.duration }} hs</li>
+          <li class="list-group-item"><strong>Participante:</strong> {{ meeting.otherParticipantName }}</li>
+          <li class="list-group-item"><strong>Rol:</strong> {{ meeting.myRole }}</li>
+          <li class="list-group-item"><strong>Motivo:</strong> {{ meeting.reason }}</li>
+          <!-- Precio en ARS -->
+          <li class="list-group-item"><strong>Precio:</strong> $ {{ meeting.cost }}</li>
+        </ul>
+      </div>
+      <div class="modal-footer" *ngIf="meeting">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-success" (click)="confirm()">Sí, aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>

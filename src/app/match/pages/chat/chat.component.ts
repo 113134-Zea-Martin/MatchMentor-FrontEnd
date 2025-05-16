@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onScheduleMeeting(data: CreateMeetingRequestDto): void {
-    this.meetingService.createMeeting(this.token || '', data).subscribe({
+    const sus = this.meetingService.createMeeting(this.token || '', data).subscribe({
       next: (response) => {
         if (response.success) {
           alert('Reunión agendada con éxito');
@@ -49,6 +49,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
       },
       error: () => alert('Error al agendar reunión')
     });
+    this.susbs.push(sus);
   }
   
 

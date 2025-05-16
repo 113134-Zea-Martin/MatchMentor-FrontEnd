@@ -110,50 +110,24 @@
                     <td class="text-truncate" style="max-width: 200px;" [attr.title]="meeting.reason">
                       {{ meeting.reason }}
                     </td>
-                    <!-- <td>
-                      <span class="badge" [ngClass]="{
-                          'bg-secondary': meeting.status === 'PROPOSED',
-                          'bg-success': meeting.status === 'ACCEPTED',
-                          'bg-danger': meeting.status === 'REJECTED'
-                        }">
-                        {{
-                        meeting.status === 'PROPOSED' ? 'Propuesta' :
-                        meeting.status === 'ACCEPTED' ? 'Aceptada' :
-                        'Rechazada'
-                        }}
-                      </span>
-                    </td> 
-                    <td>
-                      <ng-container *ngIf="meeting.status === 'PROPOSED'; else statusBadge">
-                        <button class="btn btn-success btn-sm me-1" (click)="updateMeeting(meeting.id, true)">
-                          Aceptar
-                        </button>
-                        <button class="btn btn-danger btn-sm" (click)="updateMeeting(meeting.id, false)">
-                          Rechazar
-                        </button>
-                      </ng-container>
-                      <ng-template #statusBadge>
-                        <span class="badge" [ngClass]="{
-                            'bg-success': meeting.status === 'ACCEPTED',
-                            'bg-danger': meeting.status === 'REJECTED'
-                          }">
-                          {{
-                          meeting.status === 'ACCEPTED' ? 'Aceptada' :
-                          meeting.status === 'REJECTED' ? 'Rechazada' :
-                          ''
-                          }}
-                        </span>
-                      </ng-template>
-                    </td> -->
+
                     <td>
                       <ng-container
                         *ngIf="meeting.status === 'PROPOSED' && meeting.myRole === 'Estudiante'; else statusBadge">
-                        <button class="btn btn-success btn-sm me-1" (click)="updateMeeting(meeting.id, true)">
+                        <!-- <button class="btn btn-success btn-sm me-1" (click)="updateMeeting(meeting.id, true)">
+                          Aceptar
+                        </button> -->
+                        <button class="btn btn-success btn-sm me-1" (click)="openAcceptModal(meeting)">
                           Aceptar
                         </button>
-                        <button class="btn btn-danger btn-sm" (click)="updateMeeting(meeting.id, false)">
+
+                        <!-- <button class="btn btn-danger btn-sm" (click)="updateMeeting(meeting.id, false)">
+                          Rechazar
+                        </button> -->
+                        <button class="btn btn-danger btn-sm" (click)="openModal(meeting.id)">
                           Rechazar
                         </button>
+
                       </ng-container>
 
                       <ng-template #statusBadge>
@@ -206,3 +180,6 @@
     </div>
   </div>
 </div>
+
+<app-confirm-reject-modal (onConfirm)="handleRejection($event)"></app-confirm-reject-modal>
+<app-confirm-accept-modal (onConfirm)="handleAccept($event)"></app-confirm-accept-modal>

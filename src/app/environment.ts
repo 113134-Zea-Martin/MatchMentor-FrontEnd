@@ -1,8 +1,8 @@
 export const environment = {
     production: false,
-    originalUrl: 'https://showed-university-advances-steve.trycloudflare.com', // URL base de tu backend en desarrollo
+    originalUrl: 'https://practices-symantec-totally-asian.trycloudflare.com', // URL base de tu backend en desarrollo
     // apiUrl: 'http://localhost:8080/api' // URL base de tu backend en desarrollo
-    apiUrl: 'https://showed-university-advances-steve.trycloudflare.com/api', // URL base de tu backend en desarrollo
+    apiUrl: 'https://practices-symantec-totally-asian.trycloudflare.com/api', // URL base de tu backend en desarrollo
   };
 
   // app-routes.constants.ts
