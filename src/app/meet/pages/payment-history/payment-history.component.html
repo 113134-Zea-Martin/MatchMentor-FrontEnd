@@ -1,0 +1,164 @@
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-12">
+      <div class="card border-0 shadow-lg">
+        <div class="card-body p-4 p-md-5">
+
+          <!-- Título y botón de filtros -->
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold mb-0">Historial de Pagos</h2>
+            <button class="btn btn-outline-primary" (click)="showFilters = !showFilters">
+              <i class="bi" [ngClass]="showFilters ? 'bi-eye-slash' : 'bi-funnel'"></i>
+              {{ showFilters ? 'Ocultar Filtros' : 'Mostrar Filtros' }}
+            </button>
+          </div>
+
+          <!-- Filtros -->
+          <form *ngIf="showFilters" class="mb-4">
+            <div class="row g-3">
+              <div class="col-md-3">
+                <label class="form-label">Contraparte</label>
+                <input type="text" class="form-control" [(ngModel)]="filters.counterpart" name="counterpart"
+                  placeholder="Nombre o Apellido" (ngModelChange)="applyFilters()">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Descripción</label>
+                <input type="text" class="form-control" [(ngModel)]="filters.description" name="description"
+                  placeholder="Detalle" (ngModelChange)="applyFilters()">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Fecha desde</label>
+                <input type="date" class="form-control" [(ngModel)]="filters.startDate" name="startDate"
+                  (ngModelChange)="applyFilters()">
+              </div>
+
+              <div class="col-md-3">
+                <label class="form-label">Fecha hasta</label>
+                <input type="date" class="form-control" [(ngModel)]="filters.endDate" name="endDate"
+                  (ngModelChange)="applyFilters()">
+              </div>
+
+              <!-- <div class="col-md-3">
+                <label class="form-label">Tipo</label>
+                <select class="form-select" [(ngModel)]="filters.type" name="type" (ngModelChange)="applyFilters()">
+                  <option value="">Todos</option>
+                  <option value="Cobro">Cobro</option>
+                  <option value="Pago">Pago</option>
+                </select>
+              </div> -->
+
+              <div class="col-md-3">
+                <label class="form-label d-block mb-1">Tipo</label>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="filters.types.Cobro" id="typeCobro"
+                    name="typeCobro" (change)="applyFilters()">
+                  <label class="form-check-label" for="typeCobro">Cobro</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="filters.types.Pago" id="typePago"
+                    name="typePago" (change)="applyFilters()">
+                  <label class="form-check-label" for="typePago">Pago</label>
+                </div>
+              </div>
+
+
+
+              <div class="col-12 text-end pt-2">
+                <button type="button" class="btn btn-outline-secondary" (click)="clearFilters()">
+                  <i class="bi bi-x-circle me-1"></i>Limpiar Filtros
+                </button>
+              </div>
+            </div>
+          </form>
+
+
+          <!-- Tabla -->
+          <div *ngIf="filteredPayments.length > 0; else noPayments">
+
+            <div class="table-responsive">
+              <table class="table table-striped align-middle text-center">
+                <thead class="table-primary">
+                  <tr>
+                    <th (click)="sortBy('dateTime')" style="cursor:pointer">
+                      <i class="bi bi-calendar-event me-1"></i>Fecha
+                      <i class="bi" [ngClass]="getSortIcon('dateTime')"></i>
+                    </th>
+                    <th (click)="sortBy('description')" style="cursor:pointer">
+                      <i class="bi bi-card-text me-1"></i>Descripción
+                      <i class="bi" [ngClass]="getSortIcon('description')"></i>
+                    </th>
+                    <th (click)="sortBy('amount')" style="cursor:pointer">
+                      <i class="bi bi-cash-coin me-1"></i>Monto
+                      <i class="bi" [ngClass]="getSortIcon('amount')"></i>
+                    </th>
+                    <th><i class="bi bi-percent me-1"></i>Fee MP</th>
+                    <th><i class="bi bi-percent me-1"></i>Fee Plataforma</th>
+                    <th (click)="sortBy('transactionType')" style="cursor:pointer">
+                      <i class="bi bi-shuffle me-1"></i>Tipo
+                      <i class="bi" [ngClass]="getSortIcon('transactionType')"></i>
+                    </th>
+                    <th (click)="sortBy('counterpartName')" style="cursor:pointer">
+                      <i class="bi bi-person me-1"></i>Contraparte
+                      <i class="bi" [ngClass]="getSortIcon('counterpartName')"></i>
+                    </th>
+                    <th><i class="bi bi-receipt me-1"></i>Transacción MP</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- <tr *ngFor="let item of filteredPayments"> -->
+                  <tr *ngFor="let item of paginatedPayments()">
+
+                    <td>{{ item.dateTime | date:'dd/MM/yyyy HH:mm' }}</td>
+                    <td class="text-truncate" style="max-width: 200px;" [attr.title]="item.description">
+                      {{ item.description }}
+                    </td>
+                    <td>{{ item.amount | currency }}</td>
+                    <td>{{ item.mercadoPagoFee | currency }}</td>
+                    <td>{{ item.platformFee | currency }}</td>
+                    <td>{{ item.transactionType }}</td>
+                    <td>{{ item.counterpartName }}</td>
+                    <!-- <td>{{ item.paymentMethod }}</td> -->
+                    <td>
+                      <a [href]="'https://www.mercadopago.com.ar/tools/receipt-view/' + item.transactionId"
+                        target="_blank" rel="noopener noreferrer">
+                        {{ item.transactionId }}
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Paginación -->
+            <nav *ngIf="filteredPayments.length > itemsPerPage" class="mt-3 d-flex justify-content-center">
+              <ul class="pagination mb-0">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link" (click)="prevPage()">Anterior</a>
+                </li>
+                <li class="page-item disabled">
+                  <span class="page-link">Página {{ currentPage }} de {{ totalPages() }}</span>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage === totalPages()">
+                  <a class="page-link" (click)="nextPage()">Siguiente</a>
+                </li>
+              </ul>
+            </nav>
+
+
+          <!-- Si no hay pagos -->
+          <ng-template #noPayments>
+            <div class="text-center py-5">
+              <i class="bi bi-info-circle text-muted" style="font-size: 3rem;"></i>
+              <h4 class="mt-3 text-muted">No tienes pagos registrados</h4>
+              <p class="text-muted">Aquí aparecerán los pagos cuando se realicen.</p>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

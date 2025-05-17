@@ -13,6 +13,9 @@ import { BehaviorSubject } from 'rxjs';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
+showPaymentHistory() {
+  this.router.navigate(['/payment-history']);
+}
 
 showMeetings() {
   this.router.navigate(['/meet']);

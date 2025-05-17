@@ -89,17 +89,80 @@
           <div *ngIf="filteredMeetings.length > 0; else noMeetings">
             <div class="table-responsive">
               <table class="table table-striped align-middle text-center">
-                <thead class="table-primary">
-                  <tr>
-                    <th scope="col"><i class="bi bi-calendar-event me-1"></i>Fecha</th>
-                    <th scope="col"><i class="bi bi-clock me-1"></i>Hora</th>
-                    <th scope="col"><i class="bi bi-hourglass-split me-1"></i>Duración (hs)</th>
-                    <th scope="col"><i class="bi bi-person me-1"></i>Participante</th>
-                    <th scope="col"><i class="bi bi-person-badge me-1"></i>Rol</th>
-                    <th scope="col"><i class="bi bi-chat-left-text me-1"></i>Motivo</th>
-                    <th scope="col"><i class="bi bi-info-circle me-1"></i>Estado</th>
-                  </tr>
-                </thead>
+<thead class="table-primary">
+  <tr>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('date')">
+      <div class="d-flex justify-content-center align-items-center">
+        Fecha
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'date' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'date' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'date'
+        }"></i>
+      </div>
+    </th>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('time')">
+      <div class="d-flex justify-content-center align-items-center">
+        Hora
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'time' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'time' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'time'
+        }"></i>
+      </div>
+    </th>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('duration')">
+      <div class="d-flex justify-content-center align-items-center">
+        Duración (hs)
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'duration' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'duration' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'duration'
+        }"></i>
+      </div>
+    </th>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('otherParticipantName')">
+      <div class="d-flex justify-content-center align-items-center">
+        Participante
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'otherParticipantName' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'otherParticipantName' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'otherParticipantName'
+        }"></i>
+      </div>
+    </th>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('myRole')">
+      <div class="d-flex justify-content-center align-items-center">
+        Rol
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'myRole' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'myRole' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'myRole'
+        }"></i>
+      </div>
+    </th>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('reason')">
+      <div class="d-flex justify-content-center align-items-center">
+        Motivo
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'reason' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'reason' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'reason'
+        }"></i>
+      </div>
+    </th>
+    <th scope="col" class="cursor-pointer" (click)="sortBy('status')">
+      <div class="d-flex justify-content-center align-items-center">
+        Estado
+        <i class="bi ms-1" [ngClass]="{
+          'bi-sort-down': sortField === 'status' && sortDirection === 'desc',
+          'bi-sort-up': sortField === 'status' && sortDirection === 'asc',
+          'bi-sort': sortField !== 'status'
+        }"></i>
+      </div>
+    </th>
+  </tr>
+</thead>
                 <tbody>
                   <tr *ngFor="let meeting of paginatedMeetings">
                     <td>{{ meeting.date | date: 'dd/MM/yyyy' }}</td>
