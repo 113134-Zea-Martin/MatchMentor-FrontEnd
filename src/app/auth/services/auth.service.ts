@@ -11,13 +11,43 @@ import { environment } from '../../environment';
 })
 export class AuthService {
 
+    // Add BehaviorSubject for user role and authentication status
+  private currentUserRole = new BehaviorSubject<string | null>(null);
+  private isLoggedIn = new BehaviorSubject<boolean>(false);
+  private userId = new BehaviorSubject<number | null>(null);
+  
+  // Expose as observables for components to subscribe
+  public userRole$ = this.currentUserRole.asObservable();
+  public loggedIn$ = this.isLoggedIn.asObservable();
+  public userId$ = this.userId.asObservable();
+
   // private readonly API_URL = 'http://localhost:8080/api/auth/'; // Replace with your API URL
   private readonly API_URL = environment.apiUrl + '/auth/'; // Base URL for authentication-related API endpoints
 
   // http://localhost:8080/api/auth/register/user
   private readonly REGISTER_URL = `${this.API_URL}register/user`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    // Initialize state from localStorage
+    this.checkAuthState();
+  }
+
+  public getCurrentUserRole() {
+    return this.userRole$;
+  }
+
+  // Check authentication state on service initialization
+  private checkAuthState(): void {
+    const token = localStorage.getItem('token');
+    const role = localStorage.getItem('userRole');
+    
+    if (token) {
+      this.isLoggedIn.next(true);
+      if (role) {
+        this.currentUserRole.next(role);
+      }
+    }
+  }
 
   // Registro de usuario
   registerUser(userRegisterRequest: UserRegisterRequest): Observable<UserRegisterResponse> {
@@ -25,10 +55,35 @@ export class AuthService {
   }
 
   // Login del usuario
+  // Login del usuario - modified to store role information
   loginUser(email: string, password: string): Observable<UserLoginResponse> {
     const loginUrl = `${this.API_URL}login`;
-    return this.http.post<UserLoginResponse>(loginUrl, { email, password });
+    return new Observable(observer => {
+      this.http.post<UserLoginResponse>(loginUrl, { email, password })
+        .subscribe({
+          next: (response) => {
+            // Store token and role information
+            localStorage.setItem('token', response.data.token);
+            if (response.data.role) {
+              localStorage.setItem('userRole', response.data.role);
+              this.currentUserRole.next(response.data.role);
+              this.userId.next(response.data.id);
+            }
+            this.isLoggedIn.next(true);
+            observer.next(response);
+            observer.complete();
+          },
+          error: (error) => {
+            observer.error(error);
+          }
+        });
+    });
   }
+
+  updateUserRole(role: string): void {
+  localStorage.setItem('userRole', role);
+  this.currentUserRole.next(role);
+}
 
   // Método para solicitar el restablecimiento de contraseña
   requestPasswordReset(email: string): Observable<ForgotPasswordResponse> {

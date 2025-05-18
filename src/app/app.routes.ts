@@ -13,6 +13,7 @@ import { ConfirmedMatchsComponent } from './match/pages/confirmed-matchs/confirm
 import { ChatComponent } from './match/pages/chat/chat.component';
 import { MeetingHistoryListComponent } from './meet/pages/meeting-history-list/meeting-history-list.component';
 import { PaymentHistoryComponent } from './meet/pages/payment-history/payment-history.component';
+import { NotificationBellComponent } from './navbar/notification-bell/notification-bell.component';
 
 export const routes: Routes = [
   {
@@ -59,5 +60,8 @@ export const routes: Routes = [
   {
     path: 'payment-history', component: PaymentHistoryComponent //El tutor o estudiante puede ver el historial de pagos
     // con otros usuarios. (Ambos deberán acceder a esta ruta)
+  },
+  {
+    path: 'notifications', component: NotificationBellComponent //El tutor o estudiante puede ver las notificaciones
   }
 ];

@@ -1,8 +1,8 @@
 export const environment = {
     production: false,
-    originalUrl: 'https://kilometers-sponsorship-personals-colombia.trycloudflare.com', // URL base de tu backend en desarrollo
+    originalUrl: 'http://localhost:8080', // URL base de tu backend en desarrollo
     // apiUrl: 'http://localhost:8080/api' // URL base de tu backend en desarrollo
-    apiUrl: 'https://kilometers-sponsorship-personals-colombia.trycloudflare.com/api', // URL base de tu backend en desarrollo
+    apiUrl: 'http://localhost:8080/api', // URL base de tu backend en desarrollo
   };
 
   // app-routes.constants.ts

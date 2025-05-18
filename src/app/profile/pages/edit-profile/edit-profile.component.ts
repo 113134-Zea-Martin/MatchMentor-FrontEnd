@@ -7,6 +7,7 @@ import { Form, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validat
 import { Datum, InterestResponse } from '../../models/interest-response';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostMercadoPagoAuthResponse } from '../../models/post-create-mp-dto';
+import { AuthService } from '../../../auth/services/auth.service';
 
 declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
 
@@ -83,7 +84,11 @@ export class EditProfileComponent implements OnInit, OnDestroy {
 
   today: String = new Date().toISOString().split('T')[0];
 
-  constructor(private userService: UserService, private router:Router, private route: ActivatedRoute) { }
+  constructor(
+    private userService: UserService, 
+    private router:Router, 
+    private route: ActivatedRoute, 
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.idProfile = Number(localStorage.getItem('idProfile')); // Get the ID from local storage
@@ -191,6 +196,16 @@ export class EditProfileComponent implements OnInit, OnDestroy {
         next: (response: UserResponseDTO) => {
           if (response.success) {
             console.log('Profile updated successfully:', response);
+
+                       // Update role in AuthService if it was changed
+            const newRole = formData.role;
+            const currentRole = localStorage.getItem('userRole');
+            
+            if (newRole && newRole !== currentRole) {
+              console.log(`Role changed from ${currentRole} to ${newRole}`);
+              this.authService.updateUserRole(newRole);
+            }
+
             this.message = response.message;
             this.successModal = new bootstrap.Modal(document.getElementById('successModal'));
             this.successModal.show();

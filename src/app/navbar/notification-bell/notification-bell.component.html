@@ -1,0 +1,15 @@
+
+<!-- Contenedor principal de notificaciones -->
+<div class="border rounded bg-white" style="width: 320px; max-height: 400px; overflow-y: auto;">
+  <ul class="list-group list-group-flush">
+    <li 
+      *ngFor="let not of notifications"
+      class="list-group-item"
+      [ngClass]="{ 'fw-bold bg-light': !not.isRead, 'text-muted': not.isRead }"
+    >
+      <div>{{ not.message }}</div>
+      <small class="text-muted">{{ not.createdAt | date:'dd/MM/yyyy HH:mm:ss' }}</small>
+    </li>
+  </ul>
+</div>
+
