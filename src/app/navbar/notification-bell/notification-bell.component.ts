@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NotificationService } from '../notification.service';
 import { AuthService } from '../../auth/services/auth.service';
@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './notification-bell.component.html',
   styleUrl: './notification-bell.component.css'
 })
-export class NotificationBellComponent implements OnInit, OnDestroy {
+export class NotificationBellComponent implements OnInit, OnDestroy, AfterViewInit {
 
 
   ngOnInit(): void {
@@ -28,7 +28,6 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     // for (let i = 0; i < this.notifications.length; i++) {
     //   this.markAsRead(this.notifications[i].id);
     // }
-    this.markAllAsRead();
     this.notifications = [];
     this.unreadNotifications = [];
     this.subscriptions.forEach(sub => sub.unsubscribe());
@@ -36,6 +35,9 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
   }
 
   constructor(private notificationService: NotificationService) { }
+
+  ngAfterViewInit(): void {
+  }
 
   notifications: NotificationResponseDatum[] = [];
   unreadNotifications: NotificationResponseDatum[] = [];
@@ -46,6 +48,9 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     const sus = this.notificationService.getlast10Notifications(this.userId, this.token).subscribe({
       next: (response) => {
         this.notifications = response.data;
+        // Crea una copia profunda para evitar referencias compartidas
+        this.unreadNotifications = [...this.notifications];
+        this.markAllAsRead();
       },
       error: (error) => {
         console.error('Error fetching notifications:', error);
@@ -59,7 +64,7 @@ export class NotificationBellComponent implements OnInit, OnDestroy {
     const sus = this.notificationService.markAsRead(notificationId, this.token).subscribe({
       next: (response) => {
         console.log('Notification marked as read:', response);
-        this.loadLatestNotifications(); // Reload notifications after marking one as read
+        // this.loadLatestNotifications(); // Reload notifications after marking one as read
       },
       error: (error) => {
         console.error('Error marking notification as read:', error);
