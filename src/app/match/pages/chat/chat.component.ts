@@ -9,6 +9,7 @@ import { MeetingService } from '../../services/meeting.service';
 import { MeetingModalComponent } from '../meeting-modal/meeting-modal.component';
 import { CreateMeetingRequestDto } from '../../models/create-meeting-request-dto';
 
+declare var bootstrap: any; // Para interactuar con los modales de Bootstrap
 @Component({
   selector: 'app-chat',
   standalone: true,
@@ -38,20 +39,26 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewInit {
     this.warningMessageVisible = false;
   }
 
-  onScheduleMeeting(data: CreateMeetingRequestDto): void {
-    const sus = this.meetingService.createMeeting(this.token || '', data).subscribe({
-      next: (response) => {
-        if (response.success) {
-          alert('Reunión agendada con éxito');
-        } else {
-          alert('Error al agendar reunión: ' + response.message);
-        }
-      },
-      error: () => alert('Error al agendar reunión')
-    });
-    this.susbs.push(sus);
-  }
-  
+onScheduleMeeting(data: CreateMeetingRequestDto): void {
+  const sus = this.meetingService.createMeeting(this.token || '', data).subscribe({
+    next: (response) => {
+      if (response.success) {
+        const successModal = new bootstrap.Modal(document.getElementById('successModal')!);
+        successModal.show();
+      } else {
+        const errorModal = new bootstrap.Modal(document.getElementById('errorModal')!);
+        errorModal.show();
+      }
+    },
+    error: () => {
+      const errorModal = new bootstrap.Modal(document.getElementById('errorModal')!);
+      errorModal.show();
+    }
+  });
+
+  this.susbs.push(sus);
+}
+
 
   showingFullHistory = false;
   shouldScrollToBottom = true;

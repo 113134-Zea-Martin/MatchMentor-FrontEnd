@@ -1,0 +1,49 @@
+<div class="user-report-container">
+  <h2 class="report-title">Informe de Usuarios Registrados</h2>
+
+  <div class="filters-panel">
+    <div class="filter-group">
+      <label for="intervalSelect">Intervalo:</label>
+      <select id="intervalSelect" [(ngModel)]="filterInterval">
+        <option value="DAY">Día</option>
+        <!-- <option value="WEEK">Semana</option> -->
+        <option value="MONTH">Mes</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label for="startDate">Fecha Inicio:</label>
+      <input type="date" id="startDate" [(ngModel)]="filterStartDate">
+    </div>
+    <div class="filter-group">
+      <label for="endDate">Fecha Fin:</label>
+      <input type="date" id="endDate" [(ngModel)]="filterEndDate">
+    </div>
+    <div class="filter-group">
+      <label for="roleFilter">Tipo de Usuario:</label>
+      <select id="roleFilter" [(ngModel)]="filterRole">
+        <option value="">Todos</option>
+        <option value="STUDENT">Estudiantes</option>
+        <option value="TUTOR">Mentores</option>
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button class="btn btn-primary" (click)="applyFilters()">Aplicar Filtros</button>
+      <button class="btn btn-secondary" (click)="clearFilters()">Limpiar</button>
+    </div>
+  </div>
+
+  <div class="report-content">
+    <div class="kpi-summary-card" *ngIf="totalUsers !== null">
+      <h3>Resumen de Usuarios</h3>
+      <p>Total Registrados: <strong>{{ totalUsers }}</strong></p>
+      <p *ngIf="growthRate !== null">Tasa de Crecimiento: <strong>{{ growthRate | number: '1.2-2' }}%</strong></p>
+    </div>
+
+    <div class="chart-section">
+      <div class="chart-container">
+        <canvas id="usersChart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

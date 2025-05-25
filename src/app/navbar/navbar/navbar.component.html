@@ -8,85 +8,100 @@
     <div *ngIf="isLoggedIn">
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="showProfile()">
-              <i class="bi bi-house-door me-1"></i> Inicio
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/edit-profile" routerLinkActive="active" (click)="editProfile()">
-              <i class="bi bi-person-circle me-1"></i> Editar Perfil
-            </a>
-          </li>
+          <ng-container *ngIf="userRole !== 'ADMIN'">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="showProfile()">
+                <i class="bi bi-house-door me-1"></i> Inicio
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/edit-profile" routerLinkActive="active" (click)="editProfile()">
+                <i class="bi bi-person-circle me-1"></i> Editar Perfil
+              </a>
+            </li>
 
-          <!-- Opciones específicas según rol -->
-          <li class="nav-item" *ngIf="!(userRole === 'TUTOR')">
-            <a class="nav-link" routerLink="/explore/tutors" routerLinkActive="active" (click)="showTutors()">
-              <i class="bi bi-search me-1"></i> Buscar Tutores
-            </a>
-          </li>
+            <!-- Opciones específicas según rol -->
+            <li class="nav-item" *ngIf="!(userRole === 'TUTOR')">
+              <a class="nav-link" routerLink="/explore/tutors" routerLinkActive="active" (click)="showTutors()">
+                <i class="bi bi-search me-1"></i> Buscar Tutores
+              </a>
+            </li>
 
-          <!-- <li class="nav-item" *ngIf="isMentor">
+            <!-- <li class="nav-item" *ngIf="isMentor">
           <a class="nav-link" routerLink="/explore/students" routerLinkActive="active">
             <i class="bi bi-search me-1"></i> Buscar Estudiantes
           </a>
         </li> -->
 
-          <li class="nav-item" *ngIf="userRole === 'TUTOR'">
-            <a class="nav-link" routerLink="/explore/pendings" routerLinkActive="active"
-              (click)="showPendingRequests()">
-              <i class="bi bi-hourglass-split me-1"></i> Solicitudes Pendientes
-              <!-- <span class="badge bg-danger rounded-pill ms-1" *ngIf="hasNewNotifications">3</span> -->
-            </a>
-          </li>
+            <li class="nav-item" *ngIf="userRole === 'TUTOR'">
+              <a class="nav-link" routerLink="/explore/pendings" routerLinkActive="active"
+                (click)="showPendingRequests()">
+                <i class="bi bi-hourglass-split me-1"></i> Solicitudes Pendientes
+                <!-- <span class="badge bg-danger rounded-pill ms-1" *ngIf="hasNewNotifications">3</span> -->
+              </a>
+            </li>
 
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/confirmed-matches" routerLinkActive="active"
-              (click)="showConfirmedMatches()">
-              <!-- <i class="bi bi-people-fill me-1"></i> Matches Confirmados -->
-              <i class="bi bi-chat-dots-fill me-1"></i> Chats
-              <span class="badge bg-primary rounded-pill ms-1" *ngIf="hasUnreadMessages">2</span>
-            </a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/confirmed-matches" routerLinkActive="active"
+                (click)="showConfirmedMatches()">
+                <!-- <i class="bi bi-people-fill me-1"></i> Matches Confirmados -->
+                <i class="bi bi-chat-dots-fill me-1"></i> Chats
+                <span class="badge bg-primary rounded-pill ms-1" *ngIf="hasUnreadMessages">2</span>
+              </a>
+            </li>
 
-          <!-- Acceso a la seccion de meetings -->
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/meetings" routerLinkActive="active" (click)="showMeetings()">
-              <i class="bi bi-calendar-event me-1"></i> Reuniones
-            </a>
-          </li>
+            <!-- Acceso a la seccion de meetings -->
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/meetings" routerLinkActive="active" (click)="showMeetings()">
+                <i class="bi bi-calendar-event me-1"></i> Reuniones
+              </a>
+            </li>
 
-          <!-- Acceso a la seccion de pagos -->
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/payment-history" routerLinkActive="active" (click)="showPaymentHistory()">
-              <i class="bi bi-credit-card-2-back-fill me-1"></i> Historial de Pagos
-            </a>
-          </li>
+            <!-- Acceso a la seccion de pagos -->
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/payment-history" routerLinkActive="active"
+                (click)="showPaymentHistory()">
+                <i class="bi bi-credit-card-2-back-fill me-1"></i> Historial de Pagos
+              </a>
+            </li>
 
-          <!-- 🔔 Notificación -->
-          <li class="nav-item position-relative notification-container">
-            <a class="nav-link" (click)="toggleNotifications()" style="background: none; border: none;">
-              <i class="bi bi-bell" [ngClass]="{ 'text-danger': hasNewNotifications }" style="font-size: 1.1rem;">
-              </i>
-              <!-- <span
+            <!-- 🔔 Notificación -->
+            <li class="nav-item position-relative notification-container">
+              <a class="nav-link" (click)="toggleNotifications()" style="background: none; border: none;">
+                <i class="bi bi-bell" [ngClass]="{ 'text-danger': hasNewNotifications }" style="font-size: 1.1rem;">
+                </i>
+                <!-- <span
                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"
                 *ngIf="hasNewNotifications">
               </span> -->
-            </a>
+              </a>
 
-            <!-- Box de notificaciones -->
-            <div *ngIf="isNotificationBoxOpen" class="position-absolute end-0 mt-2" style="z-index: 1050;">
-              <app-notification-bell></app-notification-bell>
-            </div>
+              <!-- Box de notificaciones -->
+              <div *ngIf="isNotificationBoxOpen" class="position-absolute end-0 mt-2" style="z-index: 1050;">
+                <app-notification-bell></app-notification-bell>
+              </div>
+            </li>
+          </ng-container>
+
+          <!-- Agregar admin/reports/pages/matches - payments - registered-users -->
+          <li class="nav-item" *ngIf="userRole === 'ADMIN'">
+            <a class="nav-link" routerLink="/admin/reports" routerLinkActive="active" (click)="showMatchesReport()">
+              <i class="bi bi-bar-chart-fill me-1"></i> Matches
+            </a>
           </li>
 
+          <li class="nav-item" *ngIf="userRole === 'ADMIN'">
+            <a class="nav-link" routerLink="/admin/registered-users" routerLinkActive="active"
+              (click)="showRegisteredUsers()">
+              <i class="bi bi-people-fill me-1"></i> Usuarios Registrados
+            </a>
+          </li>
 
-          <!-- <li class="nav-item">
-          <a class="nav-link" routerLink="/chat" routerLinkActive="active" (click)="showChat()">
-            <i class="bi bi-chat-dots-fill me-1"></i> Chats
-            <span class="badge bg-primary rounded-pill ms-1" *ngIf="hasUnreadMessages">2</span>
-          </a>
-        </li> -->
+          <li class="nav-item" *ngIf="userRole === 'ADMIN'">
+            <a class="nav-link" routerLink="/admin/payments" routerLinkActive="active" (click)="showPayments()">
+              <i class="bi bi-credit-card-2-back-fill me-1"></i> Pagos
+            </a>
+          </li>
 
           <li class="nav-item">
             <a class="nav-link" (click)="logout()" style="cursor: pointer;">

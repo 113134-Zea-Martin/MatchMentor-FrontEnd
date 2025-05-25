@@ -1,0 +1,165 @@
+.payment-report-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .report-title {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 30px;
+  }
+
+  .filters-panel {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #495057;
+      }
+      input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+      }
+    }
+
+    .filter-actions {
+      margin-left: auto;
+      button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        &:not(:last-child) {
+          margin-right: 10px;
+        }
+        &.btn-primary {
+          background-color: #007bff;
+          color: white;
+          &:hover {
+            background-color: #0056b3;
+          }
+        }
+        &.btn-secondary {
+          background-color: #6c757d;
+          color: white;
+          &:hover {
+            background-color: #545b62;
+          }
+        }
+      }
+    }
+  }
+
+  .report-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 25px;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 2fr 1fr;
+      grid-template-areas:
+        "chart kpi"
+        "chart top-students";
+    }
+
+    .kpi-summary-card {
+      grid-area: kpi;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      h3 {
+        color: #007bff;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+      p {
+        margin-bottom: 10px;
+        font-size: 1.1em;
+        strong {
+          color: #28a745;
+        }
+      }
+    }
+
+    .chart-section {
+      grid-area: chart;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      .chart-container {
+        position: relative;
+        height: 500px;
+        width: 100%;
+        canvas {
+          height: 100% !important;
+          width: 100% !important;
+        }
+      }
+    }
+
+    .top-students-section {
+      grid-area: top-students;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      h3 {
+        color: #007bff;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+      }
+
+      .table-responsive {
+        overflow-x: auto;
+      }
+
+      .top-students-table {
+        width: 100%;
+        border-collapse: collapse;
+        th,
+        td {
+          border: 1px solid #dee2e6;
+          padding: 10px;
+          text-align: left;
+        }
+        th {
+          background-color: #f2f2f2;
+          font-weight: bold;
+          color: #343a40;
+        }
+        tr:nth-child(even) {
+          background-color: #f9f9f9;
+        }
+        .no-data-message {
+          text-align: center;
+          font-style: italic;
+          color: #6c757d;
+        }
+      }
+    }
+  }
+}

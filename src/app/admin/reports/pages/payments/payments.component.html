@@ -1,0 +1,64 @@
+<div class="payment-report-container">
+    <h2 class="report-title">Reporte de Pagos y Facturación</h2>
+
+    <div class="filters-panel">
+        <div class="filter-group">
+            <label for="startDate">Fecha Inicio:</label>
+            <input type="date" id="startDate" [(ngModel)]="filterStartDate">
+        </div>
+        <div class="filter-group">
+            <label for="endDate">Fecha Fin:</label>
+            <input type="date" id="endDate" [(ngModel)]="filterEndDate">
+        </div>
+        <div class="filter-actions">
+            <button class="btn btn-primary" (click)="applyFilters()">Aplicar Filtros</button>
+            <button class="btn btn-secondary" (click)="clearFilters()">Limpiar</button>
+        </div>
+    </div>
+
+    <div class="report-content">
+        <div class="kpi-summary-card" *ngIf="paymentsByStatusData">
+            <h3>Resumen de Pagos</h3>
+            <p>Total: <strong>{{ paymentsByStatusData.totalApprovedPayments }}</strong></p>
+            <p>Suma: <strong>{{ paymentsByStatusData.totalApprovedSum | currency:'USD':'symbol':'1.2-2'
+                    }}</strong></p>
+            <p>Promedio: <strong>{{ paymentsByStatusData.averageApprovedPayment |
+                    currency:'USD':'symbol':'1.2-2' }}</strong></p>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-container">
+                <canvas id="paymentsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="top-students-section">
+            <h3>Top Estudiantes</h3>
+            <div class="table-responsive">
+                <table class="top-students-table">
+                    <thead>
+                        <tr>
+                            <th>Estudiante</th>
+                            <th>Monto</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container
+                            *ngIf="topStudentsData && (topStudentsData | keyvalue).length > 0; else noTopStudents">
+                            <tr *ngFor="let studentName of (topStudentsData | sortByKey:'':true | slice:0:3)">
+                                <td>{{ studentName.key }}</td>
+                                <td>{{ studentName.value | currency }} </td>
+                            </tr>
+                        </ng-container>
+                        <ng-template #noTopStudents>
+                            <tr>
+                                <td colspan="2" class="no-data-message">No hay datos de Top Estudiantes para el rango
+                                    seleccionado.</td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

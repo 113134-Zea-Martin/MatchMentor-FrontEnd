@@ -1,0 +1,34 @@
+<div class="matches-report-container">
+    <h2 class="report-title">Reporte de Matches</h2>
+
+    <div class="filters-panel">
+        <div class="filter-group">
+            <label for="startDateMatches">Fecha Inicio:</label>
+            <input type="date" id="startDateMatches" [(ngModel)]="startDateMatches">
+        </div>
+        <div class="filter-group">
+            <label for="endDateMatches">Fecha Fin:</label>
+            <input type="date" id="endDateMatches" [(ngModel)]="endDateMatches">
+        </div>
+        <div class="filter-actions">
+            <button class="btn btn-primary" (click)="loadMatchesReport()">Aplicar Filtros</button>
+            <button class="btn btn-secondary" (click)="clearMatchesFilters()">Limpiar</button>
+        </div>
+    </div>
+
+    <div class="report-content">
+        <div class="chart-section">
+            <div class="chart-container">
+                <canvas id="matchesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="kpi-summary-card">
+            <h3>Resumen de Matches</h3>
+            <p>Total de Matches: <strong>{{ totalMatches }}</strong></p>
+            <p>Aceptados: <strong>{{ porcentajeAceptados }}%</strong></p>
+            <p>Pendientes: <strong>{{ porcentajePendientes }}%</strong></p>
+            <p>Rechazados: <strong>{{ porcentajeRechazados }}%</strong></p>
+        </div>
+    </div>
+</div>

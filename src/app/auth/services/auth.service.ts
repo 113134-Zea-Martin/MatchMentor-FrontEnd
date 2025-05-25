@@ -113,4 +113,29 @@ export class AuthService {
     return !!token; // Devuelve true si el token existe, false en caso contrario
   }
 
+  
+
+  // private hasnewNotifications = new BehaviorSubject<boolean>(false);
+  // public hasNewNotifications$ = this.hasnewNotifications.asObservable();
+
+  
+  // private readonly notificationUrl = `${environment.apiUrl}/notifications`;
+
+  //   // Check for unread notifications
+  // hasUnreadNotifications(userId: number): Observable<boolean> {
+  //   return new Observable(observer => {
+  //   this.http.get<boolean>(`${this.notificationUrl}/${userId}/unread`)
+  //   .subscribe({
+  //     next: (response) => {
+  //       this.hasnewNotifications.next(response);
+  //       observer.next(response);
+  //       observer.complete();
+  //     },
+  //     error: (error) => {
+  //       console.error('Error checking unread notifications:', error);
+  //     }
+  //   });
+  // });
+  // }
+
 }

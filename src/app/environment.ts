@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    originalUrl: 'http://localhost:8080', // URL base de tu backend en desarrollo
+    originalUrl: 'http://localhost:8080/', // URL base de tu backend en desarrollo
     // apiUrl: 'http://localhost:8080/api' // URL base de tu backend en desarrollo
     apiUrl: 'http://localhost:8080/api', // URL base de tu backend en desarrollo
   };

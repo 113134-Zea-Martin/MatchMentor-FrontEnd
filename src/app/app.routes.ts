@@ -14,6 +14,9 @@ import { ChatComponent } from './match/pages/chat/chat.component';
 import { MeetingHistoryListComponent } from './meet/pages/meeting-history-list/meeting-history-list.component';
 import { PaymentHistoryComponent } from './meet/pages/payment-history/payment-history.component';
 import { NotificationBellComponent } from './navbar/notification-bell/notification-bell.component';
+import { RegisteredUsersReportComponent } from './admin/reports/pages/registered-users/registered-users.component';
+import { MatchesComponent } from './admin/reports/pages/matches/matches.component';
+import { PaymentsComponent } from './admin/reports/pages/payments/payments.component';
 
 export const routes: Routes = [
   {
@@ -27,10 +30,10 @@ export const routes: Routes = [
   },
   { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   {
-    path: 'home', component: HomeComponent
+    path: 'home', component: HomeComponent //El usuario puede ver su perfil y los matches confirmados. (Ambos deberán acceder a esta ruta)
   },
   {
-    path: 'edit-profile', component: EditProfileComponent
+    path: 'edit-profile', component: EditProfileComponent//El usuario puede editar su perfil. (Ambos deberán acceder a esta ruta)
   },
   {
     path: 'explore/tutors', component: TutorCardComponent //El estudiante puede ver los tutores disponibles con intereses
@@ -63,5 +66,18 @@ export const routes: Routes = [
   },
   {
     path: 'notifications', component: NotificationBellComponent //El tutor o estudiante puede ver las notificaciones
+  },
+  {
+    path: 'registered-users', component: RegisteredUsersReportComponent //El Administrador puede ver el reporte de usuarios registrados
+    // en la plataforma. (Solo deberá acceder el administrador a esta ruta)
+  },
+  {
+    path: 'matches-report', component: MatchesComponent //El Administrador puede ver el reporte de matches realizados
+    // en la plataforma. (Solo deberá acceder el administrador a esta ruta)'
+  },
+  {
+    path: 'payments', component: PaymentsComponent //El Administrador puede ver el reporte de pagos realizados
+    // en la plataforma. (Solo deberá acceder el administrador a esta ruta)
   }
+
 ];

@@ -14,6 +14,15 @@ import { NotificationBellComponent } from "../notification-bell/notification-bel
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  showPayments() {
+    this.router.navigate(['/payments']);
+  }
+  showRegisteredUsers() {
+    this.router.navigate(['/registered-users']);
+  }
+  showMatchesReport() {
+    this.router.navigate(['/matches-report']);
+  }
 
   isNotificationBoxOpen: boolean = false;
 
@@ -66,7 +75,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   isMentor: boolean = false;
-  hasNewNotifications: boolean = true;
+  hasNewNotifications: boolean = false;
   hasUnreadMessages: boolean = false;
   token: string | null = null;
 
@@ -133,6 +142,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       this.userId = userId;
       console.log('userId:', this.userId);
     });
+
 
     this.suscriptions.push(sus);
     this.suscriptions.push(sus2);
