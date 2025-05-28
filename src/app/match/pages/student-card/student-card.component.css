@@ -1,0 +1,136 @@
+/* Animación general al mostrar el contenedor */
+.container {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tarjeta del perfil */
+.card {
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(110, 72, 170, 0.15);
+  border: none;
+  overflow: hidden;
+}
+
+/* Encabezado del nombre */
+.text-center h2 {
+  color: #6e48aa;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  position: relative;
+  display: inline-block;
+}
+
+.text-center h2::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #6e48aa, #9d50bb);
+  border-radius: 3px;
+}
+
+/* Texto descriptivo debajo del nombre */
+.text-muted {
+  color: #6c757d !important;
+  font-size: 1.1rem;
+}
+
+/* Secciones principales */
+h5 {
+  color: #6e48aa !important;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+h5::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #6e48aa, #9d50bb);
+  border-radius: 3px;
+}
+
+.border-bottom {
+  border-color: rgba(110, 72, 170, 0.2) !important;
+}
+
+/* Listado de datos */
+.list-unstyled li {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.text-muted i {
+  width: 24px;
+  text-align: center;
+  color: #6e48aa;
+}
+
+.fw-bold {
+  color: #343a40;
+  font-weight: 600 !important;
+}
+
+/* Estilo para badges/intereses */
+.badge {
+  background: linear-gradient(135deg, #6e48aa, #9d50bb);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  box-shadow: 0 2px 5px rgba(110, 72, 170, 0.2);
+  transition: all 0.3s ease;
+}
+
+.badge:hover {
+  animation: float 1.5s ease-in-out infinite;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(110, 72, 170, 0.3);
+}
+
+/* Biografía y contenido resaltado */
+.bg-light {
+  background-color: rgba(110, 72, 170, 0.05) !important;
+  border-left: 4px solid #6e48aa;
+  border-radius: 8px !important;
+  padding: 1rem;
+}
+
+/* Íconos animados */
+i[class^="bi-"] {
+  transition: all 0.3s ease;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .card-body {
+    padding: 2rem !important;
+  }
+  
+  .row > div {
+    margin-bottom: 1.5rem;
+  }
+
+  h5 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Animación de badges */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}

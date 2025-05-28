@@ -1,0 +1,160 @@
+/* meeting-accept-modal.component.css */
+
+/* Estilo base del modal */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado del modal */
+.modal-header {
+  background: linear-gradient(135deg, #6e48aa, #9d50bb);
+  color: white;
+  border-bottom: none;
+  padding: 1.5rem;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-body p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Lista de detalles de la reunión */
+.list-group {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.list-group-item {
+  padding: 1rem 1.5rem;
+  border-color: rgba(110, 72, 170, 0.1);
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.list-group-item:nth-child(odd) {
+  background-color: rgba(110, 72, 170, 0.03);
+}
+
+.list-group-item:hover {
+  background-color: rgba(110, 72, 170, 0.05);
+  transform: translateX(5px);
+}
+
+.list-group-item strong {
+  color: #6e48aa;
+  font-weight: 600;
+}
+
+/* Pie del modal */
+.modal-footer {
+  border-top: none;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Botones */
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+/* Destacar el precio */
+.list-group-item:has(> strong:contains("Precio")) {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+  font-weight: 600;
+}
+
+.list-group-item:has(> strong:contains("Precio")) strong {
+  color: #28a745;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .list-group-item {
+    padding: 0.75rem 1rem;
+    flex-direction: column;
+  }
+  
+  .list-group-item strong {
+    margin-bottom: 0.25rem;
+  }
+}
+
+/* Animación para el botón de aceptar */
+@keyframes pulseSuccess {
+  0%, 100% { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3); }
+  50% { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4); }
+}
+
+.btn-success:hover {
+  animation: pulseSuccess 1.5s ease-in-out infinite;
+}

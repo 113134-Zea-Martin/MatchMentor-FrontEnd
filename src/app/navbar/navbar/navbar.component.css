@@ -1,0 +1,128 @@
+/* En tu archivo de estilos del componente (ej: navbar.component.css) */
+.navbar {
+  background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-brand {
+  font-weight: 800;
+  font-size: 1.8rem;
+  color: #fff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #ff8a00, #e52e71);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+.nav-link {
+  color: #fff !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  margin: 0 0.2rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: translateY(-2px);
+}
+
+.nav-link i {
+  margin-right: 0.3rem;
+}
+
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.25) !important;
+  font-weight: 600;
+}
+
+.nav-link:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: #fff;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover:before {
+  width: 70%;
+}
+
+.notification-container .nav-link {
+  background: none !important;
+}
+
+.notification-container .bi-bell {
+  transition: all 0.3s ease;
+}
+
+.notification-container .bi-bell:hover {
+  transform: scale(1.2);
+}
+
+.notification-container .text-danger {
+  color: #ff4757 !important;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3e%3cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+}
+
+/* Efecto especial para el botón de logout */
+.nav-link:has(.bi-box-arrow-right) {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important;
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem !important;
+}
+
+.nav-link:has(.bi-box-arrow-right):hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 8px rgba(255, 75, 43, 0.4);
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-link {
+    margin: 0.3rem 0;
+  }
+  
+  .nav-link:has(.bi-box-arrow-right) {
+    margin-top: 0.5rem;
+  }
+}

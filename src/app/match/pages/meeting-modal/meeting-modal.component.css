@@ -1,0 +1,123 @@
+/* Estilo base del modal */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Encabezado del modal */
+.modal-header {
+  background: linear-gradient(135deg, #6e48aa, #9d50bb);
+  color: white;
+  border-bottom: none;
+  padding: 1.5rem;
+}
+
+.modal-title {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+/* Cuerpo del modal */
+.modal-body {
+  padding: 2rem;
+}
+
+.modal-body .form-label {
+  font-weight: 600;
+  color: #6e48aa;
+  margin-bottom: 0.5rem;
+}
+
+.modal-body .form-control {
+  border-radius: 8px;
+  border: 1px solid #d6d6e0;
+  padding: 0.6rem 0.9rem;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.modal-body .form-control:focus {
+  border-color: #9d50bb;
+  box-shadow: 0 0 0 0.2rem rgba(157, 80, 187, 0.25);
+}
+
+.modal-body textarea.form-control {
+  resize: vertical;
+}
+
+/* Pie del modal */
+.modal-footer {
+  border-top: none;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Botones */
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6e48aa, #9d50bb);
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(157, 80, 187, 0.3);
+  color: white;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(157, 80, 187, 0.4);
+}
+
+/* Input inválido */
+.form-control.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal-dialog {
+    margin: 1rem;
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+}

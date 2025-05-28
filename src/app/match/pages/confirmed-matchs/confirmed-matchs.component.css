@@ -1,0 +1,111 @@
+/* Contenedor principal */
+.container {
+  max-width: 960px;
+}
+
+/* Card general */
+.card {
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Título */
+.card-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #6e48aa;
+}
+
+/* Ítems de la lista */
+.list-group-item {
+  border: none;
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid rgba(110, 72, 170, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.list-group-item:hover {
+  background-color: rgba(110, 72, 170, 0.05);
+}
+
+/* Nombre de usuario */
+h6.fw-bold {
+  font-size: 1.1rem;
+  color: #343a40;
+}
+
+/* Descripción */
+.text-muted {
+  font-size: 0.95rem;
+}
+
+/* Badges de intereses */
+.badge.bg-secondary {
+  background-color: #6e48aa !important;
+  font-weight: 500;
+  font-size: 0.75rem;
+  border-radius: 12px;
+  padding: 0.4rem 0.6rem;
+}
+
+/* Badge de mensajes no leídos */
+.badge.bg-primary {
+  background-color: #007bff;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 12px;
+}
+
+/* Badge de rol */
+.badge.bg-info {
+  background-color: #d0ecff !important;
+  color: #084298 !important;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 10px;
+}
+
+/* Botón de chatear */
+.btn-outline-primary {
+  border-color: #6e48aa;
+  color: #6e48aa;
+  font-weight: 500;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #6e48aa;
+  color: #fff;
+}
+
+/* Íconos */
+.bi {
+  vertical-align: middle;
+  font-size: 1rem;
+}
+
+/* Mensaje sin conexiones */
+.list-group-item.text-center {
+  background-color: #f8f9fa;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .list-group-item {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .btn {
+    margin-top: 0.75rem;
+    align-self: flex-end;
+  }
+}

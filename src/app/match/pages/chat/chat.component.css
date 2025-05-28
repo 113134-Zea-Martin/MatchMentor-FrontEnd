@@ -1,0 +1,125 @@
+/* Contenedor principal */
+.card.chat-container {
+  background: linear-gradient(135deg, #f9f9f9, #ffffff);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* Cabecera del chat */
+.card-header.bg-primary {
+  background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%) !important;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header h6 {
+  font-size: 1.1rem;
+}
+
+/* Botón agendar reunión */
+.card-header .btn-light {
+  background-color: #fff !important;
+  border: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.card-header .btn-light:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.05);
+}
+
+/* Mensaje de advertencia */
+.alert-warning {
+  background-color: #fff3cd;
+  border-left: 5px solid #ffc107;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Cuerpo del chat */
+.card-body {
+  background: #f7f8fa;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.card-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-body::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
+/* Burbuja de mensaje */
+.bg-primary.text-white {
+  background: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%) !important;
+  color: #fff;
+  border-radius: 1rem 1rem 0 1rem;
+}
+
+.bg-light.border {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 1rem 1rem 1rem 0;
+}
+
+/* Nombre y hora */
+.fw-bold {
+  font-size: 0.75rem;
+}
+
+.text-muted {
+  font-size: 0.7rem;
+}
+
+/* Entrada del mensaje */
+.card-footer {
+  background-color: #f1f1f1;
+  border-top: 1px solid #e0e0e0;
+}
+
+input.form-control-sm {
+  border-radius: 0.5rem;
+}
+
+button.btn-primary {
+  background: linear-gradient(135deg, #ff8a00, #e52e71);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+button.btn-primary:hover {
+  background: linear-gradient(135deg, #e52e71, #ff8a00);
+  transform: scale(1.05);
+}
+
+/* Botón "Ver historial completo" */
+.btn-outline-secondary.btn-sm {
+  border-color: #9d50bb;
+  color: #6e48aa;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-secondary.btn-sm:hover {
+  background: #6e48aa;
+  color: #fff;
+  border-color: #6e48aa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card.chat-container {
+    max-height: 85vh;
+    border-radius: 0.5rem;
+  }
+
+  .card-body {
+    padding: 1rem 0.5rem;
+  }
+
+  .card-header, .card-footer {
+    padding: 0.75rem;
+  }
+}

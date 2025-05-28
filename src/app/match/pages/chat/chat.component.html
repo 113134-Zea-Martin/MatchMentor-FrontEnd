@@ -28,7 +28,7 @@
         </div>
 
         <!-- Cuerpo del chat -->
-        <div class="card-body p-3 overflow-auto" style="flex-grow: 1;" #chatContainer>
+        <div class="card-body p-3 overflow-auto" style="flex-grow: 1;min-height: 40vh;" #chatContainer>
 
           <div *ngIf="!showingFullHistory && allMessages.length > 15" class="text-center mb-3">
             <button class="btn btn-outline-secondary btn-sm" (click)="loadAllHistory()">

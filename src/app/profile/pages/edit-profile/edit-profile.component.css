@@ -1,0 +1,316 @@
+/* edit-profile.component.css */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h3 {
+  color: #6e48aa;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+h3::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right, #6e48aa, #9d50bb);
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+}
+
+h5 {
+  color: #6e48aa;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(110, 72, 170, 0.1);
+}
+
+.form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #9d50bb;
+  box-shadow: 0 0 0 0.25rem rgba(157, 80, 187, 0.25);
+}
+
+.form-control[readonly] {
+  background-color: #f8f9fa;
+  opacity: 1;
+}
+
+textarea.form-control {
+  min-height: 100px;
+}
+
+/* Intereses */
+.badge.bg-primary {
+  background: linear-gradient(135deg, #6e48aa, #9d50bb) !important;
+  padding: 0.5rem 0.8rem;
+  border-radius: 50px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.border.rounded {
+  border: 1px solid #e9ecef !important;
+  background-color: #f8f9fa;
+}
+
+/* .form-check {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+} */
+
+.form-check:hover {
+  background-color: rgba(110, 72, 170, 0.05);
+}
+
+.form-check-input {
+  width: 1.2em;
+  height: 1.2em;
+  margin-top: 0.2em;
+  border: 2px solid #adb5bd;
+}
+
+.form-check-input:checked {
+  background-color: #6e48aa;
+  border-color: #6e48aa;
+}
+
+/* Botones */
+.btn-primary {
+  background: linear-gradient(135deg, #6e48aa, #9d50bb);
+  border: none;
+  padding: 0.75rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(110, 72, 170, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(110, 72, 170, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #adb5bd;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border: none;
+  white-space: nowrap;
+}
+
+/* Switch personalizado */
+.form-switch .form-check-input {
+  width: 2.5em;
+  height: 1.5em;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23adb5bd'/%3e%3c/svg%3e");
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #6e48aa;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+/* Mensajes de error */
+.text-danger {
+  color: #ff4757 !important;
+  font-size: 0.85rem;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+/* Modal */
+.modal-content {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #ffffff, #9d50bb);
+  color: white;
+  border-bottom: none;
+}
+
+.modal-title {
+  font-weight: 700;
+}
+
+.btn-close {
+  filter: brightness(0) invert(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .row > div {
+    margin-bottom: 1rem;
+  }
+  
+  .row > div:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Scrollbar para intereses (coherente con notificaciones) */
+.border.rounded::-webkit-scrollbar {
+  width: 6px;
+}
+
+.border.rounded::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.border.rounded::-webkit-scrollbar-thumb {
+  background: linear-gradient(#6e48aa, #9d50bb);
+  border-radius: 3px;
+}
+
+/* Correcciones específicas para los checkboxes y caja de intereses */
+.form-check {
+  padding-left: 2.5em; /* Más espacio para el checkbox */
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  min-height: 1.5em;
+}
+
+.form-check-input {
+  margin-top: 0;
+  margin-left: -2em; /* Alineación correcta */
+  width: 1.5em;
+  height: 1.5em;
+  border: 2px solid #6e48aa;
+}
+
+.form-check-label {
+  margin-left: 0.5rem;
+  cursor: pointer;
+}
+
+/* Contenedor de intereses */
+.interests-container {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+.interests-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.interests-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+/* Estilo para los checkboxes de perfil visible y cuenta activa */
+.switch-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.form-switch {
+  padding-left: 3.5em;
+}
+
+.form-switch .form-check-input {
+  width: 3em;
+  margin-left: -3.5em;
+  background-color: #e9ecef;
+}
+
+.form-switch .form-check-input:checked {
+  background-color: #6e48aa;
+}
+
+/* Estilo para la sección de tarifa */
+.rate-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.rate-input {
+  flex: 1;
+}
+
+/* Ajustes para la tabla de información profesional */
+.professional-info-table {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  border-collapse: separate;
+  border-spacing: 0 1rem;
+}
+
+.professional-info-table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.professional-info-table tr td:first-child {
+  font-weight: 600;
+  color: #495057;
+  width: 40%;
+}

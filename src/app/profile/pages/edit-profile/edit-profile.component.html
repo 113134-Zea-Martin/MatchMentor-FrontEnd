@@ -167,36 +167,39 @@
       </div>
     </div>
 
-<div class="row mb-3">
-  <!-- Años de experiencia -->
-  <div class="col-md-6">
-    <label for="yearsOfExperience" class="form-label">Años de Experiencia:</label>
-    <input id="yearsOfExperience" formControlName="yearsOfExperience" type="number" class="form-control text-end" />
-    <div *ngIf="editProfileForm.get('yearsOfExperience')?.touched && editProfileForm.get('yearsOfExperience')?.invalid"
-      class="text-danger mt-1">
-      <div *ngIf="editProfileForm.get('yearsOfExperience')?.errors?.['min']">No puede ser negativo.</div>
-      <div *ngIf="editProfileForm.get('yearsOfExperience')?.errors?.['max']">Máximo 30 años.</div>
-    </div>
-  </div>
-
-  <!-- Tarifa por hora -->
-  <div class="col-md-6">
-    <label class="form-label">Tarifa por Hora y Vinculación:</label>
-    <div class="d-flex align-items-end">
-      <div class="flex-grow-1">
-        <input id="hourlyRate" formControlName="hourlyRate" type="number" class="form-control text-end" />
-        <div *ngIf="editProfileForm.get('hourlyRate')?.touched && editProfileForm.get('hourlyRate')?.invalid"
+    <div class="row mb-3">
+      <!-- Años de experiencia -->
+      <div class="col-md-6">
+        <label for="yearsOfExperience" class="form-label">Años de Experiencia:</label>
+        <input id="yearsOfExperience" formControlName="yearsOfExperience" type="number" class="form-control text-end" />
+        <div
+          *ngIf="editProfileForm.get('yearsOfExperience')?.touched && editProfileForm.get('yearsOfExperience')?.invalid"
           class="text-danger mt-1">
-          <div *ngIf="editProfileForm.get('hourlyRate')?.errors?.['required']">La tarifa es obligatoria.</div>
-          <div *ngIf="editProfileForm.get('hourlyRate')?.errors?.['min']">Debe ser un valor positivo.</div>
+          <div *ngIf="editProfileForm.get('yearsOfExperience')?.errors?.['min']">No puede ser negativo.</div>
+          <div *ngIf="editProfileForm.get('yearsOfExperience')?.errors?.['max']">Máximo 30 años.</div>
         </div>
       </div>
-      <button type="button" class="btn btn-success ms-2" (click)="loadLinkMercadoPago()">
-        Vincular Mercado Pago
-      </button>
+
+      <!-- Tarifa por hora -->
+      <div class="col-md-6">
+        <label class="form-label">Tarifa por Hora y Vinculación:</label>
+        <!-- <div class="d-flex align-items-end">
+          <div class="flex-grow-1"> -->
+        <div class="rate-container">
+          <div class="rate-input">
+            <input id="hourlyRate" formControlName="hourlyRate" type="number" class="form-control text-end" />
+            <div *ngIf="editProfileForm.get('hourlyRate')?.touched && editProfileForm.get('hourlyRate')?.invalid"
+              class="text-danger mt-1">
+              <div *ngIf="editProfileForm.get('hourlyRate')?.errors?.['required']">La tarifa es obligatoria.</div>
+              <div *ngIf="editProfileForm.get('hourlyRate')?.errors?.['min']">Debe ser un valor positivo.</div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-success ms-2" (click)="loadLinkMercadoPago()">
+            Vincular Mercado Pago
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
 
     <div class="mb-3">
@@ -204,16 +207,20 @@
       <textarea id="professionalBio" formControlName="professionalBio" rows="3" class="form-control"></textarea>
     </div>
 
-    <div class="form-check form-switch mb-3">
-      <input id="isVisible" formControlName="isVisible" type="checkbox" class="form-check-input" />
-      <label for="isVisible" class="form-check-label">Perfil Visible para Estudiantes</label>
+    <div class="switch-container">
+      <div class="form-check form-switch">
+        <input id="isVisible" formControlName="isVisible" type="checkbox" class="form-check-input">
+        <label for="isVisible" class="form-check-label">Perfil Visible para Estudiantes</label>
+      </div>
     </div>
   </div>
 
   <!-- Activo -->
-  <div class="form-check form-switch mb-4">
-    <input id="isActive" formControlName="isActive" type="checkbox" class="form-check-input" />
-    <label for="isActive" class="form-check-label">Cuenta Activa</label>
+  <div class="switch-container">
+    <div class="form-check form-switch">
+      <input id="isActive" formControlName="isActive" type="checkbox" class="form-check-input">
+      <label for="isActive" class="form-check-label">Cuenta Activa</label>
+    </div>
   </div>
 
   <!-- Botón Guardar -->

@@ -11,11 +11,11 @@ import { environment } from '../../environment';
 })
 export class AuthService {
 
-    // Add BehaviorSubject for user role and authentication status
+  // Add BehaviorSubject for user role and authentication status
   private currentUserRole = new BehaviorSubject<string | null>(null);
   private isLoggedIn = new BehaviorSubject<boolean>(false);
   private userId = new BehaviorSubject<number | null>(null);
-  
+
   // Expose as observables for components to subscribe
   public userRole$ = this.currentUserRole.asObservable();
   public loggedIn$ = this.isLoggedIn.asObservable();
@@ -27,7 +27,7 @@ export class AuthService {
   // http://localhost:8080/api/auth/register/user
   private readonly REGISTER_URL = `${this.API_URL}register/user`;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     // Initialize state from localStorage
     this.checkAuthState();
   }
@@ -40,7 +40,7 @@ export class AuthService {
   private checkAuthState(): void {
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('userRole');
-    
+
     if (token) {
       this.isLoggedIn.next(true);
       if (role) {
@@ -63,27 +63,34 @@ export class AuthService {
         .subscribe({
           next: (response) => {
             // Store token and role information
-            localStorage.setItem('token', response.data.token);
-            if (response.data.role) {
-              localStorage.setItem('userRole', response.data.role);
-              this.currentUserRole.next(response.data.role);
-              this.userId.next(response.data.id);
+            if (response.success) {
+              localStorage.setItem('idProfile', response.data.id.toString());
+              if (response.data.role) {
+                localStorage.setItem('userRole', response.data.role);
+                this.currentUserRole.next(response.data.role);
+                this.userId.next(response.data.id);
+              }
+              this.isLoggedIn.next(true);
+              observer.next(response);
+              observer.complete();
+            } else {
+              // Aunque no es un error HTTP, la API puede devolver success = false
+              observer.next(response);
+              observer.complete();
             }
-            this.isLoggedIn.next(true);
-            observer.next(response);
-            observer.complete();
           },
           error: (error) => {
             observer.error(error);
+            observer.complete();
           }
         });
     });
   }
 
   updateUserRole(role: string): void {
-  localStorage.setItem('userRole', role);
-  this.currentUserRole.next(role);
-}
+    localStorage.setItem('userRole', role);
+    this.currentUserRole.next(role);
+  }
 
   // Método para solicitar el restablecimiento de contraseña
   requestPasswordReset(email: string): Observable<ForgotPasswordResponse> {
@@ -113,12 +120,12 @@ export class AuthService {
     return !!token; // Devuelve true si el token existe, false en caso contrario
   }
 
-  
+
 
   // private hasnewNotifications = new BehaviorSubject<boolean>(false);
   // public hasNewNotifications$ = this.hasnewNotifications.asObservable();
 
-  
+
   // private readonly notificationUrl = `${environment.apiUrl}/notifications`;
 
   //   // Check for unread notifications
