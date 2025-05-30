@@ -27,6 +27,8 @@ export class AdminReportService {
     return this.http.get<RegisteredUsersReport>(`${this.API_URL}/users`, { params });
   }
 
+  // Métodos para obtener el reporte de matches
+
   getMatchesReport(startDate: string, endDate: string, token: string): Observable<MatchesReport> {
     const params = new HttpParams()
       .set('startDate', startDate)
@@ -34,6 +36,41 @@ export class AdminReportService {
 
     return this.http.get<any>(`${this.API_URL}/matches`, { params, headers: { Authorization: `Bearer ${token}` } });
   }
+
+  getTopTutors(startDate: string, endDate: string, token: string): Observable<TopStudents> {
+    const params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+
+    return this.http.get<TopStudents>(`${this.API_URL}/top-tutors`, { params, headers: { Authorization: `Bearer ${token}` } });
+  }
+
+  getTopInterests(startDate: string, endDate: string, token: string): Observable<TopStudents> {
+    const params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate);
+
+    return this.http.get<TopStudents>(`${this.API_URL}/top-interests`, { params, headers: { Authorization: `Bearer ${token}` } });
+  }
+
+  // Método para obtener el reporte consolidado de matches
+  getConsolidatedMatchesReport(startDate: string, endDate: string, token: string): Observable<any> {
+    return forkJoin({
+      topTutors: this.getTopTutors(startDate, endDate, token),
+      topInterests: this.getTopInterests(startDate, endDate, token),
+      matchesReport: this.getMatchesReport(startDate, endDate, token)
+    }).pipe(
+      map(results => {
+        return {
+          topTutors: results.topTutors,
+          topInterests: results.topInterests,
+          matchesReport: results.matchesReport
+        };
+      })
+    );
+  }
+
+  // Métodos para el reporte de pagos consolidados
 
   getTopStudents(startDate: string, endDate: string, token: string): Observable<TopStudents> {
     let params = new HttpParams().set('startDate', startDate).set('endDate', endDate);

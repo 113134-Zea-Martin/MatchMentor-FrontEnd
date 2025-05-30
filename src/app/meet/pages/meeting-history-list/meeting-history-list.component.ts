@@ -113,6 +113,7 @@ export class MeetingHistoryListComponent implements OnInit, OnDestroy {
           this.originalMeetingHistory = [...response.data];
           this.sortMeetingHistory();
           this.filteredMeetings = [...this.meetingHistory];
+          this.autoRejectExpiredMeetings();
         } else {
           console.error('Error fetching meeting history:', response.message);
         }
@@ -122,6 +123,21 @@ export class MeetingHistoryListComponent implements OnInit, OnDestroy {
       }
     });
     this.subscriptions.push(sus);
+  }
+
+  autoRejectExpiredMeetings(): void {
+    const currentDate = new Date();
+    console.log('Current date:', currentDate);
+    for (const meeting of this.meetingHistory) {
+      const meetingDate = new Date(meeting.date);
+      console.log('Meeting date:', meetingDate);
+      // Verificar si la reunión es del pasado y está pendiente
+      if (meetingDate < currentDate && meeting.status === 'PROPOSED') {
+        console.log('Reunión vencida encontrada:', meeting);
+        // // Rechazar automáticamente la reunión
+        this.updateMeeting(meeting.id, false);
+      }
+    }
   }
 
   sortMeetingHistory(): void {
@@ -153,43 +169,43 @@ export class MeetingHistoryListComponent implements OnInit, OnDestroy {
   sortField: string = 'date';
   sortDirection: 'asc' | 'desc' = 'asc';
 
-sortBy(field: string) {
-  // Si ya estamos ordenando por este campo, invertimos la dirección
-  if (this.sortField === field) {
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-  } else {
-    this.sortField = field;
-    this.sortDirection = 'asc'; // Por defecto ascendente al cambiar de campo
-  }
-
-  // Ordenar meetings dependiendo del tipo de campo
-  this.filteredMeetings.sort((a, b) => {
-    let valueA, valueB;
-
-    // Manejo especial para fechas
-    if (field === 'date') {
-      valueA = new Date(a.date);
-      valueB = new Date(b.date);
+  sortBy(field: string) {
+    // Si ya estamos ordenando por este campo, invertimos la dirección
+    if (this.sortField === field) {
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      valueA = (a as any)[field];
-      valueB = (b as any)[field];
-
-      // Para campos de texto, usar minúsculas para ordenar
-      if (typeof valueA === 'string' && typeof valueB === 'string') {
-        valueA = valueA.toLowerCase();
-        valueB = valueB.toLowerCase();
-      }
+      this.sortField = field;
+      this.sortDirection = 'asc'; // Por defecto ascendente al cambiar de campo
     }
 
-    // Lógica de comparación y dirección
-    if (valueA < valueB) return this.sortDirection === 'asc' ? -1 : 1;
-    if (valueA > valueB) return this.sortDirection === 'asc' ? 1 : -1;
-    return 0;
-  });
+    // Ordenar meetings dependiendo del tipo de campo
+    this.filteredMeetings.sort((a, b) => {
+      let valueA, valueB;
 
-  // Actualizar la paginación
-  this.page = 1;
-}
+      // Manejo especial para fechas
+      if (field === 'date') {
+        valueA = new Date(a.date);
+        valueB = new Date(b.date);
+      } else {
+        valueA = (a as any)[field];
+        valueB = (b as any)[field];
+
+        // Para campos de texto, usar minúsculas para ordenar
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          valueA = valueA.toLowerCase();
+          valueB = valueB.toLowerCase();
+        }
+      }
+
+      // Lógica de comparación y dirección
+      if (valueA < valueB) return this.sortDirection === 'asc' ? -1 : 1;
+      if (valueA > valueB) return this.sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    // Actualizar la paginación
+    this.page = 1;
+  }
 
 
   originalMeetingHistory: MeetingHistoryResponseDtoData[] = [];

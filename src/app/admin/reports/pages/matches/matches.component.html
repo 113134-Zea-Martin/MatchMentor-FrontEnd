@@ -1,5 +1,5 @@
-<div class="matches-report-container">
-    <h2 class="report-title">Reporte de Matches</h2>
+<!-- <div class="matches-report-container">
+    <h2 class="report-title">Reporte de Matchs</h2>
 
     <div class="filters-panel">
         <div class="filter-group">
@@ -23,12 +23,173 @@
             </div>
         </div>
 
-        <div class="kpi-summary-card">
-            <h3>Resumen de Matches</h3>
-            <p>Total de Matches: <strong>{{ totalMatches }}</strong></p>
-            <p>Aceptados: <strong>{{ porcentajeAceptados }}%</strong></p>
-            <p>Pendientes: <strong>{{ porcentajePendientes }}%</strong></p>
-            <p>Rechazados: <strong>{{ porcentajeRechazados }}%</strong></p>
+
+        <div class="report-side-panel">
+            <div class="kpi-summary-card">
+                <h3>Resumen de Matchs</h3>
+                <p>Total de Matches: <strong>{{ totalMatches }}</strong></p>
+                <p>Aceptados: <strong>{{ porcentajeAceptados }}%</strong></p>
+                <p>Pendientes: <strong>{{ porcentajePendientes }}%</strong></p>
+                <p>Rechazados: <strong>{{ porcentajeRechazados }}%</strong></p>
+            </div>
+
+
+            <div class="top-students-section">
+                <h3>Top Tutores</h3>
+                <div class="table-responsive">
+                    <table class="top-students-table">
+                        <thead>
+                            <tr>
+                                <th>Tutor</th>
+                                <th>Matchs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="topTutors && (topTutors | keyvalue).length > 0; else noTopStudents">
+                                <tr *ngFor="let studentName of topTutors | keyvalue">
+                                    <td>{{ studentName.key }}</td>
+                                    <td class="text-end">{{ studentName.value}} </td>
+                                </tr>
+                            </ng-container>
+                            <ng-template #noTopStudents>
+                                <tr>
+                                    <td colspan="2" class="no-data-message">No hay datos de Tutores para el rango
+                                        seleccionado.</td>
+                                </tr>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="top-interests-section">
+                <h3>Top Intereses</h3>
+                <div class="table-responsive">
+                    <table class="top-students-table">
+                        <thead>
+                            <tr>
+                                <th>Interés</th>
+                                <th>Matchs</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container
+                                *ngIf="topInterests && (topInterests | keyvalue).length > 0; else noInterests">
+                                <tr *ngFor="let studentName of topInterests | keyvalue">
+                                    <td>{{ studentName.key }}</td>
+                                    <td class="text-end">{{ studentName.value}} </td>
+                                </tr>
+                            </ng-container>
+                            <ng-template #noInterests>
+                                <tr>
+                                    <td colspan="2" class="no-data-message">No hay datos de Intereses para el rango
+                                        seleccionado.</td>
+                                </tr>
+                            </ng-template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div> -->
+
+
+
+
+<div class="report-container">
+    <h2 class="report-title">Reporte de Matchs</h2>
+
+    <div class="report-filters">
+        <!-- Filtros de fecha y botones -->
+        <div class="filters-panel">
+            <div class="filter-group">
+                <label for="startDateMatches">Fecha Inicio:</label>
+                <input type="date" id="startDateMatches" [(ngModel)]="startDateMatches">
+            </div>
+            <div class="filter-group">
+                <label for="endDateMatches">Fecha Fin:</label>
+                <input type="date" id="endDateMatches" [(ngModel)]="endDateMatches">
+            </div>
+            <div class="filter-actions">
+                <button class="btn btn-primary" (click)="loadMatchesReport()">Aplicar Filtros</button>
+                <button class="btn btn-secondary" (click)="clearMatchesFilters()">Limpiar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="report-content">
+        <!-- Gráfico a la izquierda -->
+        <div class="chart-section">
+            <div class="chart-container">
+                <canvas id="matchesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Panel derecho con 3 tarjetas -->
+        <div class="report-side-panel">
+            <div class="kpi-summary-card">
+                <h3>Resumen de Matchs</h3>
+                <p>Total: <strong>{{ totalMatches }}</strong></p>
+                <p>Aceptados: <strong>{{ porcentajeAceptados }}%</strong></p>
+                <p>Pendientes: <strong>{{ porcentajePendientes }}%</strong></p>
+                <p>Rechazados: <strong>{{ porcentajeRechazados }}%</strong></p>
+            </div>
+
+            <div class="top-students-section">
+                <h3>Top Tutores</h3>
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Tutor</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <ng-container *ngIf="topTutors && (topTutors | keyvalue).length > 0; else noTopTutorsArray">
+                            <tr *ngFor="let tutor of topTutorsArray">
+                                <td>{{ tutor.key }}</td>
+                                <td>{{ tutor.value }}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-template #noTopTutorsArray>
+                            <tr>
+                                <td colspan="2">No hay datos para el rango seleccionado.</td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="top-interests-section">
+                <h3>Top Intereses</h3>
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Interés</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="topInterests['length'] === 0">
+                            <td colspan="2">No hay datos para el rango seleccionado.</td>
+                        </tr>
+                        <ng-container
+                            *ngIf="topInterests && (topInterests | keyvalue).length > 0; else noTopInterestsArray">
+                            <tr *ngFor="let interes of topInterestsArray">
+                                <td>{{ interes.key }}</td>
+                                <td>{{ interes.value }}</td>
+                            </tr>
+                        </ng-container>
+                        <ng-template #noTopInterestsArray>
+                            <tr>
+                                <td colspan="2">No hay datos para el rango seleccionado.</td>
+                            </tr>
+                        </ng-template>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

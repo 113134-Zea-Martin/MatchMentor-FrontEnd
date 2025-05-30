@@ -7,6 +7,7 @@ export interface MeetingHistoryResponseDto {
 }
 
 export interface MeetingHistoryResponseDtoData {
+    id: number;
     date: Date;
     time: string;
     duration: number;

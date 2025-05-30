@@ -3,6 +3,8 @@ import { Chart } from 'chart.js';
 import { AdminReportService } from '../../admin-report.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { TopStudents } from '../../models/consolidated-payment-report';
+import { SortByKeyPipe } from "../../sort-by-key.pipe";
 
 @Component({
   selector: 'app-matches',
@@ -13,11 +15,11 @@ import { CommonModule } from '@angular/common';
 })
 export class MatchesComponent implements OnInit {
 
-clearMatchesFilters() {
+  clearMatchesFilters() {
     this.startDateMatches = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
     this.endDateMatches = new Date().toISOString().split('T')[0];
     this.loadMatchesReport();
-}
+  }
 
   constructor(private adminReportService: AdminReportService) { }
 
@@ -47,15 +49,13 @@ clearMatchesFilters() {
       return;
     }
 
-    // Destruí el gráfico anterior si ya existía
     if (this.matchesChart) {
       this.matchesChart.destroy();
     }
 
-    // Llamada al servicio que obtiene los datos de matches
-    this.adminReportService.getMatchesReport(this.startDateMatches, this.endDateMatches, this.token).subscribe({
+    this.adminReportService.getConsolidatedMatchesReport(this.startDateMatches, this.endDateMatches, this.token).subscribe({
       next: (data) => {
-        const { matchesAceptados, matchesPendientes, matchesRechazados, matchesTotales } = data;
+        const { matchesAceptados, matchesPendientes, matchesRechazados, matchesTotales } = data.matchesReport;
         this.totalMatches = matchesTotales;
 
         if (matchesTotales > 0) {
@@ -68,9 +68,7 @@ clearMatchesFilters() {
           this.porcentajePendientes = 0;
         }
 
-
         const ctx = document.getElementById('matchesChart') as HTMLCanvasElement;
-
         this.matchesChart = new Chart(ctx, {
           type: 'pie',
           data: {
@@ -83,6 +81,7 @@ clearMatchesFilters() {
           },
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             plugins: {
               legend: {
                 position: 'bottom'
@@ -90,11 +89,31 @@ clearMatchesFilters() {
             }
           }
         });
+
+        // Convertir rankings a arrays para mostrarlos con *ngFor
+        this.topTutors = data.topTutors;
+        this.topInterests = data.topInterests;
+        console.log('Top Tutors:', this.topTutors);
+        console.log('Top Interests:', this.topInterests);
+        this.topTutorsArray = Object.entries(this.topTutors)
+          .map(([key, value]) => ({ key, value }))
+          .sort((a, b) => b.value - a.value); // Ordena de mayor a menor
+        this.topInterestsArray = Object.entries(this.topInterests)
+          .map(([key, value]) => ({ key, value }))
+          .sort((a, b) => b.value - a.value); // Ordena de mayor a menor
       },
       error: (error) => {
         console.error('Error al obtener el reporte de matches:', error);
       }
     });
-
   }
+
+  topTutorsArray: { key: string, value: number }[] = [];
+  topInterestsArray: { key: string, value: number }[] = [];
+
+
+  topTutors: TopStudents = {};
+  topInterests: TopStudents = {};
+
+
 }

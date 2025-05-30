@@ -27,3 +27,9 @@ export const AppRoutes = {
   ROOT: '', // Para la ruta raíz
   DEFAULT: 'auth/login' // Ruta por defecto
 } as const;
+
+export const AppRoles = {
+  ADMIN: 'ADMIN',
+  TUTOR: 'TUTOR',
+  STUDENT: 'STUDENT'
+} as const;

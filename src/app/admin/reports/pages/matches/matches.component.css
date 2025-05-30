@@ -1,166 +1,174 @@
 .matches-report-container {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 20px auto;
-    font-family: 'Inter', sans-serif; /* Using Inter font for consistency */
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  font-family: "Inter", sans-serif; /* Using Inter font for consistency */
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-  .report-title {
-    text-align: center;
-    color: #343a40;
-    margin-bottom: 30px;
-  }
+.report-title {
+  text-align: center;
+  color: #343a40;
+  margin-bottom: 30px;
+}
 
 .filters-panel {
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 30px;
-    padding: 15px;
-    background-color: #e9ecef; /* Light grey background for filters */
-    border-radius: 5px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #e9ecef; /* Light grey background for filters */
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-    .filter-group {
-      display: flex;
-      flex-direction: column;
-      label {
-        font-weight: bold;
-        margin-bottom: 5px;
-        color: #495057;
-      }
-      input[type="date"] {
-        padding: 8px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-      }
-    }
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #495057;
+  }
+  input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+}
 
 .filter-actions {
-    margin-left: auto;
-    display: flex; /* Arrange buttons side-by-side */
-    gap: 10px; /* Space between buttons */
+  margin-left: auto;
+  display: flex; /* Arrange buttons side-by-side */
+  gap: 10px; /* Space between buttons */
 
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
 
-        &:hover {
-            transform: translateY(-2px); /* Slight lift on hover */
-        }
-
-        &.btn-primary {
-            background-color: #007bff; /* Primary blue */
-            color: white;
-            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2); /* Subtle shadow */
-            &:hover {
-                background-color: #0056b3; /* Darker blue on hover */
-            }
-        }
-
-        &.btn-secondary {
-            background-color: #6c757d; /* Secondary grey */
-            color: white;
-            box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
-            &:hover {
-                background-color: #545b62; /* Darker grey on hover */
-            }
-        }
+    &:hover {
+      transform: translateY(-2px); /* Slight lift on hover */
     }
+
+    &.btn-primary {
+      background-color: #007bff; /* Primary blue */
+      color: white;
+      box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2); /* Subtle shadow */
+      &:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+      }
+    }
+
+    &.btn-secondary {
+      background-color: #6c757d; /* Secondary grey */
+      color: white;
+      box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+      &:hover {
+        background-color: #545b62; /* Darker grey on hover */
+      }
+    }
+  }
+}
+.report-container {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 16px;         /* Antes: 30px */
+  max-width: 1100px;     /* Puedes ajustar este valor según lo que necesites */
+  margin: 0 auto;        /* Centra el container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.report-title {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .report-content {
-    display: grid;
-    grid-template-columns: 1fr; /* Single column by default */
-    gap: 25px;
-
-    @media (min-width: 768px) {
-        grid-template-columns: 2fr 1fr; /* Two columns on larger screens */
-        grid-template-areas: "chart kpi"; /* Define grid areas */
-    }
-
-    .chart-section {
-        grid-area: chart; /* Assign to chart area */
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        display: flex; /* Use flex to center content */
-        justify-content: center;
-        align-items: center;
-
-        .chart-container {
-            position: relative;
-            height: 400px; /* Adjusted height for the pie chart */
-            width: 100%;
-            max-width: 500px; /* Max width for the pie chart container */
-            canvas {
-                height: 100% !important;
-                width: 100% !important;
-            }
-        }
-    }
-
-    .kpi-summary-card {
-        grid-area: kpi; /* Assign to kpi area */
-        background-color: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        display: flex;
-        flex-direction: column;
-        justify-content: center; /* Center content vertically */
-        align-items: flex-start; /* Align text to the start */
-
-        h3 {
-            color: #007bff; /* Primary blue for KPI title */
-            margin-top: 0;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-            margin-bottom: 15px;
-            width: 100%; /* Full width for the border */
-        }
-
-        p {
-            margin-bottom: 10px;
-            font-size: 1.1em;
-            strong {
-                color: #28a745; /* Green for strong values (can be adjusted for each KPI) */
-            }
-            /* Specific colors for match KPIs */
-            &:nth-of-type(2) strong { /* Aceptados */
-                color: #28a745; /* Success green */
-            }
-            &:nth-of-type(3) strong { /* Pendientes */
-                color: #ffc107; /* Warning yellow */
-            }
-            &:nth-of-type(4) strong { /* Rechazados */
-                color: #dc3545; /* Danger red */
-            }
-        }
-    }
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 25px;
+  align-items: start; /* Asegura que los elementos no se estiren */
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 767px) {
-    .filters-panel {
-        flex-direction: column; /* Stack filters vertically */
-        align-items: stretch; /* Stretch items to full width */
-    }
-    .filter-actions {
-        margin-left: 0; /* Remove auto margin */
-        justify-content: stretch; /* Stretch buttons */
-        button {
-            flex-grow: 1; /* Make buttons take equal space */
-        }
-    }
+.chart-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  height: 100%; /* Ocupa todo el alto disponible */
+  min-height: 0; /* Permite que se reduzca si es necesario */
+}
+
+.report-side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%; /* Ocupa todo el alto disponible */
+}
+
+/* Asegurar que el contenedor del gráfico tenga la misma altura que las tarjetas */
+.chart-container {
+  height: calc(100% - 40px); /* Resta el padding del chart-section */
+  position: relative; /* Necesario para algunos tipos de gráficos */
+}
+
+.kpi-summary-card,
+.top-students-section,
+.top-interests-section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.kpi-summary-card h3,
+.top-students-section h3,
+.top-interests-section h3 {
+  color: #007bff;
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.kpi-summary-card p {
+  margin: 5px 0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  th,
+  td {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #343a40;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  .no-data-message {
+    text-align: center;
+    font-style: italic;
+    color: #6c757d;
+  }
+}
+
+@media (max-width: 768px) {
+  .report-content {
+    grid-template-columns: 1fr;
+  }
 }

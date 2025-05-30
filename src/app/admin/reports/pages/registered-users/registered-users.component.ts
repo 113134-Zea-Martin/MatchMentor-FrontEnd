@@ -122,6 +122,7 @@ export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
         }]
       },
       options: {
+        responsive: true,
         scales: {
           y: {
             beginAtZero: true,

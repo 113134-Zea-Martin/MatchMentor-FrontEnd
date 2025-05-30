@@ -8,7 +8,7 @@ import { EditProfileComponent } from './profile/pages/edit-profile/edit-profile.
 import { TutorCardComponent } from './match/pages/tutor-card/tutor-card.component';
 import { PendingComponent } from './match/pages/pending/pending.component';
 import { StudentCardComponent } from './match/pages/student-card/student-card.component';
-import { AppRoutes } from './environment';
+import { AppRoles, AppRoutes } from './environment';
 import { ConfirmedMatchsComponent } from './match/pages/confirmed-matchs/confirmed-matchs.component';
 import { ChatComponent } from './match/pages/chat/chat.component';
 import { MeetingHistoryListComponent } from './meet/pages/meeting-history-list/meeting-history-list.component';
@@ -17,6 +17,8 @@ import { NotificationBellComponent } from './navbar/notification-bell/notificati
 import { RegisteredUsersReportComponent } from './admin/reports/pages/registered-users/registered-users.component';
 import { MatchesComponent } from './admin/reports/pages/matches/matches.component';
 import { PaymentsComponent } from './admin/reports/pages/payments/payments.component';
+import { authGuard } from './auth/guards/auth.guard';
+import { roleGuard } from './auth/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -28,56 +30,100 @@ export const routes: Routes = [
       { path: 'reset-password', component: ResetPasswordComponent },
     ]
   },
-  { path: '', redirectTo: '/auth/login', pathMatch: 'full' },
   {
-    path: 'home', component: HomeComponent //El usuario puede ver su perfil y los matches confirmados. (Ambos deberán acceder a esta ruta)
+    path: '',
+    redirectTo: 'home', // Debe redirigir al home si no hay ruta definida
+    pathMatch: 'full'
   },
   {
-    path: 'edit-profile', component: EditProfileComponent//El usuario puede editar su perfil. (Ambos deberán acceder a esta ruta)
+    path: 'home',
+    component: HomeComponent, //El usuario puede ver su perfil y los matches confirmados. (Ambos deberán acceder a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR, AppRoles.ADMIN] }
   },
   {
-    path: 'explore/tutors', component: TutorCardComponent //El estudiante puede ver los tutores disponibles con intereses
+    path: 'edit-profile',
+    component: EditProfileComponent, //El usuario puede editar su perfil. (Ambos deberán acceder a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR] }
+  },
+  {
+    path: 'explore/tutors',
+    component: TutorCardComponent, //El estudiante puede ver los tutores disponibles con intereses
     //  similares a los suyos. (Solo deberán acceder los estudiantes a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT] }
   },
   {
-    path: 'explore/students', component: StudentCardComponent //El tutor puede ver los estudiantes disponibles con intereses
+    path: 'explore/students',
+    component: StudentCardComponent, //El tutor puede ver los estudiantes disponibles con intereses
     //  similares a los suyos. (Solo deberán acceder los tutores a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.TUTOR] }
   },
   {
-    path: 'explore/pendings', component: PendingComponent //El tutor puede ver los estudiantes que han solicitado una
-    //  clase con él y decidir si acepta o no la solicitud. (Solo deberán acceder los tutores a esta ruta)
+    path: 'explore/pendings',
+    component: PendingComponent, //El tutor puede ver los estudiantes que han solicitado una
+    //  clase con él y decidir si acepta o no la solicitud. 
+    // (Solo deberán acceder los tutores a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.TUTOR] }
   },
   {
-    path: 'confirmed-matches', component: ConfirmedMatchsComponent //El tutor o estudiante puede ver los matches confirmados 
+    path: 'confirmed-matches',
+    component: ConfirmedMatchsComponent, //El tutor o estudiante puede ver los matches confirmados 
     // para poder chatear con el otro usuario. (Ambos deberán acceder a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR] }
   },
   {
     // path: 'chat/:matchId', component: ChatComponent //El tutor o estudiante puede ver los matches confirmados
-    path: 'chat', component: ChatComponent //El tutor o estudiante puede ver los matches confirmados
+    path: 'chat',
+    component: ChatComponent, //El tutor o estudiante puede ver los matches confirmados
     // para poder chatear con el otro usuario. (Ambos deberán acceder a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR] }
   },
   {
-    path: 'meet', component: MeetingHistoryListComponent //El tutor o estudiante puede ver el historial de reuniones
+    path: 'meet',
+    component: MeetingHistoryListComponent, //El tutor o estudiante puede ver el historial de reuniones
     // con otros usuarios. (Ambos deberán acceder a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR] }
   },
   {
-    path: 'payment-history', component: PaymentHistoryComponent //El tutor o estudiante puede ver el historial de pagos
+    path: 'payment-history',
+    component: PaymentHistoryComponent, //El tutor o estudiante puede ver el historial de pagos
     // con otros usuarios. (Ambos deberán acceder a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR] }
   },
+  // {
+  //   path: 'notifications', 
+  //   component: NotificationBellComponent, //El tutor o estudiante puede ver las notificaciones
+  //   canActivate: [authGuard, roleGuard],
+  //   data: { roles: [AppRoles.STUDENT, AppRoles.TUTOR] } // Solo el administrador puede acceder a esta ruta
+  // },
   {
-    path: 'notifications', component: NotificationBellComponent //El tutor o estudiante puede ver las notificaciones
-  },
-  {
-    path: 'registered-users', component: RegisteredUsersReportComponent //El Administrador puede ver el reporte de usuarios registrados
+    path: 'registered-users',
+    component: RegisteredUsersReportComponent, //El Administrador puede ver el reporte de usuarios registrados
     // en la plataforma. (Solo deberá acceder el administrador a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.ADMIN] } // Solo el administrador puede acceder a esta ruta
   },
   {
-    path: 'matches-report', component: MatchesComponent //El Administrador puede ver el reporte de matches realizados
+    path: 'matches-report',
+    component: MatchesComponent, //El Administrador puede ver el reporte de matches realizados
     // en la plataforma. (Solo deberá acceder el administrador a esta ruta)'
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.ADMIN] } // Solo el administrador puede acceder a esta ruta
   },
   {
-    path: 'payments', component: PaymentsComponent //El Administrador puede ver el reporte de pagos realizados
+    path: 'payments',
+    component: PaymentsComponent, //El Administrador puede ver el reporte de pagos realizados
     // en la plataforma. (Solo deberá acceder el administrador a esta ruta)
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [AppRoles.ADMIN] } // Solo el administrador puede acceder a esta ruta
   }
 
 ];
