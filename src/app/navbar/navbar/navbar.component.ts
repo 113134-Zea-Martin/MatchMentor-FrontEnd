@@ -14,6 +14,10 @@ import { NotificationBellComponent } from "../notification-bell/notification-bel
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent implements OnInit, OnDestroy {
+  goLanding() {
+    this.router.navigate(['/landing']);
+
+  }
   showPayments() {
     this.router.navigate(['/payments']);
   }

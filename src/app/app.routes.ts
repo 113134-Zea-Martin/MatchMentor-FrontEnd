@@ -19,6 +19,8 @@ import { MatchesComponent } from './admin/reports/pages/matches/matches.componen
 import { PaymentsComponent } from './admin/reports/pages/payments/payments.component';
 import { authGuard } from './auth/guards/auth.guard';
 import { roleGuard } from './auth/guards/role.guard';
+import { noAuthGuard } from './auth/guards/no-auth.guard';
+import { LandingComponent } from './navbar/landing/landing.component';
 
 export const routes: Routes = [
   {
@@ -28,7 +30,12 @@ export const routes: Routes = [
       { path: 'register', component: RegisterComponent },
       { path: 'forgot-password', component: ForgotPasswordComponent },
       { path: 'reset-password', component: ResetPasswordComponent },
-    ]
+    ],
+    canActivate: [noAuthGuard], // Protege las rutas de autenticación
+  },
+  {
+    path: 'landing',
+    component: LandingComponent
   },
   {
     path: '',

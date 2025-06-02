@@ -65,7 +65,8 @@
                                     class="invalid-feedback">
                                     La contraseña debe tener al menos 8 caracteres
                                 </div>
-                                <div *ngIf="!(registerForm.get('password')?.invalid && registerForm.get('password')?.touched)" class="form-text">
+                                <div *ngIf="!(registerForm.get('password')?.invalid && registerForm.get('password')?.touched)"
+                                    class="form-text">
                                     La contraseña debe tener al menos 8 caracteres.
                                 </div>
                             </div>
@@ -108,7 +109,8 @@
                         <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold"
                             [disabled]="registerForm.invalid || isLoading">
                             <!-- REGISTRARSE -->
-                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                            <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status"
+                                aria-hidden="true"></span>
                             {{ isLoading ? 'Registrando...' : 'REGISTRARSE' }}
                         </button>
 

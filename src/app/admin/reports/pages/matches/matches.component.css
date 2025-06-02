@@ -80,9 +80,9 @@
 .report-container {
   background-color: #f8f9fa;
   border-radius: 10px;
-  padding: 16px;         /* Antes: 30px */
-  max-width: 1100px;     /* Puedes ajustar este valor según lo que necesites */
-  margin: 0 auto;        /* Centra el container */
+  padding: 16px; /* Antes: 30px */
+  max-width: 1100px; /* Puedes ajustar este valor según lo que necesites */
+  margin: 0 auto; /* Centra el container */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -170,5 +170,17 @@
 @media (max-width: 768px) {
   .report-content {
     grid-template-columns: 1fr;
+    display: grid;
+    gap: 25px;
+    align-items: start; /* Asegura que los elementos no se estiren */
+  }
+  .chart-container {
+    height: 300px !important; /* O el valor que prefieras */
+    min-height: 200px;
+    max-height: 400px;
+  }
+  .chart-section {
+    min-height: 0;
+    height: auto;
   }
 }
