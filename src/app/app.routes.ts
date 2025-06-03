@@ -21,6 +21,7 @@ import { authGuard } from './auth/guards/auth.guard';
 import { roleGuard } from './auth/guards/role.guard';
 import { noAuthGuard } from './auth/guards/no-auth.guard';
 import { LandingComponent } from './navbar/landing/landing.component';
+import { FaqComponent } from './navbar/faq/faq.component';
 
 export const routes: Routes = [
   {
@@ -39,8 +40,12 @@ export const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home', // Debe redirigir al home si no hay ruta definida
+    redirectTo: 'landing', // Debe redirigir al home si no hay ruta definida
     pathMatch: 'full'
+  },
+  {
+    path: 'faq',
+    component: FaqComponent, //El usuario puede ver las preguntas frecuentes. (Ambos deberán acceder a esta ruta)
   },
   {
     path: 'home',

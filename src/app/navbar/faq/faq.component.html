@@ -1,0 +1,59 @@
+<div class="container">
+  <header>
+    <h1>Preguntas Frecuentes</h1>
+    <p class="tagline">Encuentra respuestas a las preguntas más comunes sobre MentorMatch</p>
+    
+    <!-- <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        placeholder="Buscar en preguntas frecuentes...">
+    </div> -->
+  </header>
+  
+  <div class="categories">
+    <button 
+      *ngFor="let category of categories"
+      class="category-btn"
+      [class.active]="activeCategory === category.id"
+      (click)="setActiveCategory(category.id)"
+      [attr.data-category]="category.id">
+      {{ category.name }}
+    </button>
+  </div>
+  
+  <div class="faq-container">
+    <section class="faq-section active">
+      <h2 class="section-title">
+        <i [class]="getActiveSection()?.icon"></i>
+        {{ getActiveSection()?.title }}
+      </h2>
+      
+      <ol class="faq-list">
+        <li 
+          *ngFor="let item of getActiveSection()?.items; let i = index"
+          class="faq-item"
+          [class.active]="item.isActive"
+          [style.display]="shouldShowItem(item) ? 'block' : 'none'">
+          
+          <div 
+            class="faq-question"
+            (click)="toggleFaqItem(activeCategory, i)">
+            <span>{{ item.question }}</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          
+          <div class="faq-answer">
+            <p [innerHTML]="item.answer"></p>
+          </div>
+        </li>
+      </ol>
+    </section>
+  </div>
+  
+  <footer>
+    <!-- <p>© 2023 MentorMatch. Todos los derechos reservados.</p> -->
+    <p>¿No encuentras la respuesta que buscas? <a href="mailto:mzeacardenas@gmail.com">Contáctanos</a></p>
+  </footer>
+</div>
