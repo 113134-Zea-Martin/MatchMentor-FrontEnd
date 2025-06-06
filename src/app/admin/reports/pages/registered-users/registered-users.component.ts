@@ -18,6 +18,7 @@ export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
   growthRate: number | null = null; // Tasa de crecimiento en porcentaje
   monthlyEvolutionData: { labels: string[]; data: number[] } = { labels: [], data: [] }; // Se mantiene para compatibilidad con Chart.js
   chart: Chart | null = null;
+  token: string = '';
 
   // Variables para los filtros
   filterInterval: string = 'DAY'; // Default a dia
@@ -28,6 +29,8 @@ export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
   constructor(private adminReportService: AdminReportService) { }
 
   ngOnInit(): void {
+    // Obtener el token del localStorage
+    this.token = localStorage.getItem('token') || '';
     // Inicializa las fechas con un rango por defecto (ej. últimos 6 meses)
     const today = new Date();
     const oneMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 1, 1); // Primer día de hace 6 meses
@@ -68,6 +71,7 @@ export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
       this.filterInterval,
       this.filterStartDate,
       this.filterEndDate,
+      this.token,
       this.filterRole
     ).subscribe({
       next: (data) => {

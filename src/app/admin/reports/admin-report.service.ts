@@ -15,7 +15,19 @@ export class AdminReportService {
 
   constructor(private http: HttpClient) { }
 
-  getRegisteredUsersReport(interval: string, startDate: string, endDate: string, role?: string): Observable<RegisteredUsersReport> {
+  // getRegisteredUsersReport(interval: string, startDate: string, endDate: string, role?: string): Observable<RegisteredUsersReport> {
+  //   let params = new HttpParams()
+  //     .set('interval', interval)
+  //     .set('startDate', startDate)
+  //     .set('endDate', endDate);
+
+  //   if (role) {
+  //     params = params.set('role', role);
+  //   }
+  //   return this.http.get<RegisteredUsersReport>(`${this.API_URL}/users`, { params });
+  // }
+
+    getRegisteredUsersReport(interval: string, startDate: string, endDate: string, token: string, role?: string): Observable<RegisteredUsersReport> {
     let params = new HttpParams()
       .set('interval', interval)
       .set('startDate', startDate)
@@ -24,7 +36,7 @@ export class AdminReportService {
     if (role) {
       params = params.set('role', role);
     }
-    return this.http.get<RegisteredUsersReport>(`${this.API_URL}/users`, { params });
+    return this.http.get<RegisteredUsersReport>(`${this.API_URL}/users`, { params , headers: { Authorization: `Bearer ${token}` } });
   }
 
   // Métodos para obtener el reporte de matches
