@@ -12,6 +12,9 @@ import { TERMS_AND_CONDITIONS } from '../../auth/models/terms.const';
   styleUrl: './landing.component.css'
 })
 export class LandingComponent {
+showFAQ() {
+  this.router.navigate(['/faq']);
+}
   termsContent = TERMS_AND_CONDITIONS.content; // Contenido de los términos y condiciones
 
   constructor(private router: Router) { }
