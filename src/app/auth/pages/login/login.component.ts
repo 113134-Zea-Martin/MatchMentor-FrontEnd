@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   message: string = '';
   isLoading: boolean = false;
   errorModal: any;
-  
+
   private subscriptions: Subscription[] = [];
 
   constructor(private router: Router, private authService: AuthService) { }
@@ -53,12 +53,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       const loginSub = this.authService.loginUser(email, password).subscribe({
         next: (response) => {
           console.log(response.message);
-          
+
           if (response.success) {
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('idProfile', response.data.id.toString());
-            localStorage.setItem('role', response.data.role);          
-            this.router.navigate(['/home']);
+            localStorage.setItem('role', response.data.role);
+            if (response.data.role === 'ADMIN') {
+              this.router.navigate(['/matches-report']);
+            } else {
+              this.router.navigate(['/home']);
+            }
           } else {
             this.message = response.message;
             console.error('Error en el login:', response.message);

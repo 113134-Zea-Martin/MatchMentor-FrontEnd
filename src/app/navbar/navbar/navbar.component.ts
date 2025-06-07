@@ -15,15 +15,25 @@ import { NotificationBellComponent } from "../notification-bell/notification-bel
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   goLanding() {
-    this.router.navigate(['/landing']);
-
+    // this.router.navigate(['/landing']);
+    if (this.isLoggedIn) {
+      if (this.userRole === 'ADMIN') {}
+      else {
+      this.router.navigate(['/home']);
+    }
+    } else {
+      this.router.navigate(['/landing']);
+    }
   }
+
   showPayments() {
     this.router.navigate(['/payments']);
   }
+
   showRegisteredUsers() {
     this.router.navigate(['/registered-users']);
   }
+
   showMatchesReport() {
     this.router.navigate(['/matches-report']);
   }
@@ -99,7 +109,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   suscriptions: Subscription[] = [];
   ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+    this.suscriptions.forEach(sus => sus.unsubscribe());
+    this.suscriptions = [];
   }
 
   ngOnInit(): void {
@@ -176,7 +187,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isLoggedIn = false;
     this.userRole = null;
     this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/landing']);
   }
 
 }
