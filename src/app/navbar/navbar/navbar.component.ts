@@ -17,10 +17,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   goLanding() {
     // this.router.navigate(['/landing']);
     if (this.isLoggedIn) {
-      if (this.userRole === 'ADMIN') {}
+      if (this.userRole === 'ADMIN') { }
       else {
-      this.router.navigate(['/home']);
-    }
+        this.router.navigate(['/home']);
+      }
     } else {
       this.router.navigate(['/landing']);
     }
