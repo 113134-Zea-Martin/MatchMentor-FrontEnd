@@ -1,37 +1,61 @@
 <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="scheduleModalLabel">Agendar reunión</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="scheduleModalLabel">Agendar reunión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()">
+          <!-- Campo Fecha -->
+          <div class="mb-3">
+            <label for="date" class="form-label">Fecha</label>
+            <input type="date" id="date" formControlName="date" [min]="minDate | date:'yyyy-MM-dd'" class="form-control"
+              required>
+            <!-- Mensaje de validación -->
+            <div *ngIf="meetingForm.get('date')?.invalid && meetingForm.get('date')?.touched" class="text-danger">
+              Ingrese una fecha válida.
+            </div>
+          </div>
 
-            <form [formGroup]="meetingForm" (ngSubmit)="onSubmit()">
-                <div class="mb-3">
-                <label for="date" class="form-label">Fecha</label>
-                <input type="date" id="date" formControlName="date" [min]="minDate | date:'yyyy-MM-dd'" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                <label for="time" class="form-label">Hora</label>
-                <input type="time" id="time" formControlName="time" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                <label for="duration" class="form-label">Duración (horas)</label>
-                <input type="number" id="duration" formControlName="duration" class="form-control text-end" required min="1">
-                </div>
-                <div class="mb-3">
-                <label for="reason" class="form-label">Motivo</label>
-                <textarea id="reason" formControlName="reason" class="form-control" rows="3" required></textarea>
-                </div>
-            </form>
+          <!-- Campo Hora -->
+          <div class="mb-3">
+            <label for="time" class="form-label">Hora</label>
+            <input type="time" id="time" formControlName="time" class="form-control" required>
+            <!-- Mensaje de validación -->
+            <div *ngIf="meetingForm.get('time')?.invalid && meetingForm.get('time')?.touched" class="text-danger">
+              Ingrese una hora válida.
+            </div>
+          </div>
 
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="meetingForm.invalid">Agendar</button>
-        </div>
+          <!-- Campo Duración -->
+          <div class="mb-3">
+            <label for="duration" class="form-label">Duración (horas)</label>
+            <input type="number" id="duration" formControlName="duration" class="form-control text-end" required
+              min="1">
+            <!-- Mensaje de validación -->
+            <div *ngIf="meetingForm.get('duration')?.invalid && meetingForm.get('duration')?.touched"
+              class="text-danger">
+              Ingrese una duración válida (mínimo 1 hora).
+            </div>
+          </div>
+
+          <!-- Campo Motivo -->
+          <div class="mb-3">
+            <label for="reason" class="form-label">Motivo</label>
+            <textarea id="reason" formControlName="reason" class="form-control" rows="3" required></textarea>
+            <!-- Mensaje de validación -->
+            <div *ngIf="meetingForm.get('reason')?.invalid && meetingForm.get('reason')?.touched" class="text-danger">
+              Ingrese un motivo válido.
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()"
+          [disabled]="meetingForm.invalid">Agendar</button>
       </div>
     </div>
   </div>
-  
+</div>

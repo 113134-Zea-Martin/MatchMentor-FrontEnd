@@ -15,6 +15,19 @@ import { SortByKeyPipe } from "../../sort-by-key.pipe";
   styleUrl: './payments.component.css'
 })
 export class PaymentsComponent implements OnInit, OnDestroy {
+  updateEndDateMin(): void {
+    // Actualizar mínimo de fecha fin cuando cambia fecha inicio
+    this.minEndDate = this.filterStartDate;
+  }
+
+  updateStartDateMax(): void {
+    // Actualizar máximo de fecha inicio cuando cambia fecha fin
+    this.maxStartDate = this.filterEndDate;
+  }
+
+  // Nueva propiedad para validación
+  minEndDate: string = '';
+  maxStartDate: string = '';
 
   filterStartDate: string = '';
   filterEndDate: string = '';
@@ -37,10 +50,15 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     // Inicializar fechas con un rango por defecto (ej. últimos 7 días)
     const today = new Date();
     const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 6); // Seis días antes de hoy para incluir hoy
+    sevenDaysAgo.setDate(today.getDate() - 7); // Siete días antes de hoy para incluir hoy
 
     this.filterEndDate = this.formatDate(today);
     this.filterStartDate = this.formatDate(sevenDaysAgo);
+
+
+    // Inicializar límites
+    this.minEndDate = this.filterStartDate;
+    this.maxStartDate = this.filterEndDate;
 
     this.loadReportData();
   }
@@ -102,10 +120,14 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   clearFilters(): void {
     const today = new Date();
     const sevenDaysAgo = new Date(today);
-    sevenDaysAgo.setDate(today.getDate() - 6);
+    sevenDaysAgo.setDate(today.getDate() - 7);
 
     this.filterEndDate = this.formatDate(today);
     this.filterStartDate = this.formatDate(sevenDaysAgo);
+    
+    // Restablecer límites
+    this.minEndDate = this.filterStartDate;
+    this.maxStartDate = this.filterEndDate;
     this.loadReportData();
   }
 

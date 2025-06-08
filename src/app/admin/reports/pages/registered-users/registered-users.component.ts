@@ -14,6 +14,19 @@ Chart.register(...registerables);
   styleUrl: './registered-users.component.css'
 })
 export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
+  updateEndDateMin(): void {
+    // Actualizar mínimo de fecha fin cuando cambia fecha inicio
+    this.minEndDate = this.filterStartDate;
+  }
+
+  updateStartDateMax(): void {
+    // Actualizar máximo de fecha inicio cuando cambia fecha fin
+    this.maxStartDate = this.filterEndDate;
+  }
+
+  // Nueva propiedad para validación
+  minEndDate: string = '';
+  maxStartDate: string = '';
   totalUsers: number = 0;
   growthRate: number | null = null; // Tasa de crecimiento en porcentaje
   monthlyEvolutionData: { labels: string[]; data: number[] } = { labels: [], data: [] }; // Se mantiene para compatibilidad con Chart.js
@@ -38,6 +51,9 @@ export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
 
     this.filterEndDate = this.formatDate(today);
     this.filterStartDate = this.formatDate(oneWeekAgo);
+    // Inicializar límites
+    this.minEndDate = this.filterStartDate;
+    this.maxStartDate = this.filterEndDate;
 
     this.loadRegisteredUsersReport();
   }
@@ -101,11 +117,15 @@ export class RegisteredUsersReportComponent implements OnInit, OnDestroy {
   clearFilters(): void {
     const today = new Date();
     const sixMonthsAgo = new Date(today.getFullYear(), today.getMonth() - 5, 1);
+    const sevenDaysAgo = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
 
-    this.filterStartDate = this.formatDate(sixMonthsAgo);
+    this.filterStartDate = this.formatDate(sevenDaysAgo);
     this.filterEndDate = this.formatDate(today);
-    this.filterInterval = 'MONTH';
+    this.filterInterval = 'DAY';
     this.filterRole = '';
+    // Restablecer límites
+    this.minEndDate = this.filterStartDate;
+    this.maxStartDate = this.filterEndDate;
     this.loadRegisteredUsersReport();
   }
 

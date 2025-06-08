@@ -106,11 +106,11 @@
         <div class="filters-panel">
             <div class="filter-group">
                 <label for="startDateMatches">Fecha Inicio:</label>
-                <input type="date" id="startDateMatches" [(ngModel)]="startDateMatches">
+                <input type="date" id="startDateMatches" [(ngModel)]="startDateMatches" [max]="endDateMatches" (change)="updateEndDateMin()">
             </div>
             <div class="filter-group">
                 <label for="endDateMatches">Fecha Fin:</label>
-                <input type="date" id="endDateMatches" [(ngModel)]="endDateMatches">
+                <input type="date" id="endDateMatches" [(ngModel)]="endDateMatches"  [min]="startDateMatches" (change)="updateStartDateMax()">
             </div>
             <div class="filter-actions">
                 <button class="btn btn-primary" (click)="loadMatchesReport()">Aplicar Filtros</button>

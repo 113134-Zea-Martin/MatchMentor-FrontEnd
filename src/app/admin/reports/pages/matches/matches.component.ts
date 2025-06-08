@@ -14,10 +14,27 @@ import { SortByKeyPipe } from "../../sort-by-key.pipe";
   styleUrl: './matches.component.css'
 })
 export class MatchesComponent implements OnInit {
+  updateEndDateMin(): void {
+    // Actualizar mínimo de fecha fin cuando cambia fecha inicio
+    this.minEndDate = this.startDateMatches;
+  }
+
+  updateStartDateMax(): void {
+    // Actualizar máximo de fecha inicio cuando cambia fecha fin
+    this.maxStartDate = this.endDateMatches;
+  }
+
+  // Nueva propiedad para validación
+  minEndDate: string = '';
+  maxStartDate: string = '';
 
   clearMatchesFilters() {
-    this.startDateMatches = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
+    this.startDateMatches = new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split('T')[0];
     this.endDateMatches = new Date().toISOString().split('T')[0];
+    // Restablecer límites
+    this.minEndDate = this.startDateMatches;
+    this.maxStartDate = this.endDateMatches;
+
     this.loadMatchesReport();
   }
 
@@ -27,7 +44,10 @@ export class MatchesComponent implements OnInit {
     this.token = localStorage.getItem('token') || '';
     this.endDateMatches = new Date().toISOString().split('T')[0]; // Fecha actual
     // Establecer la fecha de inicio como 30 días atrás
-    this.startDateMatches = new Date(new Date().setDate(new Date().getDate() - 30)).toISOString().split('T')[0];
+    this.startDateMatches = new Date(new Date().setDate(new Date().getDate() - 7)).toISOString().split('T')[0];
+    // Inicializar límites
+    this.minEndDate = this.startDateMatches;
+    this.maxStartDate = this.endDateMatches;
     this.loadMatchesReport();
   }
 
@@ -114,6 +134,5 @@ export class MatchesComponent implements OnInit {
 
   topTutors: TopStudents = {};
   topInterests: TopStudents = {};
-
 
 }

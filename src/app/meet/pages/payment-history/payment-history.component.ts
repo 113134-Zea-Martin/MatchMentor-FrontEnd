@@ -13,6 +13,22 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './payment-history.component.css'
 })
 export class PaymentHistoryComponent implements OnInit, OnDestroy {
+  updateEndDateMin(): void {
+    // Actualizar mínimo de fecha fin cuando cambia fecha inicio
+    this.minEndDate = this.filters.startDate;
+    this.applyFilters();
+  }
+
+  updateStartDateMax(): void {
+    // Actualizar máximo de fecha inicio cuando cambia fecha fin
+    this.maxStartDate = this.filters.endDate;
+    this.applyFilters();
+  }
+
+  // Nueva propiedad para validación
+  minEndDate: string = '';
+  maxStartDate: string = '';
+
 
   token: string = '';
   userId: number = 0;
@@ -22,6 +38,8 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.token = localStorage.getItem('token') || '';
     this.userId = Number(localStorage.getItem('idProfile')) || 0;
+    this.minEndDate = this.filters.startDate; // Inicializar mínimo de fecha fin
+    this.maxStartDate = this.filters.endDate; // Inicializar máximo de fecha inicio
     if (this.token && this.userId) {
       this.loadPaymentHistory();
     } else {
@@ -143,6 +161,9 @@ export class PaymentHistoryComponent implements OnInit, OnDestroy {
         Pago: false
       }
     };
+    // Restablecer límites
+    this.minEndDate = this.filters.startDate;
+    this.maxStartDate = this.filters.endDate;
     this.applyFilters();
   }
 

@@ -29,7 +29,7 @@ export class MeetingModalComponent {
     duration: new FormControl(1, [Validators.required, Validators.min(1)]),
     reason: new FormControl("", [Validators.required, Validators.maxLength(200)]),
   });
-minDate: Date = new Date();
+  minDate: Date = new Date();
 
   constructor() { }
 
@@ -50,12 +50,12 @@ minDate: Date = new Date();
       // Formatear la fecha como YYYY-MM-DD
       const rawDate: Date = this.meetingForm.value.date;
       const formattedDate = formatDate(rawDate, 'yyyy-MM-dd', 'en-US');
-  
+
       // Formatear la hora en formato HH:mm (24 horas)
       const rawTime: string = this.meetingForm.value.time;
       const timeDate = new Date(`1970-01-01T${rawTime}`);
       const formattedTime = timeDate.toTimeString().slice(0, 5); // "HH:mm"
-  
+
       this.createMeetingRequest = {
         studentId: this.studentId,
         mentorId: this.mentorId,
@@ -65,7 +65,7 @@ minDate: Date = new Date();
         duration: this.meetingForm.value.duration,
         reason: this.meetingForm.value.reason
       };
-  
+
       this.schedule.emit(this.createMeetingRequest);
       const modal = bootstrap.Modal.getInstance(document.getElementById('scheduleModal')!);
       modal?.hide();

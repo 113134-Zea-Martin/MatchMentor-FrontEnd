@@ -4,11 +4,11 @@
     <div class="filters-panel">
         <div class="filter-group">
             <label for="startDate">Fecha Inicio:</label>
-            <input type="date" id="startDate" [(ngModel)]="filterStartDate">
+            <input type="date" id="startDate" [(ngModel)]="filterStartDate" [max]="maxStartDate" (change)="updateEndDateMin()">
         </div>
         <div class="filter-group">
             <label for="endDate">Fecha Fin:</label>
-            <input type="date" id="endDate" [(ngModel)]="filterEndDate">
+            <input type="date" id="endDate" [(ngModel)]="filterEndDate" [min]="minEndDate" (change)="updateStartDateMax()">
         </div>
         <div class="filter-actions">
             <button class="btn btn-primary" (click)="applyFilters()">Aplicar Filtros</button>
