@@ -1,8 +1,8 @@
 export const environment = {
     production: false,
-    originalUrl: 'http://localhost:8080', // URL base de tu backend en desarrollo. 
+    originalUrl: 'https://naturals-scanning-rocky-achieved.trycloudflare.com', // URL base de tu backend en desarrollo. 
     // DEBE IR SIN / AL FINAL SINO FALLA EL CHAT
-    apiUrl: 'http://localhost:8080/api', // URL base de tu backend en desarrollo
+    apiUrl: 'https://naturals-scanning-rocky-achieved.trycloudflare.com/api', // URL base de tu backend en desarrollo
   };
 
   // app-routes.constants.ts

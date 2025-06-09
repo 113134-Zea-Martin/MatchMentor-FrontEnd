@@ -149,9 +149,14 @@ export class MeetingHistoryListComponent implements OnInit, OnDestroy {
     console.log('Current date:', currentDate);
     for (const meeting of this.meetingHistory) {
       const meetingDate = new Date(meeting.date);
+      const timeDate = new Date(`${meeting.date}T${meeting.time}`);
+      console.log('Time date:', timeDate);
+      // Sumar 1 día a la fecha de la reunión para incluir todo el día
+      meetingDate.setDate(meetingDate.getDate() + 1);
+
       console.log('Meeting date:', meetingDate);
       // Verificar si la reunión es del pasado y está pendiente
-      if (meetingDate < currentDate && meeting.status === 'PROPOSED') {
+      if (timeDate < currentDate && meeting.status === 'PROPOSED') {
         console.log('Reunión vencida encontrada:', meeting);
         // // Rechazar automáticamente la reunión
         this.updateMeeting(meeting.id, false);
