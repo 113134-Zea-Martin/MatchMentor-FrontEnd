@@ -211,7 +211,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
             this.successModal.show();
             setTimeout(() => {
               this.successModal.hide();
-              window.location.href = '/home'; // Redirect to home after 2 seconds
+              // window.location.href = '/home'; // Redirect to home after 2 seconds
+              this.router.navigate(['/home']);
             }, 2000);
           } else {
             console.error('Error updating profile else:', response.message);
@@ -270,7 +271,8 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   }
 
   navigateToHome() {
-    window.location.href = '/home';
+    // window.location.href = '/home';
+    this.router.navigate(['/home']);
   }
 
   getUserProfile() {
